@@ -8,7 +8,7 @@
 
 
 @using (Html.BeginForm())
-{   
+{
     <div class="form-horizontal">
         <h4>ApplicationUser</h4>
         <hr />
@@ -31,6 +31,13 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.FathersName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FathersName, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
@@ -38,9 +45,30 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FathersName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.BirthDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.FathersName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.BirthDate, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.GraduationDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.GraduationDate, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DefenseYear, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DefenseYear, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AwardingDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AwardingDate, new { htmlAttributes = new { @class = "form-control" } })
             </div>
         </div>
 
@@ -55,11 +83,11 @@
         <div class="form-group">
             <label class="control-label col-md-2">Roles</label>
             <div class="col-md-10" style="padding-top:7px">
-                    @foreach (var i in ViewBag.RolesForThisUser)
-                    {
-                        <div>@i</div>
-                        @Html.ActionLink("Remove", "DeleteRole", new { userId = Model.Id, roleName = i})
-                    }
+                @foreach (var i in ViewBag.RolesForThisUser)
+                {
+                    <div>@i</div>
+                        @Html.ActionLink("Remove", "DeleteRole", new { userId = Model.Id, roleName = i })
+                }
             </div>
         </div>
 
@@ -85,7 +113,7 @@
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
-</div>
+    </div>
 }
 
 <div>

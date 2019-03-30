@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
+using UserManagement.Models.db;
+using System.ComponentModel.DataAnnotations;
 
 namespace UserManagement.Models
 {
@@ -14,11 +16,23 @@ namespace UserManagement.Models
         public String LastName { get; set; }
         public String FathersName { get; set; }
         public Boolean IsActive { get; set; }
-        //public String BirthDate { get; set; }
-        //public String GraduationDate { get; set; }
-        //public String AwardingDate { get; set; }
-        //public String DefenseYear { get; set; }
-        //public String Degree { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        public DateTime BirthDate { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        public DateTime GraduationDate { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        public DateTime AwardingDate { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        public DateTime DefenseYear { get; set; }
+
+        public virtual Cathedra Cathedra { get; set; }
+        public virtual AcademicStatus AcademicStatus { get; set; }
+        public virtual ScienceDegree ScienceDegree { get; set; }
+        public virtual Position Position { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -31,6 +45,12 @@ namespace UserManagement.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<AcademicStatus> AcademicStatus { get; set; }
+        public DbSet<ScienceDegree> ScienceDegree { get; set; }
+        public DbSet<Cathedra> Cathedra { get; set; }
+        public DbSet<Position> Position { get; set; }
+        public DbSet<Faculty> Faculty { get; set; }
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

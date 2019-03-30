@@ -38,7 +38,7 @@ namespace UserManagement.Controllers
             int pageSize = 15;
             int pageNumber = (page ?? 1);
             List<ApplicationUser> list = db.Users.ToList();
-            Dictionary <string, List<string>> map = new Dictionary<string, List<string>>();
+            Dictionary<string, List<string>> map = new Dictionary<string, List<string>>();
             list.ForEach(x =>
             {
                 map.Add(x.Id, x.Roles.Select(y => db.Roles.Find(y.RoleId).Name).ToList());
@@ -86,7 +86,9 @@ namespace UserManagement.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "Id,Email,FirstName,LastName,FathersName,IsActive,PasswordHash,SecurityStamp")] ApplicationUser applicationUser, [Bind(Include = "RoleToAdd")] string roleToAdd )
+        public ActionResult Edit([Bind(Include = "Id,Email,FirstName,LastName,FathersName," +
+            "IsActive,PasswordHash,SecurityStamp,BirthDate,GraduationDate,AwardingDate,DefenseYear")] ApplicationUser applicationUser, 
+            [Bind(Include = "RoleToAdd")] string roleToAdd)
         {
             var userRoles = applicationUser.Roles.Select(y => db.Roles.Find(y.RoleId).Name).ToList();
             ViewBag.RolesForThisUser = userRoles;
@@ -101,7 +103,7 @@ namespace UserManagement.Controllers
                 }
                 applicationUser.UserName = applicationUser.Email;
                 if (roleToAdd != null && !roleToAdd.Equals("") && !user
-                    .Roles.Any(x=> db.Roles.Find(x.RoleId).Equals(roleToAdd)))
+                    .Roles.Any(x => db.Roles.Find(x.RoleId).Equals(roleToAdd)))
                 {
                     UserManager.AddToRole(applicationUser.Id, roleToAdd);
                 }
