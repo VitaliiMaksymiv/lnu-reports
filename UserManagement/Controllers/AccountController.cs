@@ -17,6 +17,7 @@ namespace UserManagement.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        public ApplicationDbContext db = new ApplicationDbContext();
 
         public AccountController()
         {
@@ -99,6 +100,10 @@ namespace UserManagement.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            ViewBag.AllCathedras = db.Cathedra.ToList().Select(x => x.Name);
+            ViewBag.AllAcademicStatuses = db.AcademicStatus.ToList().Select(x => x.Value);
+            ViewBag.AllScienceDegrees = db.ScienceDegree.ToList().Select(x => x.Value);
+            ViewBag.AllPositions = db.Position.ToList().Select(x => x.Value);
             return View();
         }
 
@@ -120,14 +125,19 @@ namespace UserManagement.Controllers
                     BirthDate = model.BirthDate,
                     AwardingDate = model.AwardingDate,
                     GraduationDate = model.GraduationDate,
-                    DefenseYear = model.DefenseYear
+                    DefenseYear = model.DefenseYear,
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-
-                    return RedirectToAction("Account", "Login");
+                    var u = db.Users.Where(x => x.UserName == model.Email).First();
+                    u.Cathedra = db.Cathedra.Where(x => x.Name.Equals(model.Cathedra)).FirstOrDefault();
+                    u.Position = db.Position.Where(x => x.Value.Equals(model.Position)).FirstOrDefault();
+                    u.ScienceDegree = db.ScienceDegree.Where(x => x.Value.Equals(model.ScienceDegree)).FirstOrDefault();
+                    u.AcademicStatus = db.AcademicStatus.Where(x => x.Value.Equals(model.AcademicStatus)).FirstOrDefault();
+                    db.SaveChanges();
+                    return RedirectToAction("Login", "Account");
                 }
                 AddErrors(result);
             }

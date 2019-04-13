@@ -49,7 +49,7 @@ namespace UserManagement.Models
 
         [Required]
         [Display(Name = "BirthDate")]
-        //[DataType(DataType.Date)]
+        [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime BirthDate { get; set; }
 
@@ -81,6 +81,19 @@ namespace UserManagement.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "Cathedra")]
+        public string Cathedra { get; set; }
+        [Required]
+        [Display(Name = "AcademicStatus")]
+        public string AcademicStatus { get; set; }
+        [Required]
+        [Display(Name = "ScienceDegree")]
+        public string ScienceDegree { get; set; }
+        [Required]
+        [Display(Name = "Position")]
+        public string Position { get; set; }
     }
 
     public class ResetPasswordViewModel

@@ -213,15 +213,20 @@
     <Compile Include="Migrations\201903301737358_additionalInfoUser.Designer.cs">
       <DependentUpon>201903301737358_additionalInfoUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201904131405594_AddPublication.cs" />
+    <Compile Include="Migrations\201904131405594_AddPublication.Designer.cs">
+      <DependentUpon>201904131405594_AddPublication.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\db\AcademicStatus.cs" />
-    <Compile Include="Models\db\Cathedra.cs" />
-    <Compile Include="Models\db\Faculty.cs" />
-    <Compile Include="Models\db\Position.cs" />
-    <Compile Include="Models\db\ScienceDegree.cs" />
+    <Compile Include="Models\PublicationDB\Publication.cs" />
+    <Compile Include="Models\UserManagement\AccountViewModels.cs" />
+    <Compile Include="Models\UserManagement\db\AcademicStatus.cs" />
+    <Compile Include="Models\UserManagement\db\Cathedra.cs" />
+    <Compile Include="Models\UserManagement\db\Faculty.cs" />
+    <Compile Include="Models\UserManagement\db\Position.cs" />
+    <Compile Include="Models\UserManagement\db\ScienceDegree.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\UserManagement\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -305,6 +310,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903301737358_additionalInfoUser.resx">
       <DependentUpon>201903301737358_additionalInfoUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904131405594_AddPublication.resx">
+      <DependentUpon>201904131405594_AddPublication.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

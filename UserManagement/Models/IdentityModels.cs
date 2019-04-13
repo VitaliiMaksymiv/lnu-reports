@@ -50,6 +50,7 @@ namespace UserManagement.Models
         public DbSet<Cathedra> Cathedra { get; set; }
         public DbSet<Position> Position { get; set; }
         public DbSet<Faculty> Faculty { get; set; }
+        public DbSet<Publication> Publication { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

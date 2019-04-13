@@ -94,9 +94,42 @@
         <div class="form-group">
             <label class="control-label col-md-2">Add role</label>
             @Html.DropDownList("RoleToAdd",
-                    new SelectList(ViewBag.AllRoles),
-                    "Select Role",
-                    new { @class = "form-control col-md-2" })
+             new SelectList(ViewBag.AllRoles),
+             "Select Role",
+             new { @class = "form-control col-md-2" })
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Cathedra</label>
+            @{
+                var list = new SelectList(ViewBag.AllCathedras).ToList();
+                list.ForEach(i => { i.Selected = false; i.Value = i.Text; });
+                list.First(i => i.Text == Model.Cathedra.Name).Selected = true;
+                @Html.DropDownList("Cathedra",
+                                 list,
+                                 "Select cathedra",
+                                 new { @class = "form-control" })
+             }
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Academic status</label>
+            @Html.DropDownList("AcademicStatus",
+                    new SelectList(ViewBag.AllAcademicStatuses, Model.AcademicStatus.Value),
+                    "Select academic status",
+                    new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Science Degree</label>
+            @Html.DropDownList("ScienceDegree",
+                    new SelectList(ViewBag.AllScienceDegrees, Model.ScienceDegree.Value),
+                    "Select science degree",
+                    new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Position</label>
+            @Html.DropDownList("Position",
+                    new SelectList(ViewBag.AllPositions, Model.Position.Value),
+                    "Select position",
+                    new { @class = "form-control" })
         </div>
         @if (ViewBag.Error != null)
         {
