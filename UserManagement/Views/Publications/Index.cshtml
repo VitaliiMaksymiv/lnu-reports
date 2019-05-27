@@ -1,0 +1,90 @@
+﻿@model PagedList.IPagedList<UserManagement.Models.db.Publication>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Публікації";
+}
+
+<h2>Публікації</h2>
+
+    <p>
+        @Html.ActionLink("Створити", "Create")
+    </p>
+<form asp-controller="Publications" asp-action="Index">
+    <p>
+        Назва: <input type="text" name="SearchString">
+        <input type="submit" value="Пошук" />
+    </p>
+</form>
+<div style="
+    display: flex;
+    justify-content: flex-end;">
+    <div>
+        @Html.ActionLink("Мої", "Index", new { isMine = !ViewBag.isMine, isFaculty = ViewBag.isFaculty, page = ViewBag.page })
+    </div>
+    @if (User.IsInRole("Декан"))
+    {
+        <div>
+            @Html.ActionLink("Факультет", "Index", new { isFaculty = !ViewBag.isFaculty, isMine = ViewBag.isMine, page = ViewBag.page }, new { @style = "margin-left: 20px;" })
+        </div>
+    }
+</div>
+<table class="table">
+    <tr>
+        <th>
+            Назва
+        </th>
+        <th>
+            Автори
+        </th>
+        <th>
+            Дата
+        </th>
+        <th>
+            К-сть друк. арк.
+        </th>
+        <th>
+            Тип
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @foreach (var user in item.User)
+            {
+                <label style="font-weight:unset">@user.FirstName @user.LastName</label>
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SizeOfPages)
+        </td>
+        <td>
+            @item.PublicationType.ToString().Replace('_', ' ')
+        </td>
+        <td>
+
+        @if (item.User.Any(x => x.UserName == User.Identity.Name))
+        {
+            @Html.ActionLink("Редагувати", "Edit", new { id = item.ID })
+        }
+            @Html.ActionLink("Деталі", "Details", new { id=item.ID }) 
+
+        @if (item.User.Any(x => x.UserName == User.Identity.Name))
+        {
+            @Html.ActionLink("Видалити", "Delete", new { id = item.ID })
+        }
+        </td>
+    </tr>
+}
+
+</table>
+Сторінка @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) з @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, isMine = ViewBag.isMine, isFaculty = ViewBag.isFaculty }))

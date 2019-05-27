@@ -10,17 +10,22 @@
     <h4>Change your account settings</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>Password:</dt>
+        <dt>Пароль:</dt>
         <dd>
             [
             @if (Model.HasPassword)
             {
-                @Html.ActionLink("Change your password", "ChangePassword")
+                @Html.ActionLink("Змінити пароль", "ChangePassword")
             }
             else
             {
-                @Html.ActionLink("Create", "SetPassword")
+                @Html.ActionLink("Створити", "SetPassword")
             }
             ]
+            </dd>
+        <dt>Персональна інформація:</dt>
+        <dd>
+           @Html.ActionLink("Змінити персональну інформація", "Update")
+        </dd>
     </dl>
 </div>

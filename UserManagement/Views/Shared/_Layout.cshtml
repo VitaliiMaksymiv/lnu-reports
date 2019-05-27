@@ -21,10 +21,10 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    @*<li>@Html.ActionLink("Home", "Index", "Home")</li>*@
-                    @if (User.IsInRole("Admin"))
-            {
-                        <li>@Html.ActionLink("Users", "Index", "UsersManagement")</li>
+                    <li>@Html.ActionLink("Публікації", "Index", "Publications")</li>
+                    @if (User.IsInRole("Ректор") || User.IsInRole("Декан"))
+                    {
+                        <li>@Html.ActionLink("Користувачі", "Index", "UsersManagement")</li>
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")

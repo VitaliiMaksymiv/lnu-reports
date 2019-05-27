@@ -101,9 +101,7 @@ namespace UserManagement.Controllers
         public ActionResult Register()
         {
             ViewBag.AllCathedras = db.Cathedra.ToList().Select(x => x.Name);
-            ViewBag.AllAcademicStatuses = db.AcademicStatus.ToList().Select(x => x.Value);
-            ViewBag.AllScienceDegrees = db.ScienceDegree.ToList().Select(x => x.Value);
-            ViewBag.AllPositions = db.Position.ToList().Select(x => x.Value);
+            ViewBag.AllFaculties = db.Faculty.ToList().Select(x => x.Name);
             return View();
         }
 
@@ -119,13 +117,10 @@ namespace UserManagement.Controllers
                 {
                     UserName = model.Email,
                     Email = model.Email,
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-                    FathersName = model.FathersName,
-                    BirthDate = model.BirthDate,
-                    AwardingDate = model.AwardingDate,
-                    GraduationDate = model.GraduationDate,
-                    DefenseYear = model.DefenseYear,
+                    BirthDate = DateTime.Now,
+                    GraduationDate = DateTime.Now,
+                    AwardingDate = DateTime.Now,
+                    DefenseYear = DateTime.Now,
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -133,15 +128,13 @@ namespace UserManagement.Controllers
                     //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     var u = db.Users.Where(x => x.UserName == model.Email).First();
                     u.Cathedra = db.Cathedra.Where(x => x.Name.Equals(model.Cathedra)).FirstOrDefault();
-                    u.Position = db.Position.Where(x => x.Value.Equals(model.Position)).FirstOrDefault();
-                    u.ScienceDegree = db.ScienceDegree.Where(x => x.Value.Equals(model.ScienceDegree)).FirstOrDefault();
-                    u.AcademicStatus = db.AcademicStatus.Where(x => x.Value.Equals(model.AcademicStatus)).FirstOrDefault();
                     db.SaveChanges();
                     return RedirectToAction("Login", "Account");
                 }
                 AddErrors(result);
             }
-            
+            ViewBag.AllCathedras = db.Cathedra.ToList().Select(x => x.Name);
+            ViewBag.AllFaculties = db.Faculty.ToList().Select(x => x.Name);
             return View(model);
         }
 

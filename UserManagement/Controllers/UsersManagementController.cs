@@ -14,7 +14,7 @@ using UserManagement.Models;
 
 namespace UserManagement.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Ректор")]
     public class UsersManagementController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -92,51 +92,25 @@ namespace UserManagement.Controllers
         [HttpPost]
         public ActionResult Edit([Bind(Include = "Id,Email,FirstName,LastName,FathersName," +
             "IsActive,PasswordHash,SecurityStamp,BirthDate,GraduationDate,AwardingDate,DefenseYear")] ApplicationUser applicationUser, 
-            [Bind(Include = "RoleToAdd")] string roleToAdd,
-            [Bind(Include = "Cathedra")] string cathedra,
-            [Bind(Include = "AcademicStatus")] string academicStatus,
-            [Bind(Include = "ScienceDegree")] string scienceDegree, 
-            [Bind(Include = "Position")] string position)
+            [Bind(Include = "RoleToAdd")] string roleToAdd)
         {
             var userRoles = applicationUser.Roles.Select(y => db.Roles.Find(y.RoleId).Name).ToList();
             ViewBag.RolesForThisUser = userRoles;
             ViewBag.AllRoles = db.Roles.Where(x => !userRoles.Contains(x.Name)).Select(x => x.Name);
-            if (ModelState.IsValid)
+            var user = db.Users.Find(applicationUser.Id);
+            if (applicationUser.IsActive && (roleToAdd == null || roleToAdd.Equals("")) && user.Roles.Count == 0)
             {
-                var user = db.Users.Find(applicationUser.Id);
-                if (applicationUser.IsActive && (roleToAdd == null || roleToAdd.Equals("")) && user.Roles.Count == 0)
-                {
-                    ViewBag.Error = "Impossible to make active user without role";
-                    return View(applicationUser);
-                }
-                applicationUser.UserName = applicationUser.Email;
-                user.UserName = applicationUser.UserName;
-                user.Email = applicationUser.Email;
-                user.FirstName = applicationUser.FirstName;
-                user.LastName = applicationUser.LastName;
-                user.FathersName = applicationUser.FathersName;
-                user.IsActive = applicationUser.IsActive;
-                user.BirthDate = applicationUser.BirthDate;
-                user.GraduationDate = applicationUser.GraduationDate;
-                user.AwardingDate = applicationUser.AwardingDate;
-                user.DefenseYear = applicationUser.DefenseYear;
-                if (cathedra != "")
-                    user.Cathedra = db.Cathedra.Where(x => x.Name.Equals(cathedra)).FirstOrDefault();
-                if (position != "")
-                    user.Position = db.Position.Where(x => x.Value.Equals(position)).FirstOrDefault();
-                if (scienceDegree != "")
-                    user.ScienceDegree = db.ScienceDegree.Where(x => x.Value.Equals(scienceDegree)).FirstOrDefault();
-                if (academicStatus != "")
-                    user.AcademicStatus = db.AcademicStatus.Where(x => x.Value.Equals(academicStatus)).FirstOrDefault();
-                if (roleToAdd != null && !roleToAdd.Equals("") && !user
-                    .Roles.Any(x => db.Roles.Find(x.RoleId).Equals(roleToAdd)))
-                {
-                    UserManager.AddToRole(applicationUser.Id, roleToAdd);
-                }
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                ViewBag.Error = "Impossible to make active user without role";
+                return View(applicationUser);
             }
-            return View(applicationUser);
+            if (roleToAdd != null && !roleToAdd.Equals("") && !user
+                .Roles.Any(x => db.Roles.Find(x.RoleId).Equals(roleToAdd)))
+            {
+                UserManager.AddToRole(applicationUser.Id, roleToAdd);
+            }
+            user.IsActive = applicationUser.IsActive;
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         [HttpGet]

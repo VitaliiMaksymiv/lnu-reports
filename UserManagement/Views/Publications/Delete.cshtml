@@ -1,0 +1,64 @@
+﻿@model UserManagement.Models.db.Publication
+
+@{
+    ViewBag.Title = "Видалити";
+}
+
+<h2>Видалити</h2>
+
+<h3>Ви впевнені, що хочете це видалити?</h3>
+<div>
+    <h4>Публікації</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Назва
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            Інші автори
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OtherAuthors)
+        </dd>
+
+        <dt>
+            Дата
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt>
+            К-сть друк. арк.
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SizeOfPages)
+        </dd>
+
+        <dt>
+            Тип
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PublicationType)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Видалити" class="btn btn-default" /> |
+            @Html.ActionLink("Повернутись до списку", "Index")
+        </div>
+    }
+</div>

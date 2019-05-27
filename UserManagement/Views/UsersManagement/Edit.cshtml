@@ -1,87 +1,116 @@
 ﻿@model UserManagement.Models.ApplicationUser
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Редагування";
+    var cathedra = "Не визначено";
+    if (Model.Cathedra != null)
+    {
+        cathedra = Model.Cathedra.Name;
+    }
+
+    var academicStatus = "Не визначено";
+    if (Model.AcademicStatus != null)
+    {
+        academicStatus = Model.AcademicStatus.Value;
+    }
+
+    var scienceDegree = "Не визначено";
+    if (Model.ScienceDegree != null)
+    {
+        scienceDegree = Model.ScienceDegree.Value;
+    }
+
+    var position = "Не визначено";
+    if (Model.Position != null)
+    {
+        position = Model.Position.Value;
+    }
 }
 
-<h2>Edit</h2>
+<h2>Редагування</h2>
 
 
 @using (Html.BeginForm())
 {
     <div class="form-horizontal">
-        <h4>ApplicationUser</h4>
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
 
         <div class="form-group">
             @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-            </div>
+                <label style="margin-top:7px">@Model.Email</label></div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
-            </div>
+                <label style="margin-top:7px">@Model.FirstName</label></div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.FathersName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.FathersName, new { htmlAttributes = new { @class = "form-control" } })
-            </div>
+                <label style="margin-top:7px">@Model.FathersName</label></div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
-            </div>
+                <label style="margin-top:7px">@Model.LastName</label></div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.BirthDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.BirthDate, new { htmlAttributes = new { @class = "form-control" } })
-            </div>
+                <label style="margin-top:7px">@Model.BirthDate</label></div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.GraduationDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.GraduationDate, new { htmlAttributes = new { @class = "form-control" } })
-            </div>
+                <label style="margin-top:7px">@Model.GraduationDate</label></div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.DefenseYear, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.DefenseYear, new { htmlAttributes = new { @class = "form-control" } })
+                <label style="margin-top:7px">@Model.DefenseYear</label>
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.AwardingDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.AwardingDate, new { htmlAttributes = new { @class = "form-control" } })
-            </div>
+            <label style="margin-top:7px">@Model.AwardingDate</label>
+        </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
-                    @Html.EditorFor(model => model.IsActive)
+                @if (User.IsInRole("Декан"))
+                {
+                    @Html.EditorFor(model => model.IsActive, new { @Value = Model.IsActive })
+                }
+                else
+                {
+                    if (@Model.IsActive)
+                    {
+                        <label style="margin-top:7px">Активний</label>
+                    }
+                    else
+                    {
+                        <label style="margin-top:7px">Не активний</label>
+                    }
+                    @Html.HiddenFor(model => model.IsActive, new { @Value = Model.IsActive })
+                }
                 </div>
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-md-2">Roles</label>
+            <label class="control-label col-md-2">Ролі</label>
             <div class="col-md-10" style="padding-top:7px">
                 @foreach (var i in ViewBag.RolesForThisUser)
                 {
@@ -92,44 +121,27 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2">Add role</label>
+            <label class="control-label col-md-2">Додати роль</label>
             @Html.DropDownList("RoleToAdd",
-             new SelectList(ViewBag.AllRoles),
-             "Select Role",
-             new { @class = "form-control col-md-2" })
+      new SelectList(ViewBag.AllRoles),
+      "Select Role",
+      new { @class = "form-control col-md-2" })
         </div>
         <div class="form-group">
-            <label class="control-label col-md-2">Cathedra</label>
-            @{
-                var list = new SelectList(ViewBag.AllCathedras).ToList();
-                list.ForEach(i => { i.Selected = false; i.Value = i.Text; });
-                list.First(i => i.Text == Model.Cathedra.Name).Selected = true;
-                @Html.DropDownList("Cathedra",
-                                 list,
-                                 "Select cathedra",
-                                 new { @class = "form-control" })
-             }
+            <label class="control-label col-md-2">Кафедра</label>
+            <label style="margin-top:7px">@cathedra</label>
+           </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Науковий ступінь</label>
+            <label style="margin-top:7px">@academicStatus</label>
         </div>
         <div class="form-group">
-            <label class="control-label col-md-2">Academic status</label>
-            @Html.DropDownList("AcademicStatus",
-                    new SelectList(ViewBag.AllAcademicStatuses, Model.AcademicStatus.Value),
-                    "Select academic status",
-                    new { @class = "form-control" })
+            <label class="control-label col-md-2">Вчене звання</label>
+            <label style="margin-top:7px">@scienceDegree</label>
         </div>
         <div class="form-group">
-            <label class="control-label col-md-2">Science Degree</label>
-            @Html.DropDownList("ScienceDegree",
-                    new SelectList(ViewBag.AllScienceDegrees, Model.ScienceDegree.Value),
-                    "Select science degree",
-                    new { @class = "form-control" })
-        </div>
-        <div class="form-group">
-            <label class="control-label col-md-2">Position</label>
-            @Html.DropDownList("Position",
-                    new SelectList(ViewBag.AllPositions, Model.Position.Value),
-                    "Select position",
-                    new { @class = "form-control" })
+            <label class="control-label col-md-2">Посада</label>
+            <label style="margin-top:7px">@position</label>
         </div>
         @if (ViewBag.Error != null)
         {

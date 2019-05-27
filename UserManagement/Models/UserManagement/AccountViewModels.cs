@@ -7,54 +7,83 @@ namespace UserManagement.Models
     public class ForgotViewModel
     {
         [Required]
-        [Display(Name = "Email")]
+        [Display(Name = "Емейл")]
         public string Email { get; set; }
     }
 
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Email")]
+        [Display(Name = "Емейл")]
         [EmailAddress]
         public string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Пароль")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "Запам’ятати?")]
         public bool RememberMe { get; set; }
     }
 
     public class RegisterViewModel
     {
         [Required]
-        [RegularExpression("^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\\.)?[a-zA-Z]+\\.)?lnu\\.edu\\.ua", ErrorMessage = "Invalid email. Should be ...@lnu.edu.ua")]
-        [EmailAddress(ErrorMessage = "Invalid Email Address")]
-        [Display(Name = "Email")]
+        [RegularExpression("^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\\.)?[a-zA-Z]+\\.)?lnu\\.edu\\.ua", ErrorMessage = "Невірний емейл. Повинен бути: ...@lnu.edu.ua")]
+        [EmailAddress(ErrorMessage = "Невірний емейл")]
+        [Display(Name = "Емейл")]
         public string Email { get; set; }
 
         [Required]
-        [Display(Name = "FirstName")]
-        public string FirstName { get; set; }
-        
+        [StringLength(100, ErrorMessage = "{0} повинен мати мінімум {2} символи.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Пароль")]
+        public string Password { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Підтвердження паролю")]
+        [Compare("Password", ErrorMessage = "Паролі не співпадають.")]
+        public string ConfirmPassword { get; set; }
+
         [Required]
-        [Display(Name = "LastName")]
+        [Display(Name = "Кафедра")]
+        public string Cathedra { get; set; }
+
+        [Required]
+        [Display(Name = "Факультет")]
+        public string Faculty { get; set; }
+    }
+
+
+    public class UpdateViewModel
+    {
+        [Required]
+        [RegularExpression("^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\\.)?[a-zA-Z]+\\.)?lnu\\.edu\\.ua", ErrorMessage = "Invalid email. Should be ...@lnu.edu.ua")]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
+        [Display(Name = "Емейл")]
+        public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "Ім’я")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Прізвище")]
         public string LastName { get; set; }
 
         [Required]
-        [Display(Name = "FathersName")]
+        [Display(Name = "По-батькові")]
         public string FathersName { get; set; }
 
         [Required]
-        [Display(Name = "BirthDate")]
+        [Display(Name = "Дата народження")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime BirthDate { get; set; }
 
         [Required]
-        [Display(Name = "GraduationDate")]
+        [Display(Name = "Дата випуску")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy}")]
         public DateTime GraduationDate { get; set; }
@@ -66,33 +95,19 @@ namespace UserManagement.Models
         public DateTime AwardingDate { get; set; }
 
         [Required]
-        [Display(Name = "DefenseYear")]
+        [Display(Name = "Дата захисту")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy}")]
         public DateTime DefenseYear { get; set; }
-
+        
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
-        [DataType(DataType.Password)]
-        [Display(Name = "Password")]
-        public string Password { get; set; }
-
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-        public string ConfirmPassword { get; set; }
-
-        [Required]
-        [Display(Name = "Cathedra")]
-        public string Cathedra { get; set; }
-        [Required]
-        [Display(Name = "AcademicStatus")]
+        [Display(Name = "Академічний статус")]
         public string AcademicStatus { get; set; }
         [Required]
-        [Display(Name = "ScienceDegree")]
+        [Display(Name = "Науковий ступінь")]
         public string ScienceDegree { get; set; }
         [Required]
-        [Display(Name = "Position")]
+        [Display(Name = "Посада")]
         public string Position { get; set; }
     }
 
@@ -100,18 +115,18 @@ namespace UserManagement.Models
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "Емейл")]
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "{0} повинен мати мінімум {2} символи.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Пароль")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "Паролі не співпадають.")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }
@@ -121,7 +136,7 @@ namespace UserManagement.Models
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "Емейл")]
         public string Email { get; set; }
     }
 

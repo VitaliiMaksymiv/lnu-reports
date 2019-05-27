@@ -1,0 +1,86 @@
+﻿@model UserManagement.Models.UpdateViewModel
+@{
+    ViewBag.Title = "Персональна інформація";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+@using (Html.BeginForm("Update", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <hr />  
+    <div class="form-group">
+        @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @Value = ViewBag.FirstName })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @Value = ViewBag.LastName })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.FathersName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.FathersName, new { @class = "form-control", @Value = ViewBag.FathersName })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.BirthDate, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+        @Html.EditorFor(m => m.BirthDate, new { @class = "form-control", @Value = ViewBag.BirthDate })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.GraduationDate, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => m.GraduationDate, new { @class = "form-control", @Value = ViewBag.GraduationDate })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.DefenseYear, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => m.DefenseYear, new { @class = "form-control", @Value = ViewBag.DefenseYear })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.AwardingDate, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => m.AwardingDate, new { @class = "form-control", @Value = ViewBag.AwardingDate })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Академічний статус</label>
+        @Html.DropDownList("AcademicStatus",
+                    new SelectList(ViewBag.AllAcademicStatuses),
+                    "Виберіть академічний статус",
+                    new { @class = "form-control", @Value = ViewBag.AcademicStatus == null ? "" : ViewBag.AcademicStatus})
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Науковий ступінь</label>
+        @Html.DropDownList("ScienceDegree",
+                    new SelectList(ViewBag.AllScienceDegrees),
+                    "Виберіть науковий ступінь",
+                    new { @class = "form-control", @Value = ViewBag.ScienceDegree == null ? "" : ViewBag.ScienceDegree })
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Посада</label>
+        @Html.DropDownList("Position",
+                    new SelectList(ViewBag.AllPositions),
+                    "Виберіть посаду",
+                    new { @class = "form-control", @Value = ViewBag.Position == null ? "" : ViewBag.Position })
+    </div>
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Email)
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Оновити" />
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

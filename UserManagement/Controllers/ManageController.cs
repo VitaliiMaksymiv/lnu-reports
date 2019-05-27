@@ -15,6 +15,7 @@ namespace UserManagement.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        public ApplicationDbContext db = new ApplicationDbContext();
 
         public ManageController()
         {
@@ -161,6 +162,57 @@ namespace UserManagement.Controllers
             return View(model);
         }
         
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Update(UpdateViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = db.Users.First(x => x.Id == User.Identity.GetUserId());
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
+                user.FathersName = model.FathersName;
+                user.BirthDate = model.BirthDate;
+                user.AwardingDate = model.AwardingDate;
+                user.GraduationDate = model.GraduationDate;
+                user.DefenseYear = model.DefenseYear;
+                user.AcademicStatus = db.AcademicStatus.First(x => x.Value == model.AcademicStatus);
+                user.ScienceDegree = db.ScienceDegree.First(x => x.Value == model.ScienceDegree);
+                user.Position = db.Position.First(x => x.Value == model.Position);
+                db.SaveChanges();
+                return RedirectToAction("Index", "Manage");
+            }
+
+            ViewBag.AllAcademicStatuses = db.AcademicStatus.ToList().Select(x => x.Value);
+            ViewBag.AllScienceDegrees = db.ScienceDegree.ToList().Select(x => x.Value);
+            ViewBag.AllPositions = db.Position.ToList().Select(x => x.Value);
+            return View(model);
+        }
+        
+        public ActionResult Update()
+        {
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            ViewBag.AllAcademicStatuses = db.AcademicStatus.ToList().Select(x => x.Value);
+            ViewBag.AllScienceDegrees = db.ScienceDegree.ToList().Select(x => x.Value);
+            ViewBag.AllPositions = db.Position.ToList().Select(x => x.Value);
+            ViewBag.FirstName = user.FirstName;
+            ViewBag.LastName = user.LastName;
+            ViewBag.FathersName = user.FathersName;
+            ViewBag.BirthDate = user.BirthDate;
+            ViewBag.AwardingDate = user.AwardingDate;
+            ViewBag.GraduationDate = user.GraduationDate;
+            ViewBag.DefenseYear = user.DefenseYear;
+            if (user.AcademicStatus != null)
+                ViewBag.AcademicStatus = user.AcademicStatus.Value.ToString();
+            if (user.ScienceDegree != null)
+                ViewBag.ScienceDegree = user.ScienceDegree.Value.ToString();
+            if (user.Position != null)
+                ViewBag.Position = user.Position.Value.ToString();
+            var viewModel = new UpdateViewModel();
+            viewModel.Email = user.Email;
+            return View(viewModel);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing && _userManager != null)

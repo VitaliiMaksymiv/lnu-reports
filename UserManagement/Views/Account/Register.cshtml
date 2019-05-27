@@ -1,32 +1,14 @@
 ﻿@model UserManagement.Models.RegisterViewModel
 @{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "Реєстрація";
 }
 
 <h2>@ViewBag.Title.</h2>
 
 @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
-    <h4>Create a new account.</h4>  
+    <h4>Реєстрація</h4>  
     <hr />  
-    <div class="form-group">
-        @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.FathersName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.FathersName, new { @class = "form-control" })
-        </div>
-    </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
@@ -46,61 +28,23 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.BirthDate, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.EditorFor(m => m.BirthDate, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.GraduationDate, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.EditorFor(m => m.GraduationDate, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.DefenseYear, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.EditorFor(m => m.DefenseYear, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.AwardingDate, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.EditorFor(m => m.AwardingDate, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-md-2">Cathedra</label>
+        <label class="control-label col-md-2">Кафедра</label>
         @Html.DropDownList("Cathedra",
                     new SelectList(ViewBag.AllCathedras),
-                    "Select cathedra",
+                    "Виберіть кафедру",
                     new { @class = "form-control" })
     </div>
     <div class="form-group">
-        <label class="control-label col-md-2">Academic status</label>
-        @Html.DropDownList("AcademicStatus",
-                    new SelectList(ViewBag.AllAcademicStatuses),
-                    "Select academic status",
-                    new { @class = "form-control" })
-    </div>
-    <div class="form-group">
-        <label class="control-label col-md-2">Science Degree</label>
-        @Html.DropDownList("ScienceDegree",
-                    new SelectList(ViewBag.AllScienceDegrees),
-                    "Select science degree",
-                    new { @class = "form-control" })
-    </div>
-    <div class="form-group">
-        <label class="control-label col-md-2">Position</label>
-        @Html.DropDownList("Position",
-                    new SelectList(ViewBag.AllPositions),
-                    "Select position",
+        <label class="control-label col-md-2">Факультет</label>
+        @Html.DropDownList("Faculty",
+                    new SelectList(ViewBag.AllFaculties),
+                    "Виберіть факультет",
                     new { @class = "form-control" })
     </div>
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Register" />
+            <input type="submit" class="btn btn-default" value="Зареєструвати" />
         </div>
     </div>
 }

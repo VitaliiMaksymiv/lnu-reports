@@ -1,24 +1,24 @@
 ﻿@model PagedList.IPagedList< UserManagement.Models.ApplicationUser>
 @using PagedList.Mvc;
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Користувачі";
 }
 
-<h2>Users</h2>
+<h2>Користувачі</h2>
 
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.First().Email)
+            Емейл
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.First().FirstName)
+            Ім'я
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.First().LastName)
+            Прізвище
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.First().IsActive)
+            Активний
         </th>
         <th>
             Roles
@@ -28,9 +28,9 @@
 
 @foreach (var item in Model) {
     <tr>
-        <th>
+        <td>
             @Html.DisplayFor(modelItem => item.Email)
-        </th>
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.FirstName)
         </td>

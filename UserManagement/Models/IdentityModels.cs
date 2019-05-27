@@ -6,16 +6,23 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using UserManagement.Models.db;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
+using System.Data;
 
 namespace UserManagement.Models
 {
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit https://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
-        public String FirstName { get; set; }
-        public String LastName { get; set; }
-        public String FathersName { get; set; }
-        public Boolean IsActive { get; set; }
+        public ApplicationUser()
+        {
+            this.Publication = new HashSet<Publication>();
+        }
+
+        public String FirstName { get; set; } = "";
+        public String LastName { get; set; } = "";
+        public String FathersName { get; set; } = "";
+        public Boolean IsActive { get; set; } = false;
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime BirthDate { get; set; }
@@ -33,6 +40,7 @@ namespace UserManagement.Models
         public virtual AcademicStatus AcademicStatus { get; set; }
         public virtual ScienceDegree ScienceDegree { get; set; }
         public virtual Position Position { get; set; }
+        public virtual ICollection<Publication> Publication { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

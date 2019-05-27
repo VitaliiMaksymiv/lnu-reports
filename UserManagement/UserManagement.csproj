@@ -197,6 +197,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PublicationsController.cs" />
     <Compile Include="Controllers\UsersManagementController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -213,12 +214,17 @@
     <Compile Include="Migrations\201903301737358_additionalInfoUser.Designer.cs">
       <DependentUpon>201903301737358_additionalInfoUser.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201904131405594_AddPublication.cs" />
-    <Compile Include="Migrations\201904131405594_AddPublication.Designer.cs">
-      <DependentUpon>201904131405594_AddPublication.cs</DependentUpon>
+    <Compile Include="Migrations\201904201451423_UpdatePublication.cs" />
+    <Compile Include="Migrations\201904201451423_UpdatePublication.Designer.cs">
+      <DependentUpon>201904201451423_UpdatePublication.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904202109477_PublicationTypeEnum.cs" />
+    <Compile Include="Migrations\201904202109477_PublicationTypeEnum.Designer.cs">
+      <DependentUpon>201904202109477_PublicationTypeEnum.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\PublicationDB\Publication.cs" />
+    <Compile Include="Models\PublicationDB\PublicationType.cs" />
     <Compile Include="Models\UserManagement\AccountViewModels.cs" />
     <Compile Include="Models\UserManagement\db\AcademicStatus.cs" />
     <Compile Include="Models\UserManagement\db\Cathedra.cs" />
@@ -282,6 +288,12 @@
     <Content Include="Views\UsersManagement\Details.cshtml" />
     <Content Include="Views\UsersManagement\Edit.cshtml" />
     <Content Include="Views\UsersManagement\Index.cshtml" />
+    <Content Include="Views\Publications\Create.cshtml" />
+    <Content Include="Views\Publications\Delete.cshtml" />
+    <Content Include="Views\Publications\Details.cshtml" />
+    <Content Include="Views\Publications\Edit.cshtml" />
+    <Content Include="Views\Publications\Index.cshtml" />
+    <Content Include="Views\Manage\Update.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -311,8 +323,11 @@
     <EmbeddedResource Include="Migrations\201903301737358_additionalInfoUser.resx">
       <DependentUpon>201903301737358_additionalInfoUser.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904131405594_AddPublication.resx">
-      <DependentUpon>201904131405594_AddPublication.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201904201451423_UpdatePublication.resx">
+      <DependentUpon>201904201451423_UpdatePublication.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904202109477_PublicationTypeEnum.resx">
+      <DependentUpon>201904202109477_PublicationTypeEnum.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
