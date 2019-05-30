@@ -168,7 +168,8 @@ namespace UserManagement.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = db.Users.First(x => x.Id == User.Identity.GetUserId());
+                var currentUserId = User.Identity.GetUserId();
+                var user = db.Users.First(x => x.Id == currentUserId);
                 user.FirstName = model.FirstName;
                 user.LastName = model.LastName;
                 user.FathersName = model.FathersName;

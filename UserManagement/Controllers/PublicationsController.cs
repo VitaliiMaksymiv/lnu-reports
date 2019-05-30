@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity.EntityFramework;
 using PagedList;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -17,75 +18,85 @@ namespace UserManagement.Controllers
     public class PublicationsController : Controller
     {
         private static ApplicationDbContext db = new ApplicationDbContext();
-        
+
         private UserManager<ApplicationUser> UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
         // GET: Publications
-        public ActionResult Index(int? page, bool? isMine, bool? isFaculty, string searchString)
+        public ActionResult Index(int? page, bool? isMine, string searchString, string dateFrom, string dateTo, int? cathedra, int? faculty)
         {
             int pageSize = 15;
             int pageNumber = (page ?? 1);
             bool isMineWihoutNull = isMine ?? false;
-            bool isFacultyWihoutNull = isFaculty ?? false;
-            var isDupe = UserManager.IsInRole(User.Identity.GetUserId(), "Декан");
+            int cathedraNumber = cathedra ?? -1;
+            int facultyNumber = faculty ?? -1;
+            string dateFromVerified = dateFrom ?? "";
+            string dateToVerified = dateTo ?? "";
             ViewBag.isMine = isMineWihoutNull;
-            ViewBag.isFaculty = isFacultyWihoutNull;
+            ViewBag.cathedra = cathedraNumber;
+            ViewBag.faculty = facultyNumber;
+            ViewBag.searchString = searchString;
+            ViewBag.dateFrom = dateFrom;
+            ViewBag.dateTo = dateTo;
             ViewBag.page = pageNumber;
+            PutCathedraAndFacultyIntoViewBag();
+            var allPublications = db.Publication
+                .Where(x => cathedraNumber == -1 || (cathedraNumber != -1 && x.User.Any(y => y.Cathedra.ID == cathedraNumber)))
+                .Where(x => facultyNumber == -1 || (facultyNumber != -1 && x.User.Any(y => y.Cathedra.Faculty.ID == facultyNumber)))
+                .ToList();
+            allPublications = allPublications
+                .Where(x => dateFromVerified == "" || (dateFromVerified != "" && Convert.ToDateTime(x.Date) >= DateTime.Parse(dateFromVerified)))
+                .Where(x => dateToVerified == "" || (dateToVerified != "" && Convert.ToDateTime(x.Date) <= DateTime.Parse(dateToVerified)))
+                .ToList();
+            return GetRightPublicationView(allPublications, isMineWihoutNull, pageNumber, pageSize, searchString);
+        }
+
+        private void PutCathedraAndFacultyIntoViewBag()
+        {
+            var cathedas = db.Cathedra.ToList();
+            var faculties = db.Faculty.ToList();
+            ViewBag.AllCathedras = cathedas
+                .Select(x =>
+                     new SelectListItem
+                     {
+                         Text = x.Name,
+                         Value = x.ID.ToString()
+                     }).ToList();
+            ViewBag.AllFaculties = faculties
+                .Select(x =>
+                     new SelectListItem
+                     {
+                         Text = x.Name,
+                         Value = x.ID.ToString()
+                     }).ToList();
+        }
+
+        private ActionResult GetRightPublicationView(List<Publication> allPublications, bool isMineWihoutNull,
+                                                        int pageNumber, int pageSize, string searchString)
+        {
             if (!String.IsNullOrEmpty(searchString))
             {
-                return View(db.Publication
+                return View(allPublications
                     .Where(s => s.Name.Contains(searchString))
                     .ToList()
                     .ToPagedList(pageNumber, pageSize));
             }
             if (isMineWihoutNull)
             {
-                if (isDupe && isFacultyWihoutNull)
-                {
-                    var dupe = UserManager.FindByName(User.Identity.Name);
-                    return View(db.Publication
-                    .Where(x => x.User.Any(y => y.UserName == User.Identity.Name))
-                    .Where(x => x.User.Any(y => y.Cathedra.Faculty.ID == dupe.Cathedra.Faculty.ID))
-                    .ToList()
-                    .ToPagedList(pageNumber, pageSize));
-                }
-                else
-                {
-                    return View(db.Publication
-                    .Where(x => x.User.Any(y => y.UserName == User.Identity.Name))
-                    .ToList()
-                    .ToPagedList(pageNumber, pageSize));
-                }
+                return View(allPublications
+                .Where(x => x.User.Any(y => y.UserName == User.Identity.Name))
+                .ToList()
+                .ToPagedList(pageNumber, pageSize));
             }
             else
             {
-                if (isDupe && isFacultyWihoutNull)
-                {
-                    var dupe = UserManager.FindByName(User.Identity.Name);
-                    return View(db.Publication
-                    .Where(x => x.User.Any(y => y.Cathedra.Faculty.ID == dupe.Cathedra.Faculty.ID))
-                    .ToList()
-                    .ToPagedList(pageNumber, pageSize));
-                }
-                else
-                {
-                    return View(db.Publication
-                    .ToList()
-                    .ToPagedList(pageNumber, pageSize));
-                }
+                return View(allPublications
+                .ToList()
+                .ToPagedList(pageNumber, pageSize));
             }
         }
 
         // GET: Publications/Details/5
         public ActionResult Details(int? id)
         {
-            var isAdmin = UserManager.IsInRole(User.Identity.GetUserId(), "Ректор");
-            if (!isAdmin)
-            {
-                if (UserManager.FindById(User.Identity.GetUserId()).Publication.Where(x => x.ID == id).FirstOrDefault() == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -96,7 +107,7 @@ namespace UserManagement.Controllers
                 return HttpNotFound();
             }
             ViewBag.PublicationUsers = String.Join(", ", publication.User
-                .Select(x =>String.Join(" ", x.LastName, x.FirstName, x.FathersName))
+                .Select(x => String.Join(" ", x.LastName, x.FirstName, x.FathersName))
                     .ToList());
             return View(publication);
         }
@@ -139,9 +150,20 @@ namespace UserManagement.Controllers
                          Value = x.Id
                      })
                     .ToList();
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && userToAdd != null)
             {
-                if (userToAdd != null && userToAdd.Length != 0)
+                var publicationExists = db.Publication
+                    .Any(x =>
+                    x.Name == publication.Name
+                    && userToAdd.All(y => x.User.Select(z => z.Id).Contains(y))
+                    && x.PublicationType == publication.PublicationType
+                    );
+                if (publicationExists)
+                {
+                    ModelState.AddModelError("", "Така публікація вже існує");
+                    return View(publication);
+                }
+                if (userToAdd.Length != 0)
                 {
                     foreach (var current in userToAdd)
                     {
@@ -159,17 +181,8 @@ namespace UserManagement.Controllers
         }
 
         // GET: Publications/Edit/5
-        [Authorize(Roles = "Ректор, Декан")]
         public ActionResult Edit(int? id)
         {
-            var isAdmin = UserManager.IsInRole(User.Identity.GetUserId(), "Ректор");
-            if (!isAdmin)
-            {
-                if (UserManager.FindById(User.Identity.GetUserId()).Publication.Where(x => x.ID == id).FirstOrDefault() == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -180,17 +193,17 @@ namespace UserManagement.Controllers
                 return HttpNotFound();
             }
             ViewBag.AllPublicationTypes = Enum.GetNames(typeof(PublicationType))
-                .Select(x => new SelectListItem {Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
+                .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
             var users = db.Users.ToList();
             ViewBag.AllUsers = users
                 .Where(y => !publication.User.Contains(y) && y.IsActive)
                 .Select(x =>
                      new SelectListItem
-                    {
-                        Selected = false,
-                        Text = String.Join(" ", x.LastName, x.FirstName, x.FathersName),
-                        Value = x.Id
-                    })
+                     {
+                         Selected = false,
+                         Text = String.Join(" ", x.LastName, x.FirstName, x.FathersName),
+                         Value = x.Id
+                     })
                     .ToList();
             return View(publication);
         }
@@ -201,34 +214,8 @@ namespace UserManagement.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Name,OtherAuthors,Date,SizeOfPages,PublicationType")] Publication publication,
-            [Bind(Include = "UserToAdd")]String userToAdd)
+            [Bind(Include = "UserToAdd")]String[] userToAdd)
         {
-            var isAdmin = UserManager.IsInRole(User.Identity.GetUserId(), "Ректор");
-            if (!isAdmin)
-            {
-                if (UserManager.FindById(User.Identity.GetUserId()).Publication.Where(x => x.ID == publication.ID).FirstOrDefault() == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-            }
-            if (ModelState.IsValid)
-            {
-                var publicationFromDB = db.Publication.Find(publication.ID);
-                publicationFromDB.Name = publication.Name;
-                publicationFromDB.OtherAuthors = publication.OtherAuthors;
-                publicationFromDB.PublicationType = publication.PublicationType;
-                publicationFromDB.SizeOfPages = publication.SizeOfPages;
-                publicationFromDB.Date = publication.Date;
-                if (userToAdd != null && userToAdd != "")
-                {
-                    var publicationFormDb = db.Publication.Find(publication.ID);
-                    var user = db.Users.Find(userToAdd);
-                    publicationFormDb.User.Add(user);
-                    user.Publication.Add(publicationFormDb);
-                }
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
             ViewBag.AllPublicationTypes = Enum.GetNames(typeof(PublicationType))
                 .Select(x => new SelectListItem { Selected = false, Text = x, Value = x }).ToList();
             var users = db.Users.ToList();
@@ -242,11 +229,43 @@ namespace UserManagement.Controllers
                          Value = x.Id
                      })
                     .ToList();
+            if (ModelState.IsValid && userToAdd != null)
+            {
+                var publicationExists = db.Publication
+                    .Any(x =>
+                    x.ID != publication.ID
+                    && x.Name == publication.Name
+                    && userToAdd.All(y => x.User.Select(z => z.Id).Contains(y))
+                    && x.PublicationType == publication.PublicationType
+                    );
+                if (publicationExists)
+                {
+                    ModelState.AddModelError("", "Така публікація вже існує");
+                    return View(publication);
+                }
+                var publicationFromDB = db.Publication.Find(publication.ID);
+                publicationFromDB.Name = publication.Name;
+                publicationFromDB.OtherAuthors = publication.OtherAuthors;
+                publicationFromDB.PublicationType = publication.PublicationType;
+                publicationFromDB.SizeOfPages = publication.SizeOfPages;
+                publicationFromDB.Date = publication.Date;
+                if (userToAdd != null && userToAdd.Length != 0)
+                {
+                    foreach (var current in userToAdd)
+                    {
+                        var publicationFormDb = db.Publication.Find(publication.ID);
+                        var user = db.Users.Find(current);
+                        publicationFormDb.User.Add(user);
+                        user.Publication.Add(publicationFormDb);
+                    }
+                }
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
             return View(publication);
         }
 
         // GET: Publications/Delete/5
-        [Authorize(Roles = "Ректор")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -264,7 +283,6 @@ namespace UserManagement.Controllers
         // POST: Publications/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Ректор")]
         public ActionResult DeleteConfirmed(int id)
         {
             Publication publication = db.Publication.Find(id);

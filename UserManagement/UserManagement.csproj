@@ -244,11 +244,33 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\chosen-sprite%402x.png" />
+    <Content Include="Scripts\chosen-sprite.png" />
+    <Content Include="Scripts\chosen.css" />
+    <Content Include="Scripts\chosen.jquery.js" />
+    <Content Include="Scripts\chosen.jquery.min.js" />
+    <Content Include="Scripts\chosen.min.css" />
+    <Content Include="Scripts\chosen.proto.js" />
+    <Content Include="Scripts\chosen.proto.min.js" />
+    <Content Include="Scripts\docsupport\chosen.png" />
+    <Content Include="Scripts\docsupport\init.js" />
+    <Content Include="Scripts\docsupport\init.proto.js" />
+    <Content Include="Scripts\docsupport\jquery-1.12.4.min.js" />
+    <Content Include="Scripts\docsupport\jquery-3.2.1.min.js" />
+    <Content Include="Scripts\docsupport\oss-credit.png" />
+    <Content Include="Scripts\docsupport\prism.css" />
+    <Content Include="Scripts\docsupport\prism.js" />
+    <Content Include="Scripts\docsupport\prototype-1.7.0.0.js" />
+    <Content Include="Scripts\docsupport\style.css" />
+    <Content Include="Scripts\index.html" />
+    <Content Include="Scripts\index.proto.html" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Scripts\composer.json" />
+    <Content Include="Scripts\LICENSE.md" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

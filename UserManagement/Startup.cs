@@ -24,33 +24,33 @@ namespace UserManagement
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
             var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
             // In Startup iam creating first Admin Role and creating a default Admin User    
-            if (!roleManager.RoleExists("Ректор"))
+            if (!roleManager.RoleExists("Superadmin"))
             {
-
                 // first we create Admin rool   
                 var role = new IdentityRole();
-                role.Name = "Ректор";
+                role.Name = "Superadmin";
                 roleManager.Create(role);
 
                 //Here we create a Admin super user who will maintain the website                  
 
                 var user = new ApplicationUser();
-                user.UserName = "marycholeg@gmail.com";
-                user.Email = "marycholeg@gmail.com";
-                user.FirstName = "marycholeg@gmail.com";
-                user.LastName = "marycholeg@gmail.com";
-                user.FathersName = "marycholeg@gmail.com";
+                user.UserName = "superadmin@lnu.edu.ua";
+                user.Email = "superadmin@lnu.edu.ua";
+                user.FirstName = "superadmin@lnu.edu.ua";
+                user.LastName = "superadmin@lnu.edu.ua";
+                user.FathersName = "superadmin@lnu.edu.ua";
                 user.BirthDate = DateTime.Now;
                 user.DefenseYear = DateTime.Now;
                 user.AwardingDate = DateTime.Now;
                 user.GraduationDate = DateTime.Now;
+                user.IsActive = true;
                 string userPWD = "qwerty1";
 
                 var chkUser = UserManager.Create(user, userPWD);
  
                 if (chkUser.Succeeded)
                 {
-                    var result1 = UserManager.AddToRole(user.Id, "Ректор");
+                    var result1 = UserManager.AddToRole(user.Id, "Superadmin");
 
                 }
             }
@@ -60,20 +60,26 @@ namespace UserManagement
                 var role = new IdentityRole();
                 role.Name = "Викладач";
                 roleManager.Create(role);
-
             }
- 
-            if (!roleManager.RoleExists("Декан"))
+
+            if (!roleManager.RoleExists("Адміністрація ректорату"))
             {
                 var role = new IdentityRole();
-                role.Name = "Декан";
+                role.Name = "Адміністрація ректорату";
                 roleManager.Create(role);
             }
 
-            if (!roleManager.RoleExists("Завідувач кафедри"))
+            if (!roleManager.RoleExists("Адміністрація деканату"))
             {
                 var role = new IdentityRole();
-                role.Name = "Завідувач кафедри";
+                role.Name = "Адміністрація деканату";
+                roleManager.Create(role);
+            }
+
+            if (!roleManager.RoleExists("Керівник кафедри"))
+            {
+                var role = new IdentityRole();
+                role.Name = "Керівник кафедри";
                 roleManager.Create(role);
             }
         }

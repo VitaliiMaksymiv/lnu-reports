@@ -1,4 +1,4 @@
-﻿@model PagedList.IPagedList< UserManagement.Models.ApplicationUser>
+﻿@model PagedList.IPagedList<UserManagement.Models.ApplicationUser>
 @using PagedList.Mvc;
 @{
     ViewBag.Title = "Користувачі";
@@ -6,6 +6,33 @@
 
 <h2>Користувачі</h2>
 
+@if (User.IsInRole("Superadmin") || User.IsInRole("Адміністрація ректорату") || User.IsInRole("Адміністрація деканату"))
+{
+    <div style="display:flex">
+        <form asp-controller="UserManagement" asp-action="Index">
+            <p>
+                @Html.DropDownList("cathedra",
+                           new SelectList(ViewBag.AllCathedras, "Value", "Text"),
+                           "Виберіть кафедру",
+                           new { @class = "form-control chosen-select" })
+                <input type="submit" value="Пошук" class="btn btn-default find" />
+            </p>
+        </form>
+
+        @if (!User.IsInRole("Адміністрація деканату"))
+        {
+            <form asp-controller="UserManagement" asp-action="Index" style="margin-left: 50px">
+                <p>
+                    @Html.DropDownList("faculty",
+                             new SelectList(ViewBag.AllFaculties, "Value", "Text"),
+                             "Виберіть факультет",
+                             new { @class = "form-control chosen-select" })
+                    <input type="submit" value="Пошук" class="btn btn-default find" />
+                </p>
+            </form>
+        }
+    </div>
+}
 <table class="table">
     <tr>
         <th>
@@ -18,7 +45,7 @@
             Прізвище
         </th>
         <th>
-            Активний
+            @Html.ActionLink("Активний", "Index", new { sortOrder = ViewBag.IsActiveSortParm })
         </th>
         <th>
             Roles
@@ -26,34 +53,71 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsActive)
-        </td>
-        <td>
-            @foreach(var i in ViewBag.RolesForThisUser[item.Id])
-            {
-                <div>@i</div>
-            }
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                @foreach (var i in ViewBag.RolesForThisUser[item.Id])
+                {
+                    <div>@i</div>
+                }
+            </td>
+            <td>
+                @if (item.UserName != User.Identity.Name)
+                {
+                    @Html.ActionLink("Редагувати", "Edit", new { id = item.Id })
+                }
+                @Html.ActionLink("Деталі", "Details", new { id = item.Id })
+            </td>
+        </tr>
+    }
 
 </table>
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    Сторінка @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) з @Model.PageCount
 
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+
+    <link rel="stylesheet" href="../Scripts/docsupport/style.css">
+    <link rel="stylesheet" href="../Scripts/docsupport/prism.css">
+    <link rel="stylesheet" href="../Scripts/chosen.css">
+    <style type="text/css" media="all">
+        /* fix rtl for demo */
+        .chosen-rtl .chosen-drop {
+            left: -9000px;
+        }
+
+        .find {
+            height: 30px;
+            margin-left: 15px;
+        }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="../Scripts/chosen.jquery.js" type="text/javascript"></script>
+    <script src="../Scripts/docsupport/prism.js" type="text/javascript" charset="utf-8"></script>
+
+    <script type="text/javascript">
+        function updateSelect() {
+            $('.chosen-select').chosen(
+                {
+                    allow_single_deselect: false,
+                    disable_search_threshold: 10,
+                    no_results_text: 'Не знайдено',
+                }
+            );
+        }
+
+        updateSelect();
+    </script>
