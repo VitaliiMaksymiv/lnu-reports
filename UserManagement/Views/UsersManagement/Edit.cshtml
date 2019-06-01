@@ -90,8 +90,8 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    <div class="checkbox">
-                    @if (!User.IsInRole("Викладач"))
+                    <div class="checkbox">                       
+                    @if (User.IsInRole("Superadmin") || User.IsInRole("Адміністрація ректорату") || User.IsInRole("Адміністрація деканату") || User.IsInRole("Керівник кафедри"))
                     {
                         @Html.EditorFor(model => model.IsActive, new { @Value = Model.IsActive })
                     }
@@ -118,7 +118,7 @@
                         <div>@i</div>
                         if (i != "Superadmin")
                         {
-                            if (!User.IsInRole(i) && !((i == "Адміністрація ректорату" && (User.IsInRole("Адміністрація деканату")
+                            if (!((i == "Адміністрація ректорату" && (User.IsInRole("Адміністрація деканату")
                                 || User.IsInRole("Керівник кафедри")) || (i == "Адміністрація деканату"
                                 && User.IsInRole("Керівник кафедри")))) 
                                 && !((i == "Керівник кафедри") && (User.IsInRole("Адміністрація ректорату"))))

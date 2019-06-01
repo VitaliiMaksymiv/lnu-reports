@@ -20,7 +20,7 @@ namespace UserManagement.Models.db
         public String Name { get; set; }
         public String OtherAuthors { get; set; }
         [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy}")]
         public DateTime Date { get; set; }
         public Double SizeOfPages { get; set; }
         public PublicationType PublicationType { get; set; }

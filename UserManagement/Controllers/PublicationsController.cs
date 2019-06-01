@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using UserManagement.Models;
@@ -18,11 +19,24 @@ namespace UserManagement.Controllers
     public class PublicationsController : Controller
     {
         private static ApplicationDbContext db = new ApplicationDbContext();
+        //public static ApplicationDbContext db
+        //{
+        //    get
+        //    {
+        //        return DB ?? new ApplicationDbContext();
+        //    }
+        //    private set
+        //    {
+        //        DB = value;
+        //    }
+        //}
 
         private UserManager<ApplicationUser> UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
         // GET: Publications
         public ActionResult Index(int? page, bool? isMine, string searchString, string dateFrom, string dateTo, int? cathedra, int? faculty)
         {
+            db.Users.ToList().ForEach(x => db.Entry(x).State = EntityState.Detached);
+            db.Users.ToList();
             int pageSize = 15;
             int pageNumber = (page ?? 1);
             bool isMineWihoutNull = isMine ?? false;
@@ -119,6 +133,8 @@ namespace UserManagement.Controllers
             ViewBag.AllPublicationTypes = Enum.GetNames(typeof(PublicationType))
                 .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
             ViewBag.AllUsers = users
+                .Where(x => UserManager.IsInRole(x.Id, "Викладач") || UserManager.IsInRole(x.Id, "Керівник кафедри") 
+                || UserManager.IsInRole(x.Id, "Адміністрація ректорату") || UserManager.IsInRole(x.Id, "Адміністрація деканату"))
                 .Select(x =>
                      new SelectListItem
                      {
@@ -196,6 +212,8 @@ namespace UserManagement.Controllers
                 .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
             var users = db.Users.ToList();
             ViewBag.AllUsers = users
+                .Where(x => UserManager.IsInRole(x.Id, "Викладач") || UserManager.IsInRole(x.Id, "Адміністрація ректорату") || 
+                UserManager.IsInRole(x.Id, "Адміністрація деканату") || UserManager.IsInRole(x.Id, "Керівник кафедри"))
                 .Where(y => !publication.User.Contains(y) && y.IsActive)
                 .Select(x =>
                      new SelectListItem
@@ -304,6 +322,15 @@ namespace UserManagement.Controllers
             }
             return RedirectToAction("Edit", "Publications", new { id = publicationId });
         }
+        protected override void Dispose(bool disposing)
+        {
+            //if (disposing && DB != null)
+            //{
+            //    DB.Dispose();
+            //    DB = null;
+            //}
 
+            //base.Dispose(disposing);
+        }
     }
 }

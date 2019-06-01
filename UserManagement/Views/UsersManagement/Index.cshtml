@@ -9,28 +9,26 @@
 @if (User.IsInRole("Superadmin") || User.IsInRole("Адміністрація ректорату") || User.IsInRole("Адміністрація деканату"))
 {
     <div style="display:flex">
-        <form asp-controller="UserManagement" asp-action="Index">
+
+        @if (!User.IsInRole("Адміністрація деканату"))
+        {
+            <form asp-controller="UserManagement" asp-action="Index" style="margin-right: 50px" id="facultyForm">
+                <p>
+                    @Html.DropDownList("faculty",
+                             new SelectList(ViewBag.AllFaculties, "Value", "Text"),
+                             "Виберіть факультет",
+                             new { @class = "form-control chosen-select-faculty" })
+                </p>
+            </form>
+        }
+        <form asp-controller="UserManagement" asp-action="Index" id="cathedraForm">
             <p>
                 @Html.DropDownList("cathedra",
                            new SelectList(ViewBag.AllCathedras, "Value", "Text"),
                            "Виберіть кафедру",
                            new { @class = "form-control chosen-select" })
-                <input type="submit" value="Пошук" class="btn btn-default find" />
             </p>
         </form>
-
-        @if (!User.IsInRole("Адміністрація деканату"))
-        {
-            <form asp-controller="UserManagement" asp-action="Index" style="margin-left: 50px">
-                <p>
-                    @Html.DropDownList("faculty",
-                             new SelectList(ViewBag.AllFaculties, "Value", "Text"),
-                             "Виберіть факультет",
-                             new { @class = "form-control chosen-select" })
-                    <input type="submit" value="Пошук" class="btn btn-default find" />
-                </p>
-            </form>
-        }
     </div>
 }
 <table class="table">
@@ -109,8 +107,22 @@
     <script src="../Scripts/docsupport/prism.js" type="text/javascript" charset="utf-8"></script>
 
     <script type="text/javascript">
+
+        $('.chosen-select').on("change", function () {
+            $('#cathedraForm').submit();
+        })
+        $('.chosen-select-faculty').on("change", function () {
+            $('#facultyForm').submit();
+        })
         function updateSelect() {
             $('.chosen-select').chosen(
+                {
+                    allow_single_deselect: false,
+                    disable_search_threshold: 10,
+                    no_results_text: 'Не знайдено',
+                }
+            );
+            $('.chosen-select-faculty').chosen(
                 {
                     allow_single_deselect: false,
                     disable_search_threshold: 10,

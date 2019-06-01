@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -17,7 +18,19 @@ namespace UserManagement.Controllers
     [Authorize(Roles = "Superadmin, Адміністрація ректорату, Адміністрація деканату, Керівник кафедри")]
     public class UsersManagementController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext DB = new ApplicationDbContext();
+        //public ApplicationDbContext DB
+        //{
+        //    get
+        //    {
+        //        return db ?? new ApplicationDbContext();
+        //    }
+        //    private set
+        //    {
+        //        db = value;
+        //    }
+        //}
+
         private ApplicationUserManager _userManager;
 
         public ApplicationUserManager UserManager
@@ -40,13 +53,13 @@ namespace UserManagement.Controllers
             int cathedraNumber = cathedra ?? -1;
             int facultyNumber = faculty ?? -1;
             ViewBag.IsActiveSortParm = sortOrder == null ? "is_active_desc" : sortOrder == "is_active" ? "is_active_desc" : "is_active";
-            List<ApplicationUser> list = db.Users.ToList();
-            var cathedas = db.Cathedra.ToList();
-            var faculties = db.Faculty.ToList();
+            List<ApplicationUser> list = DB.Users.ToList();
+            var cathedas = DB.Cathedra.ToList();
+            var faculties = DB.Faculty.ToList();
             Dictionary<string, List<string>> map = new Dictionary<string, List<string>>();
             list.ForEach(x =>
             {
-                map.Add(x.Id, x.Roles.Select(y => db.Roles.Find(y.RoleId).Name).ToList());
+                map.Add(x.Id, x.Roles.Select(y => DB.Roles.Find(y.RoleId).Name).ToList());
             });
             ViewBag.AllCathedras = cathedas
                 .Select(x =>
@@ -63,19 +76,19 @@ namespace UserManagement.Controllers
                          Value = x.ID.ToString()
                      }).ToList();
             ViewBag.RolesForThisUser = map;
-            var users = db.Users
+            var users = DB.Users
                 .Where(x => cathedraNumber == -1 || (cathedraNumber != -1 && x.Cathedra.ID == cathedraNumber))
                 .Where(x => facultyNumber == -1 || (facultyNumber != -1 && x.Cathedra.Faculty.ID == facultyNumber))
                 .ToList();
             var currentUser = UserManager.FindByName(User.Identity.Name);
             if (User.IsInRole("Керівник кафедри"))
             {
-                users = db.Users
+                users = DB.Users
                 .Where(x => x.Cathedra.ID == currentUser.Cathedra.ID).ToList();
             }
             if (User.IsInRole("Адміністрація деканату"))
             {
-                users = db.Users
+                users = DB.Users
                 .Where(x => cathedraNumber == -1 || (cathedraNumber != -1 && x.Cathedra.ID == cathedraNumber))
                 .Where(x => x.Cathedra.Faculty.ID == currentUser.Cathedra.Faculty.ID).ToList();
 
@@ -87,6 +100,13 @@ namespace UserManagement.Controllers
                              Text = x.Name,
                              Value = x.ID.ToString()
                          }).ToList();
+            }
+            if (User.IsInRole("Адміністрація ректорату") || User.IsInRole("Superadmin"))
+            {
+                users = DB.Users
+                    .Where(x => cathedraNumber == -1 || (cathedraNumber != -1 && x.Cathedra.ID == cathedraNumber))
+                    .Where(x => facultyNumber == -1 || (facultyNumber != -1 && x.Cathedra.Faculty.ID == facultyNumber))
+                    .ToList();
             }
             switch (sortOrder)
             {
@@ -107,12 +127,12 @@ namespace UserManagement.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ApplicationUser applicationUser = db.Users.Find(id);
+            ApplicationUser applicationUser = DB.Users.Find(id);
             if (applicationUser == null)
             {
                 return HttpNotFound();
             }
-            var userRoles = applicationUser.Roles.Select(y => db.Roles.Find(y.RoleId).Name).ToList();
+            var userRoles = applicationUser.Roles.Select(y => DB.Roles.Find(y.RoleId).Name).ToList();
             ViewBag.RolesForThisUser = userRoles;
             return View(applicationUser);
         }
@@ -124,33 +144,33 @@ namespace UserManagement.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ApplicationUser applicationUser = db.Users.Find(id);
+            ApplicationUser applicationUser = DB.Users.Find(id);
             if (applicationUser == null)
             {
                 return HttpNotFound();
             }
-            var userRoles = applicationUser.Roles.Select(y => db.Roles.Find(y.RoleId).Name).ToList();
+            var userRoles = applicationUser.Roles.Select(y => DB.Roles.Find(y.RoleId).Name).ToList();
             ViewBag.RolesForThisUser = userRoles;
             if (User.IsInRole("Superadmin"))
             {
-                ViewBag.AllRoles = db.Roles.Where(x => !userRoles.Contains(x.Name) && x.Name == "Адміністрація ректорату").Select(x => x.Name);
+                ViewBag.AllRoles = DB.Roles.Where(x => !userRoles.Contains(x.Name) && x.Name == "Адміністрація ректорату").Select(x => x.Name);
             }
             else if (User.IsInRole("Адміністрація ректорату"))
             {
-                ViewBag.AllRoles = db.Roles.Where(x => !userRoles.Contains(x.Name) && x.Name == "Адміністрація деканату").Select(x => x.Name);
+                ViewBag.AllRoles = DB.Roles.Where(x => !userRoles.Contains(x.Name) && x.Name == "Адміністрація деканату").Select(x => x.Name);
             }
             else if (User.IsInRole("Адміністрація деканату"))
             {
-                ViewBag.AllRoles = db.Roles.Where(x => !userRoles.Contains(x.Name) && x.Name == "Керівник кафедри").Select(x => x.Name);
+                ViewBag.AllRoles = DB.Roles.Where(x => !userRoles.Contains(x.Name) && x.Name == "Керівник кафедри").Select(x => x.Name);
             }
             else if (User.IsInRole("Керівник кафедри"))
             {
-                ViewBag.AllRoles = db.Roles.Where(x => !userRoles.Contains(x.Name) && x.Name == "Викладач").Select(x => x.Name);
+                ViewBag.AllRoles = DB.Roles.Where(x => !userRoles.Contains(x.Name) && x.Name == "Викладач").Select(x => x.Name);
             }
-            ViewBag.AllCathedras = db.Cathedra.ToList().Select(x => x.Name);
-            ViewBag.AllAcademicStatuses = db.AcademicStatus.ToList().Select(x => x.Value);
-            ViewBag.AllScienceDegrees = db.ScienceDegree.ToList().Select(x => x.Value);
-            ViewBag.AllPositions = db.Position.ToList().Select(x => x.Value);
+            ViewBag.AllCathedras = DB.Cathedra.ToList().Select(x => x.Name);
+            ViewBag.AllAcademicStatuses = DB.AcademicStatus.ToList().Select(x => x.Value);
+            ViewBag.AllScienceDegrees = DB.ScienceDegree.ToList().Select(x => x.Value);
+            ViewBag.AllPositions = DB.Position.ToList().Select(x => x.Value);
             return View(applicationUser);
         }
 
@@ -163,39 +183,39 @@ namespace UserManagement.Controllers
             [Bind(Include = "RoleToAdd")] string roleToAdd)
         {
             var userRoles = applicationUser.Roles
-                .Where(x => db.Roles.Find(x.RoleId).Name != "Superadmin")
-                .Select(y => db.Roles.Find(y.RoleId).Name)
+                .Where(x => DB.Roles.Find(x.RoleId).Name != "Superadmin")
+                .Select(y => DB.Roles.Find(y.RoleId).Name)
                 .ToList();
             ViewBag.RolesForThisUser = userRoles;
             if (User.IsInRole("Superadmin"))
             {
-                ViewBag.AllRoles = db.Roles.Where(x => !userRoles.Contains(x.Name) && x.Name == "Адміністрація ректорату").Select(x => x.Name);
+                ViewBag.AllRoles = DB.Roles.Where(x => !userRoles.Contains(x.Name) && x.Name == "Адміністрація ректорату").Select(x => x.Name);
             }
             else if (User.IsInRole("Адміністрація ректорату"))
             {
-                ViewBag.AllRoles = db.Roles.Where(x => !userRoles.Contains(x.Name) && x.Name == "Адміністрація деканату").Select(x => x.Name);
+                ViewBag.AllRoles = DB.Roles.Where(x => !userRoles.Contains(x.Name) && x.Name == "Адміністрація деканату").Select(x => x.Name);
             }
             else if (User.IsInRole("Адміністрація деканату"))
             {
-                ViewBag.AllRoles = db.Roles.Where(x => !userRoles.Contains(x.Name) && x.Name == "Керівник кафедри").Select(x => x.Name);
+                ViewBag.AllRoles = DB.Roles.Where(x => !userRoles.Contains(x.Name) && x.Name == "Керівник кафедри").Select(x => x.Name);
             }
             else if (User.IsInRole("Керівник кафедри"))
             {
-                ViewBag.AllRoles = db.Roles.Where(x => !userRoles.Contains(x.Name) && x.Name == "Викладач").Select(x => x.Name);
+                ViewBag.AllRoles = DB.Roles.Where(x => !userRoles.Contains(x.Name) && x.Name == "Викладач").Select(x => x.Name);
             }
-            var user = db.Users.Find(applicationUser.Id);
+            var user = DB.Users.Find(applicationUser.Id);
             if (applicationUser.IsActive && (roleToAdd == null || roleToAdd.Equals("")) && user.Roles.Count == 0)
             {
                 ViewBag.Error = "Impossible to make active user without role";
                 return View(applicationUser);
             }
             if (roleToAdd != null && !roleToAdd.Equals("") && !user
-                .Roles.Any(x => db.Roles.Find(x.RoleId).Equals(roleToAdd)))
+                .Roles.Any(x => DB.Roles.Find(x.RoleId).Equals(roleToAdd)))
             {
                 UserManager.AddToRole(applicationUser.Id, roleToAdd);
             }
             user.IsActive = applicationUser.IsActive;
-            db.SaveChanges();
+            DB.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -204,6 +224,19 @@ namespace UserManagement.Controllers
         {
             UserManager.RemoveFromRole(userId, roleName);
             return RedirectToAction("Edit", "UsersManagement", new { id = userId });
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            //if (disposing && _userManager != null)
+            //{
+            //    _userManager.Dispose();
+            //    _userManager = null;
+            //    db.Dispose();
+            //    db = null;
+            //}
+
+            //base.Dispose(disposing);
         }
     }
 }

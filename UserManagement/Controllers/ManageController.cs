@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using UserManagement.Models;
+using System.Data.Entity.Infrastructure;
 
 namespace UserManagement.Controllers
 {
@@ -181,6 +182,7 @@ namespace UserManagement.Controllers
                 user.ScienceDegree = db.ScienceDegree.First(x => x.Value == model.ScienceDegree);
                 user.Position = db.Position.First(x => x.Value == model.Position);
                 db.SaveChanges();
+
                 return RedirectToAction("Index", "Manage");
             }
 

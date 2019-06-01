@@ -125,6 +125,7 @@ namespace UserManagement.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    UserManager.AddToRole(UserManager.FindByName(model.Email).Id, "Викладач");
                     //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     var u = db.Users.Where(x => x.UserName == model.Email).First();
                     u.Cathedra = db.Cathedra.Where(x => x.Name.Equals(model.Cathedra)).FirstOrDefault();
@@ -288,5 +289,17 @@ namespace UserManagement.Controllers
             }
         }
         #endregion
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && _userManager != null)
+            {
+                _userManager.Dispose();
+                _userManager = null;
+                db.Dispose();
+            }
+
+            base.Dispose(disposing);
+        }
     }
 }

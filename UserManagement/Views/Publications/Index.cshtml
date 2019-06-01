@@ -52,7 +52,7 @@
         До: <input type="date" name="dateTo" onchange="submitDate()" value="@ViewBag.dateTo" />
     </form>
     <div>
-        @Html.ActionLink(!ViewBag.isMine ? "Мої" : "Всі", "Index", new { isMine = !ViewBag.isMine, page = ViewBag.page, dateFrom = ViewBag.dateFrom, dateTo = ViewBag.dateTo })
+        @Html.ActionLink(!ViewBag.isMine ? "Мої публікації" : "Всі публікації", "Index", new { isMine = !ViewBag.isMine, page = ViewBag.page, dateFrom = ViewBag.dateFrom, dateTo = ViewBag.dateTo })
     </div>
 </div>
 <table class="table">

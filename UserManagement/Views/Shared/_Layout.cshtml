@@ -12,6 +12,7 @@
             margin-left: 0 !important;
             margin-bottom: 0 !important;
         }
+
         a {
             text-decoration: none !important;
         }
@@ -32,8 +33,11 @@
                 <ul class="nav navbar-nav">
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li>@Html.ActionLink("Публікації", "Index", "Publications")</li>
-                        if (!User.IsInRole("Викладач"))
+                        if (User.IsInRole("Викладач"))
+                        {
+                            <li>@Html.ActionLink("Публікації", "Index", "Publications")</li>
+                        }
+                        if (User.IsInRole("Superadmin") || User.IsInRole("Адміністрація ректорату") || User.IsInRole("Адміністрація деканату") || User.IsInRole("Керівник кафедри"))
                         {
                             <li>@Html.ActionLink("Користувачі", "Index", "UsersManagement")</li>
                         }
