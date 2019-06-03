@@ -35,8 +35,7 @@ namespace UserManagement.Controllers
         // GET: Publications
         public ActionResult Index(int? page, bool? isMine, string searchString, string dateFrom, string dateTo, int? cathedra, int? faculty)
         {
-            db.Users.ToList().ForEach(x => db.Entry(x).State = EntityState.Detached);
-            db.Users.ToList();
+            db = new ApplicationDbContext();
             int pageSize = 15;
             int pageNumber = (page ?? 1);
             bool isMineWihoutNull = isMine ?? false;
@@ -151,7 +150,7 @@ namespace UserManagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name,OtherAuthors,Date,SizeOfPages,PublicationType")] Publication publication,
+        public ActionResult Create([Bind(Include = "ID,Name,OtherAuthors,Date,SizeOfPages,PublicationType,MainAuthor,IsMainAuthorRegistered")] Publication publication,
             [Bind(Include = "UserToAdd")]String[] userToAdd)
         {
             var users = db.Users.ToList();

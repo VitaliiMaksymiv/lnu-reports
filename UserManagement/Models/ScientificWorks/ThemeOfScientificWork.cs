@@ -13,5 +13,7 @@ namespace UserManagement.Models.db
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Int32 ID { get; set; }
         public String Value { get; set; }
+
+        public virtual ICollection<Report> Report { get; set; }
     }
 }

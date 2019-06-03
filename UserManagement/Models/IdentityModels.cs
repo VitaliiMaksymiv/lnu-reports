@@ -71,5 +71,7 @@ namespace UserManagement.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<UserManagement.Models.db.Report> Reports { get; set; }
     }
 }

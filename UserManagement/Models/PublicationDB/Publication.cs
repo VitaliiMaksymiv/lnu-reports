@@ -24,7 +24,13 @@ namespace UserManagement.Models.db
         public DateTime Date { get; set; }
         public Double SizeOfPages { get; set; }
         public PublicationType PublicationType { get; set; }
-
+        
+        public String MainAuthor { get; set; }
+        public Boolean IsMainAuthorRegistered { get; set; } = false;
         public virtual ICollection<ApplicationUser> User { get; set; }
+
+        public virtual ICollection<Report> PrintedPublicationReport { get; set; }
+        public virtual ICollection<Report> RecomendedPublicationReport { get; set; }
+        public virtual ICollection<Report> AcceptedToPrintPublicationReport { get; set; }
     }
 }

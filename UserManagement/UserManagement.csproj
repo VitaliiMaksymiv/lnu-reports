@@ -233,9 +233,14 @@
     <Compile Include="Migrations\201906021114538_AddedPublicationCounter.Designer.cs">
       <DependentUpon>201906021114538_AddedPublicationCounter.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906030935569_AddedReports.cs" />
+    <Compile Include="Migrations\201906030935569_AddedReports.Designer.cs">
+      <DependentUpon>201906030935569_AddedReports.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\PublicationDB\Publication.cs" />
     <Compile Include="Models\PublicationDB\PublicationType.cs" />
+    <Compile Include="Models\Reports\Report.cs" />
     <Compile Include="Models\ScientificWorks\ThemeOfScientificWork.cs" />
     <Compile Include="Models\UserManagement\AccountViewModels.cs" />
     <Compile Include="Models\UserManagement\db\AcademicStatus.cs" />
@@ -294,7 +299,9 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -333,6 +340,7 @@
     <Content Include="Views\ThemeOfScientificWorks\Details.cshtml" />
     <Content Include="Views\ThemeOfScientificWorks\Edit.cshtml" />
     <Content Include="Views\ThemeOfScientificWorks\Index.cshtml" />
+    <Content Include="Views\Reports\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -375,6 +383,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906021114538_AddedPublicationCounter.resx">
       <DependentUpon>201906021114538_AddedPublicationCounter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906030935569_AddedReports.resx">
+      <DependentUpon>201906030935569_AddedReports.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
