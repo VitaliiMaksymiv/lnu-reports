@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -121,6 +119,7 @@ namespace UserManagement.Controllers
                     GraduationDate = DateTime.Now,
                     AwardingDate = DateTime.Now,
                     DefenseYear = DateTime.Now,
+                    PublicationCounterBeforeRegistration = model.PublicationsBeforeRegister,
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)

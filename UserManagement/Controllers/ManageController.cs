@@ -178,6 +178,7 @@ namespace UserManagement.Controllers
                 user.AwardingDate = model.AwardingDate;
                 user.GraduationDate = model.GraduationDate;
                 user.DefenseYear = model.DefenseYear;
+                user.PublicationCounterBeforeRegistration = model.PublicationsBeforeRegister;
                 user.AcademicStatus = db.AcademicStatus.First(x => x.Value == model.AcademicStatus);
                 user.ScienceDegree = db.ScienceDegree.First(x => x.Value == model.ScienceDegree);
                 user.Position = db.Position.First(x => x.Value == model.Position);

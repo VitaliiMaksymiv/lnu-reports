@@ -41,6 +41,12 @@
                            "Виберіть факультет",
                     new { @class = "form-control chosen-select" })
     </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.PublicationsBeforeRegister, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.PublicationsBeforeRegister, new { @class = "form-control", @Type="number" })
+        </div>
+    </div>
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">

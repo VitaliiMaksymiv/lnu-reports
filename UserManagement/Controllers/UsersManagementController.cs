@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -153,7 +150,7 @@ namespace UserManagement.Controllers
             ViewBag.RolesForThisUser = userRoles;
             if (User.IsInRole("Superadmin"))
             {
-                ViewBag.AllRoles = DB.Roles.Where(x => !userRoles.Contains(x.Name) && x.Name == "Адміністрація ректорату").Select(x => x.Name);
+                ViewBag.AllRoles = DB.Roles.Where(x => !userRoles.Contains(x.Name)).Select(x => x.Name);
             }
             else if (User.IsInRole("Адміністрація ректорату"))
             {

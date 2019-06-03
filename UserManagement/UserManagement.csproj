@@ -58,6 +58,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -198,6 +200,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PublicationsController.cs" />
+    <Compile Include="Controllers\ThemeOfScientificWorksController.cs" />
     <Compile Include="Controllers\UsersManagementController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -222,9 +225,18 @@
     <Compile Include="Migrations\201904202109477_PublicationTypeEnum.Designer.cs">
       <DependentUpon>201904202109477_PublicationTypeEnum.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906011056196_AddedScientificWorks.cs" />
+    <Compile Include="Migrations\201906011056196_AddedScientificWorks.Designer.cs">
+      <DependentUpon>201906011056196_AddedScientificWorks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906021114538_AddedPublicationCounter.cs" />
+    <Compile Include="Migrations\201906021114538_AddedPublicationCounter.Designer.cs">
+      <DependentUpon>201906021114538_AddedPublicationCounter.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\PublicationDB\Publication.cs" />
     <Compile Include="Models\PublicationDB\PublicationType.cs" />
+    <Compile Include="Models\ScientificWorks\ThemeOfScientificWork.cs" />
     <Compile Include="Models\UserManagement\AccountViewModels.cs" />
     <Compile Include="Models\UserManagement\db\AcademicStatus.cs" />
     <Compile Include="Models\UserManagement\db\Cathedra.cs" />
@@ -316,6 +328,11 @@
     <Content Include="Views\Publications\Edit.cshtml" />
     <Content Include="Views\Publications\Index.cshtml" />
     <Content Include="Views\Manage\Update.cshtml" />
+    <Content Include="Views\ThemeOfScientificWorks\Create.cshtml" />
+    <Content Include="Views\ThemeOfScientificWorks\Delete.cshtml" />
+    <Content Include="Views\ThemeOfScientificWorks\Details.cshtml" />
+    <Content Include="Views\ThemeOfScientificWorks\Edit.cshtml" />
+    <Content Include="Views\ThemeOfScientificWorks\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -330,7 +347,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\jquery-1.10.2.min.map" />
@@ -350,6 +369,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201904202109477_PublicationTypeEnum.resx">
       <DependentUpon>201904202109477_PublicationTypeEnum.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906011056196_AddedScientificWorks.resx">
+      <DependentUpon>201906011056196_AddedScientificWorks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906021114538_AddedPublicationCounter.resx">
+      <DependentUpon>201906021114538_AddedPublicationCounter.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

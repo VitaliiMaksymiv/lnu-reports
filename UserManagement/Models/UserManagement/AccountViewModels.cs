@@ -53,6 +53,10 @@ namespace UserManagement.Models
         [Required]
         [Display(Name = "Факультет")]
         public string Faculty { get; set; }
+
+        [Required]
+        [Display(Name = "Кількість публікацій до реєстрації")]
+        public int PublicationsBeforeRegister { get; set; }
     }
 
 
@@ -75,6 +79,10 @@ namespace UserManagement.Models
         [Required]
         [Display(Name = "По-батькові")]
         public string FathersName { get; set; }
+
+        [Required]
+        [Display(Name = "Кількість публікацій до реєстрації")]
+        public int PublicationsBeforeRegister { get; set; }
 
         [Required]
         [Display(Name = "Дата народження")]

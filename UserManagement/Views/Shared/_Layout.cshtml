@@ -37,6 +37,10 @@
                         {
                             <li>@Html.ActionLink("Публікації", "Index", "Publications")</li>
                         }
+                        if (User.IsInRole("Керівник кафедри"))
+                        {
+                            <li>@Html.ActionLink("Теми наукових робіт", "Index", "ThemeOfScientificWorks")</li>
+                        }
                         if (User.IsInRole("Superadmin") || User.IsInRole("Адміністрація ректорату") || User.IsInRole("Адміністрація деканату") || User.IsInRole("Керівник кафедри"))
                         {
                             <li>@Html.ActionLink("Користувачі", "Index", "UsersManagement")</li>

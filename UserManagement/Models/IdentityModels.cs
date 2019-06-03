@@ -19,6 +19,7 @@ namespace UserManagement.Models
             this.Publication = new HashSet<Publication>();
         }
 
+        public Int32 PublicationCounterBeforeRegistration { get; set; } = 0;
         public String FirstName { get; set; } = "";
         public String LastName { get; set; } = "";
         public String FathersName { get; set; } = "";
@@ -59,6 +60,7 @@ namespace UserManagement.Models
         public DbSet<Position> Position { get; set; }
         public DbSet<Faculty> Faculty { get; set; }
         public DbSet<Publication> Publication { get; set; }
+        public DbSet<ThemeOfScientificWork> ThemeOfScientificWork { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
