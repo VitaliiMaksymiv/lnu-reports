@@ -22,7 +22,9 @@ namespace UserManagement.Controllers
         {
             int pageSize = 15;
             int pageNumber = (page ?? 1);
-            return View(db.ThemeOfScientificWork.ToList().ToPagedList(pageNumber, pageSize));
+            var user = db.Users.Where(x => x.UserName == User.Identity.Name).First();
+            var scientifthemes = db.ThemeOfScientificWork.Where(x => x.Cathedra.ID == user.Cathedra.ID).ToList();
+            return View(scientifthemes.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: ThemeOfScientificWorks/Details/5
@@ -51,10 +53,12 @@ namespace UserManagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Value")] ThemeOfScientificWork themeOfScientificWork)
+        public ActionResult Create([Bind(Include = "ID,Value,ScientificHead,PeriodFrom,PeriodTo")] ThemeOfScientificWork themeOfScientificWork)
         {
             if (ModelState.IsValid)
             {
+                var user = db.Users.Where(x => x.UserName == User.Identity.Name).First();
+                themeOfScientificWork.Cathedra = db.Cathedra.Where(x => x.ID == user.Cathedra.ID).First();
                 db.ThemeOfScientificWork.Add(themeOfScientificWork);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -83,7 +87,7 @@ namespace UserManagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Value")] ThemeOfScientificWork themeOfScientificWork)
+        public ActionResult Edit([Bind(Include = "ID,Value,ScientificHead,PeriodFrom,PeriodTo")] ThemeOfScientificWork themeOfScientificWork)
         {
             if (ModelState.IsValid)
             {

@@ -27,23 +27,28 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Report System", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <div class="navbar-brand">ЛНУ ім. Івана Франка</div>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     @if (User.Identity.IsAuthenticated)
                     {
-                        if (User.IsInRole("Викладач"))
+                        if (User.IsInRole("Superadmin") || User.IsInRole("Адміністрація ректорату") || User.IsInRole("Адміністрація деканату") || User.IsInRole("Керівник кафедри"))
                         {
-                            <li>@Html.ActionLink("Публікації", "Index", "Publications")</li>
+                            <li>@Html.ActionLink("Користувачі", "Index", "UsersManagement")</li>
                         }
                         if (User.IsInRole("Керівник кафедри"))
                         {
                             <li>@Html.ActionLink("Теми наукових робіт", "Index", "ThemeOfScientificWorks")</li>
                         }
-                        if (User.IsInRole("Superadmin") || User.IsInRole("Адміністрація ректорату") || User.IsInRole("Адміністрація деканату") || User.IsInRole("Керівник кафедри"))
+                        if (User.IsInRole("Викладач"))
                         {
-                            <li>@Html.ActionLink("Користувачі", "Index", "UsersManagement")</li>
+                            <li>@Html.ActionLink("Публікації", "Index", "Publications")</li>
+                            <li>@Html.ActionLink("Сформувати звіт", "Index", "Reports")</li>
+                        }
+                        if (User.IsInRole("Викладач") || User.IsInRole("Керівник кафедри"))
+                        {
+                            <li>@Html.ActionLink("Звіти", "Index", "ReportList")</li>
                         }
                     }
                 </ul>
@@ -55,7 +60,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Report System, LNU</p>
+            <p>&copy; @DateTime.Now.Year - ЛНУ ім. Івана Франка</p>
         </footer>
     </div>
 

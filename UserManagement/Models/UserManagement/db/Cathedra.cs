@@ -15,5 +15,6 @@ namespace UserManagement.Models.db
         public String Name { get; set; }
        
         public virtual Faculty Faculty { get; set; }
+        public virtual ICollection<ThemeOfScientificWork> ThemeOfScientificWork{ get; set; }
     }
 }

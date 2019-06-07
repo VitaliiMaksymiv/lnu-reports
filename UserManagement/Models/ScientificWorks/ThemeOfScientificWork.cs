@@ -13,7 +13,15 @@ namespace UserManagement.Models.db
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Int32 ID { get; set; }
         public String Value { get; set; }
+        public String ScientificHead { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        public DateTime PeriodFrom { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        public DateTime PeriodTo { get; set; }
 
         public virtual ICollection<Report> Report { get; set; }
+        public virtual Cathedra Cathedra { get; set; }
     }
 }

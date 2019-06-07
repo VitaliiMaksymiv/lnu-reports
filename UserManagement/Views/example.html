@@ -1,0 +1,467 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>Звіт</title>
+    <style>
+        p, h2 {
+            margin: 0;
+        }
+
+        .body {
+            line-height: 23px;
+            width: 210mm;
+            padding: 5mm 10mm;
+            margin: auto;
+            border: 1px solid black;
+        }
+
+        .header {
+            text-align: center;
+        }
+
+        .block {
+            margin-top: 25px;
+        }
+
+        .input-text {
+            margin-left: 34px;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 7px;
+        }
+
+        .table-report {
+            margin: auto;
+        }
+        .footer-text{
+            margin-top:10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="body">
+        <div class="header">
+            <h2>Індивідуальний звіт про наукову роботу в {Рік}</h2>
+            <p><i>{Посада} кафедри {кафедра} {ПІБ}</i></p>
+        </div>
+        <div class="input-text">
+            <p><b>Відомості про вченого:</b></p>
+            <p>Рік народження: {День народження}</p>
+            <p>Рік закінчення ВНЗ: {Рік}</p>
+            <p>Науковий ступінь, рік захисту: {Ступінь, рік}</p>
+            <p>Вчене звання, рік присвоєння: {Звання, рік}</p>
+        </div>
+
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                1. Участь у науково-дослідній тематиці підрозділу − шифр теми, категорія (держбюджетна,
+                госпдоговірна, в межах робочого часу), назва, стисло зміст виконаної роботи (до семи рядків).
+            </p>
+            <p class="input-text">
+                <i>
+                    {Тема наукової роботи}
+                </i>
+            </p>
+            <p class="input-text block">
+                {Опис наукової роботи}
+            </p>
+            <p class="input-text">
+                Науковий керівник: {Науковий керівник роботи}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                2. Участь у виконанні індивідуальних або колективних ґрантів (окрім ґрантів на поїздки) − згідно
+                з додатком 3.
+            </p>
+            <p class="input-text">
+                {Участь в грантах}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                3. Наукові стажування
+            </p>
+            <p class="input-text">
+                {Стажування}
+            </p>
+        </div>
+
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                4. Наукове керівництво аспірантами, здобувачами, наукове консультування при написанні
+                докторських дисертацій. Захист дисертацій аспірантами, докторантами (прізвище, назва дисертації,
+                спеціальність, дата захисту, рік закінчення аспірантури, докторантури).
+            </p>
+            <p class="input-text">
+                {Керівництво аспірантами}
+            </p>
+        </div>
+
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                5. Керівництво студентською науковою роботою, спільні публікації, керівництво студентськими
+                гуртками, підготовка студентів для участі у Всеукраїнських конкурсах студентських наукових робіт
+                тощо.
+            </p>
+            <p class="input-text">
+                {Керівництво студентськими роботами}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                6.
+            </p>
+            <table class="table-report">
+                <tr>
+                    <th>
+                        Загальна кількість наукових публікацій
+                    </th>
+                    <th>
+                        Разом
+                    </th>
+                    <th>
+                        За звітний період
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        Монографії
+                    </td>
+                    <td>
+                        {Разом}
+                    </td>
+                    <td>
+                        {За звітний період}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Підручників
+                    </td>
+                    <td>
+                        {Разом}
+                    </td>
+                    <td>
+                        {За звітний період}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Навчальні посібники
+                    </td>
+                    <td>
+                        {Разом}
+                    </td>
+                    <td>
+                        {За звітний період}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Статті
+                    </td>
+                    <td>
+                        {Разом}
+                    </td>
+                    <td>
+                        {За звітний період}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Інші наукові видання
+                    </td>
+                    <td>
+                        {Разом}
+                    </td>
+                    <td>
+                        {За звітний період}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Тез доповідей на конференціях
+                    </td>
+                    <td>
+                        {Разом}
+                    </td>
+                    <td>
+                        {За звітний період}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Патенти
+                    </td>
+                    <td>
+                        {Разом}
+                    </td>
+                    <td>
+                        {За звітний період}
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                6.1 Праці, що вийшли з друку (бібліографічний опис згідно з державним стандартом):
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                6.1.1 Монографії:
+            </p>
+            <p class="input-text">
+                {Монографії з друку}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                6.1.2 Підручники:
+            </p>
+            <p class="input-text">
+                {Підручники з друку}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                6.1.3 Навчальні посібники:
+            </p>
+            <p class="input-text">
+                {Навчальні посібники з друку}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                6.1.4  Інші наукові видання (словники, переклади наукових праць, науковий коментар,
+                бібліографічний покажчик тощо):
+            </p>
+            <p class="input-text">
+                { Інші наукові видання (словники, переклади наукових праць, науковий коментар,
+                бібліографічний покажчик тощо) з друку}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                6.1.5 Статті:
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                6.1.5.1  Статті у виданнях, які мають імпакт-фактор:
+            </p>
+            <p class="input-text">
+                {Статті}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                6.1.5.2  Статті в інших виданнях, які включені до міжнародних наукометричних баз даних Web of
+                Science, Scopus та інших:
+            </p>
+            <p class="input-text">
+                {Статті}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                6.1.5.3 Статті в інших закордонних виданнях:
+            </p>
+            <p class="input-text">
+                {Статті}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                6.1.5.4 Статті у фахових виданнях України:
+            </p>
+            <p class="input-text">
+                {Статті}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                6.1.5.5 Статті в інших виданнях України:
+            </p>
+            <p class="input-text">
+                {Статті}
+            </p>
+        </div>
+
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                6.1.6 Тези доповідей:
+            </p>
+        </div>
+
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                6.1.6.1 Тези доповідей на міжнародних конференціях:
+            </p>
+            <p class="input-text">
+                {Тези}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                6.1.6.2 Тези доповідей на вітчизняних конференціях:
+            </p>
+            <p class="input-text">
+                {Тези}
+            </p>
+        </div>
+
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                6.2. Праці, рекомендовані Вченою радою університету до друку (автори, назва праці, обсяг, дата
+                подачі):
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                6.2.1 Монографії:
+            </p>
+            <p class="input-text">
+                {Монографії з друку}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                6.2.2 Підручники:
+            </p>
+            <p class="input-text">
+                {Підручники з друку}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                6.2.3 Навчальні посібники:
+            </p>
+            <p class="input-text">
+                {Навчальні посібники з друку}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                6.2.4  Інші наукові видання (словники, переклади наукових праць, науковий коментар,
+                бібліографічний покажчик тощо):
+            </p>
+            <p class="input-text">
+                { Інші наукові видання (словники, переклади наукових праць, науковий коментар,
+                бібліографічний покажчик тощо) з друку}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                6.2.5 Статті, прийняті до друку:
+            </p>
+            <p class="input-text">
+                { Статті прийняті до друку}
+            </p>
+        </div>
+
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                7. Патентно-ліцензійна діяльність:
+            </p>
+        </div>
+
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                7.1 Заявки на винахід (корисну модель) (на видачу патенту на винахід (корисну модель)) −
+                автори, назва, № заявки, дата подачі, заявник(и):
+            </p>
+            <p class="input-text">
+                {заявка}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                7.2 Патенти на винахід (корисну модель) − автори, назва, № патенту, дата видачі, заявник(и):
+            </p>
+            <p class="input-text">
+                {патент}
+            </p>
+        </div>
+
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                8. Рецензування та опонування дисертацій, відгуки на автореферати, експертні висновки:
+            </p>
+            <p class="input-text">
+                {рецензування}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                9. Членство у спеціалізованих вчених, експертних радах, редколегіях наукових журналів тощо:
+            </p>
+            <p class="input-text">
+                {членство}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                10. Інше:
+            </p>
+            <p class="input-text">
+                {інше}
+            </p>
+        </div>
+        <div class="block input-text">
+            <p>Підпис_______________</p>
+        </div>
+        <div class="block input-text">
+            <p>
+                Звіт заслухано і затверджено на засіданні кафедри (підрозділу)
+            </p>
+            <p class="footer-text">
+                {кафедри}, протокол: {протокол}, дата: {дата}
+            </p>
+            <p class="footer-text">
+                Завідувач кафедри (керівник підрозділу) {кафедра} __________________
+            </p>
+        </div>
+    </div>
+</body>
+</html>

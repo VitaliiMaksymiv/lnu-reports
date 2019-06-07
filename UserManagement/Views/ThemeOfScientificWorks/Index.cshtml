@@ -15,6 +15,12 @@
         <th>
             Тема наукової роботи
         </th>
+        <th>
+            Науковий керівник
+        </th>
+        <th>
+            Період
+        </th>
         <th></th>
     </tr>
 
@@ -22,6 +28,12 @@
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Value)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ScientificHead)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PeriodFrom) - @Html.DisplayFor(modelItem => item.PeriodTo)
         </td>
         <td>
             @Html.ActionLink("Редагувати", "Edit", new { id=item.ID }) |

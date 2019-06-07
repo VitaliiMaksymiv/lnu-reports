@@ -1,0 +1,84 @@
+﻿@model PagedList.IPagedList<UserManagement.Models.db.Report>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Звіти";
+}
+
+<h2>Звіти</h2>
+
+<form asp-controller="ReportList" asp-action="Index" id="dateForm">
+    З: <input type="date" name="dateFrom" onchange="submitDate()" value="@ViewBag.dateFrom" />
+    До: <input type="date" name="dateTo" onchange="submitDate()" value="@ViewBag.dateTo" />
+</form>
+<table class="table">
+    <tr>
+        <th>
+            Протокол
+        </th>
+        <th>
+            Дата
+        </th>
+        <th>
+            Підписаний
+        </th>
+        <th>
+            Підтверджений
+        </th>
+        <th>
+            Користувач
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Protocol)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsSigned)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsConfirmed)
+            </td>
+            <td>
+                @item.User.LastName @item.User.FirstName @item.User.FathersName
+            </td>
+            <td>
+                @if (!item.IsSigned)
+                {
+                    @Html.ActionLink("Підписати", "Sign", new { reportId = item.ID }, new { @style = "margin-right: 5px;" })
+                    if (@item.User.UserName == @User.Identity.Name)
+                    {
+                        @Html.ActionLink("Редагувати", "Index", "Reports", new { }, new { @style = "margin-right: 5px;" })
+                    }
+                }
+                else
+                {
+                    if (User.IsInRole("Керівник кафедри") && !item.IsConfirmed)
+                    {
+                        @Html.ActionLink("Підтвердити", "Confirm", new { reportId = item.ID }, new { @style = "margin-right: 5px;" })
+                   }
+                }
+                <a href="@Url.Action("Preview", "Reports", new { reportId = item.ID })"
+                   target="_blank">
+                    Переглянути
+                </a>
+            </td>
+        </tr>
+    }
+
+</table>
+<script>
+    function submitDate() {
+        $('#dateForm').submit();
+    }
+</script>
+Сторінка @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) з @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index"))

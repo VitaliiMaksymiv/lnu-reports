@@ -26,7 +26,9 @@ namespace UserManagement.Models.db
         public String Protocol { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
+        public Boolean IsSigned { get; set; } = false;
+        public Boolean IsConfirmed { get; set; } = false;
 
         public virtual ThemeOfScientificWork ThemeOfScientificWork { get; set; }// Пункт 1
         public virtual ApplicationUser User { get; set; }
