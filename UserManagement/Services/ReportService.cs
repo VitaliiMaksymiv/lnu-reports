@@ -236,7 +236,7 @@ namespace UserManagement.Services
 
         private String GenerateHtmlTemplateWithoutBody()
         {
-            return "<!DOCTYPE html><html><head><meta charset = \"utf-8\"/><title>Звіт</title><style>p, h2 {margin: 0;}.body {line-height: 23px;width: 210mm;padding: 5mm 10mm;margin: auto;}.header {text-align: center;}.block {margin-top: 25px;}.input-text {margin-left: 34px;}table, th, td {border: 1px solid black;border-collapse: collapse;}th, td {padding: 7px;}.table-report {margin: auto;}.footer-text{margin-top:10px;}</style></head> {BODY}</html>";
+            return "<!DOCTYPE html><html><head><meta charset = \"utf-8\"/><title>Звіт</title><style>p, h2 {margin: 0;}.body {line-height: 23px;padding: 5mm 10mm;margin: auto;}.header {text-align: center;}.block {margin-top: 25px;}.input-text {margin-left: 34px;}table, th, td {border: 1px solid black;border-collapse: collapse;}th, td {padding: 7px;}.table-report {margin: auto;}.footer-text{margin-top:10px;}</style></head> {BODY}</html>";
         }
 
         private string GenerateTemplateForPunktOne()

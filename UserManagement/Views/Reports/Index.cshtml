@@ -113,7 +113,7 @@
                 </div>
                 <div style="margin-left: 15px;
                             margin-top: 20px;">
-                    <p><b>Опис роботи:</b></p>
+                    <p><b>Опис виконаної роботи:</b></p>
                     @Html.TextAreaFor(model => model.ThemeOfScientificWorkDescription, 6, 70, new
                {
                    @class = "control-label",
@@ -137,7 +137,7 @@
         {
             <div>
                 <div class="otherActionBlock">
-                    <p><b>Участь у виконанні індивідуальних або колективних ґрантів (окрім ґрантів на поїздки) − згідно з додатком 3:</b></p>
+                    <p><b>2. Участь у виконанні індивідуальних або колективних ґрантів (окрім ґрантів на поїздки) − згідно з додатком 3:</b></p>
                     @Html.TextAreaFor(model => model.ParticipationInGrands, 6, 70, new
                {
                    @class = "control-label",
@@ -147,7 +147,7 @@
                 </div>
 
                 <div class="otherActionBlock">
-                    <p><b>Наукові стажування:</b></p>
+                    <p><b>3. Наукові стажування:</b></p>
                     @Html.TextAreaFor(model => model.ScientificTrainings, 6, 70, new
                {
                    @class = "control-label",
@@ -159,7 +159,7 @@
                 <div class="otherActionBlock">
                     <p>
                         <b>
-                            Наукове керівництво аспірантами, здобувачами, наукове консультування при написанні
+                            4. Наукове керівництво аспірантами, здобувачами, наукове консультування при написанні
                             докторських дисертацій. Захист дисертацій аспірантами, докторантами (прізвище, назва дисертації,
                             спеціальність, дата захисту, рік закінчення аспірантури, докторантури):
                         </b>
@@ -175,7 +175,7 @@
                 <div class="otherActionBlock">
                     <p>
                         <b>
-                            Керівництво студентською науковою роботою, спільні публікації, керівництво студентськими
+                            5. Керівництво студентською науковою роботою, спільні публікації, керівництво студентськими
                             гуртками, підготовка студентів для участі у Всеукраїнських конкурсах студентських наукових робіт
                             тощо:
                         </b>
@@ -191,7 +191,7 @@
                 <div class="otherActionBlock">
                     <p>
                         <b>
-                            Заявки на винахід (корисну модель) (на видачу патенту на винахід (корисну модель)) −
+                            7.1. Заявки на винахід (корисну модель) (на видачу патенту на винахід (корисну модель)) −
                             автори, назва, № заявки, дата подачі, заявник(и):
                         </b>
                     </p>
@@ -206,7 +206,7 @@
                 <div class="otherActionBlock">
                     <p>
                         <b>
-                            Патенти на винахід (корисну модель) − автори, назва, № патенту, дата видачі, заявник(и):
+                            7.2. Патенти на винахід (корисну модель) − автори, назва, № патенту, дата видачі, заявник(и):
                         </b>
                     </p>
                     @Html.TextAreaFor(model => model.PatentForInevention, 6, 70, new
@@ -220,7 +220,7 @@
                 <div class="otherActionBlock">
                     <p>
                         <b>
-                            Рецензування та опонування дисертацій, відгуки на автореферати, експертні висновки:
+                            8. Рецензування та опонування дисертацій, відгуки на автореферати, експертні висновки:
                         </b>
                     </p>
                     @Html.TextAreaFor(model => model.ReviewForTheses, 6, 70, new
@@ -234,7 +234,7 @@
                 <div class="otherActionBlock">
                     <p>
                         <b>
-                            Членство у спеціалізованих вчених, експертних радах, редколегіях наукових журналів тощо:
+                            9. Членство у спеціалізованих вчених, експертних радах, редколегіях наукових журналів тощо:
                         </b>
                     </p>
                     @Html.TextAreaFor(model => model.MembershipInCouncils, 6, 70, new
@@ -248,7 +248,7 @@
                 <div class="otherActionBlock">
                     <p>
                         <b>
-                            Інше:
+                            10. Інше:
                         </b>
                     </p>
                     @Html.TextAreaFor(model => model.Other, 6, 70, new
@@ -315,7 +315,8 @@
                         display: flex;
                         justify-content: space-evenly;">
             @Html.ActionLink("Підписати", "SignIn", "ReportList", new { reportId = Model.ID }, new { @class = "btn btn-default" })
-            @Html.ActionLink("Експорт у PDF", "PreviewPdf", "Reports", new { reportId = Model.ID }, new { @class = "btn btn-default" })
+                        @Html.ActionLink("Експорт у PDF", "PreviewPdf", "Reports", new { reportId = Model.ID }, new { @class = "btn btn-default", @target="_blank" })
+                        @Html.ActionLink("Експорт у LaTex", "GetLatex", "Reports", new { reportId = Model.ID }, new { @class = "btn btn-default" })
             <a href="@Url.Action("Preview", "Reports", new { reportId = Model.ID })"
                target="_blank"
                class="btn btn-default">

@@ -2,6 +2,8 @@
 using Rotativa;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using UserManagement.Converter;
@@ -90,6 +92,41 @@ namespace UserManagement.Controllers
         public ActionResult PreviewPdf(int reportId)
         {
             return new ActionAsPdf("Preview", new { reportId = reportId});
+        }
+
+        public ActionResult GetLatex(int reportId)
+        {
+            String content = reportService.GenerateHTMLReport(reportId);
+            var file = Path.Combine("D://test.html");
+            System.IO.File.WriteAllText(file, content);
+            String result = "";
+            var proc = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = "C://Users//maryc_1mz6n6s//AppData//Local//Pandoc//pandoc.exe",
+                    Arguments = @"--from html D://test.html --to latex -s --wrap=preserve",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    CreateNoWindow = true
+                }
+            };
+            proc.Start();
+            int i = 0;
+            while (!proc.StandardOutput.EndOfStream)
+            {
+                string line = proc.StandardOutput.ReadLine();
+                result += line;
+                result += "\n";
+                i++;
+                if (i == 8)
+                {
+                    result += @"\usepackage[ukrainian]{babel}" + "\n";
+                }
+            }
+
+            return File(System.Text.Encoding.GetEncoding(866).GetBytes(result), "application/x-latex", "report.latex");
         }
 
         private void CreateOrUpdateReport(ReportViewModel reportViewModel, int stepIndex)

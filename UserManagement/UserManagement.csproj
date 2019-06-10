@@ -290,6 +290,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\PublicationDB\Publication.cs" />
     <Compile Include="Models\PublicationDB\PublicationType.cs" />
+    <Compile Include="Models\Reports\CathedraReport.cs" />
     <Compile Include="Models\Reports\Report.cs" />
     <Compile Include="Models\Reports\ReportViewModel.cs" />
     <Compile Include="Models\ScientificWorks\ThemeOfScientificWork.cs" />

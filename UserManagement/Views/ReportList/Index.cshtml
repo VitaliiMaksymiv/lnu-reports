@@ -94,6 +94,9 @@
                 {
                     @Html.ActionLink("Завернути", "Negate", "ReportList", new { reportId = item.ID }, new { @style = "margin-right: 5px;" })
                 }
+
+                @Html.ActionLink("PDF", "PreviewPdf", "Reports", new { reportId = item.ID }, new { @target = "_blank" })
+                @Html.ActionLink("LaTex", "GetLatex", "Reports", new { reportId = item.ID }, new { @style="margin-left:5px;"})
             </td>
         </tr>
     }
