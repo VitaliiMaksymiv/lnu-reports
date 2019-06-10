@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using UserManagement.Models;
+using UserManagement.Models.db;
 
 namespace UserManagement.Controllers
 {
@@ -128,6 +129,17 @@ namespace UserManagement.Controllers
                     //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     var u = db.Users.Where(x => x.UserName == model.Email).First();
                     u.Cathedra = db.Cathedra.Where(x => x.Name.Equals(model.Cathedra)).FirstOrDefault();
+                    foreach (var i in Enum.GetNames(typeof(Language)))
+                    {
+                        u.I18nUserInitials.Add(new I18nUserInitials()
+                        {
+                            Language = (Language)Enum.Parse(typeof(Language), i),
+                            FirstName = "",
+                            LastName = "",
+                            FathersName = "",
+                            User = u,
+                        });
+                    }
                     db.SaveChanges();
                     return RedirectToAction("Login", "Account");
                 }

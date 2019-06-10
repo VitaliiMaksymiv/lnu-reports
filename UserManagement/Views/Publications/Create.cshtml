@@ -7,14 +7,21 @@
 <h2>Створити</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Публікації</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label class="control-label col-md-2">Мова публікації</label>
+            @Html.DropDownList("Language",
+             new SelectList(ViewBag.AllLanguages, "Value", "Text"),
+             "Виберіть мову",
+             new { @class = "form-control col-md-2", @style = "margin-left: 15px;", @id = "languageSelect" })
+        </div>
         <div class="form-group">
             <label class="control-label col-md-2">Назва</label>
             <div class="col-md-10">
@@ -36,8 +43,12 @@
             @Html.DropDownList("PublicationType",
              new SelectList(ViewBag.AllPublicationTypes, "Value", "Text"),
              "Виберіть тип публікації",
-             new { @class = "form-control col-md-2", @style= "margin-left: 15px;", @onchange = "publicationTypeChange(this)"
-            })
+             new
+             {
+                 @class = "form-control col-md-2",
+                 @style = "margin-left: 15px;",
+                 @onchange = "publicationTypeChange(this)"
+             })
         </div>
 
         <div class="form-group sizeOfPages">
@@ -45,6 +56,47 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.SizeOfPages, new { htmlAttributes = new { @class = "form-control", @Value = 0 } })
                 @Html.ValidationMessageFor(model => model.SizeOfPages, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Посилання на публікацію в інтернеті</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Link, new { htmlAttributes = new { @class = "form-control", @id = "OtherAuthors" } })
+                @Html.ValidationMessageFor(model => model.Link, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Видавництво</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Edition, new { htmlAttributes = new { @class = "form-control", @id = "OtherAuthors" } })
+                @Html.ValidationMessageFor(model => model.Edition, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Назва журналу</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Magazine, new { htmlAttributes = new { @class = "form-control", @id = "OtherAuthors" } })
+                @Html.ValidationMessageFor(model => model.Magazine, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">ДОІ</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DOI, new { htmlAttributes = new { @class = "form-control", @id = "OtherAuthors" } })
+                @Html.ValidationMessageFor(model => model.DOI, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Том</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Tome, new { htmlAttributes = new { @class = "form-control", @id = "OtherAuthors" } })
+                @Html.ValidationMessageFor(model => model.Tome, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -60,12 +112,14 @@
             <label class="control-label col-md-2">Додати авторів</label>
             @Html.DropDownList("UserToAdd",
                 new MultiSelectList(ViewBag.AllUsers, "Value", "Text"),
-                new { @class = "form-control col-md-2 chosen-select",
-                    @Multiple ="multiple",
+                new
+                {
+                    @class = "form-control col-md-2 chosen-select",
+                    @Multiple = "multiple",
                     @id = "ddlMultiSelect",
-                    })
+                })
         </div>
-        <input hidden id="isMainAuthorRegistered" name="IsMainAuthorRegistered" value="false"/>
+        <input hidden id="isMainAuthorRegistered" name="IsMainAuthorRegistered" value="false" />
         <input hidden id="MainAuthor" name="MainAuthor" />
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -103,6 +157,12 @@
 
 <script type="text/javascript">
     function updateSelect() {
+        $('#languageSelect').on("change", function (e) {
+            var url = location.protocol + '//' + location.host + location.pathname;
+            url += '?language=' + e.target.value;
+            window.location.href = url;
+        });
+
         $('.chosen-select').on('chosen:ready', function () {
             $(".chosen-search-input").keydown(function (event) {
                 var newAuthor = $('.chosen-search-input').val();

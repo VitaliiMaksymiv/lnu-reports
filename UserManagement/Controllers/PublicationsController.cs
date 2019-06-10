@@ -38,7 +38,7 @@ namespace UserManagement.Controllers
             db = new ApplicationDbContext();
             int pageSize = 15;
             int pageNumber = (page ?? 1);
-            bool isMineWihoutNull = isMine ?? false;
+            bool isMineWihoutNull = isMine ?? true;
             int cathedraNumber = cathedra ?? -1;
             int facultyNumber = faculty ?? -1;
             string dateFromVerified = dateFrom ?? "";
@@ -120,25 +120,32 @@ namespace UserManagement.Controllers
                 return HttpNotFound();
             }
             ViewBag.PublicationUsers = String.Join(", ", publication.User
-                .Select(x => String.Join(" ", x.LastName, x.FirstName, x.FathersName))
+                .Select(x => String.Join(" ", x.I18nUserInitials.Single(y => y.Language == publication.Language).LastName,
+                                              x.I18nUserInitials.Single(y => y.Language == publication.Language).FirstName,
+                                              x.I18nUserInitials.Single(y => y.Language == publication.Language).FathersName))
                     .ToList());
             return View(publication);
         }
 
         // GET: Publications/Create
-        public ActionResult Create()
+        public ActionResult Create(string language)
         {
+            var languageVerified = language == null || language == "" ? "UA" : language;
             var users = db.Users.Where(x => x.IsActive == true).ToList();
             ViewBag.AllPublicationTypes = Enum.GetNames(typeof(PublicationType))
                 .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
+            ViewBag.AllLanguages = Enum.GetNames(typeof(Language))
+                .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
             ViewBag.AllUsers = users
-                .Where(x => UserManager.IsInRole(x.Id, "Викладач") || UserManager.IsInRole(x.Id, "Керівник кафедри") 
+                .Where(x => UserManager.IsInRole(x.Id, "Викладач") || UserManager.IsInRole(x.Id, "Керівник кафедри")
                 || UserManager.IsInRole(x.Id, "Адміністрація ректорату") || UserManager.IsInRole(x.Id, "Адміністрація деканату"))
                 .Select(x =>
                      new SelectListItem
                      {
                          Selected = false,
-                         Text = String.Join(" ", x.LastName, x.FirstName, x.FathersName),
+                         Text = String.Join(" ", x.I18nUserInitials.Single(y => y.Language == (Language)Enum.Parse(typeof(Language), languageVerified)).LastName,
+                                                 x.I18nUserInitials.Single(y => y.Language == (Language)Enum.Parse(typeof(Language), languageVerified)).FirstName,
+                                                 x.I18nUserInitials.Single(y => y.Language == (Language)Enum.Parse(typeof(Language), languageVerified)).FathersName),
                          Value = x.Id
                      })
                     .ToList();
@@ -150,18 +157,23 @@ namespace UserManagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name,OtherAuthors,Date,SizeOfPages,PublicationType,MainAuthor,IsMainAuthorRegistered")] Publication publication,
+        public ActionResult Create([Bind(Include = "ID,Name,OtherAuthors,Date,SizeOfPages,PublicationType," +
+            "MainAuthor,IsMainAuthorRegistered,Language,Link,Edition,Magazine,DOI,Tome")] Publication publication,
             [Bind(Include = "UserToAdd")]String[] userToAdd)
         {
-            var users = db.Users.ToList();
+            var users = db.Users.Where(x => x.Roles.Count == 1 && x.Roles.Any(y => y.RoleId != db.Roles.Where(z => z.Name == "Superadmin").FirstOrDefault().Id)).ToList();
             ViewBag.AllPublicationTypes = Enum.GetNames(typeof(PublicationType))
                 .Select(x => new SelectListItem { Selected = false, Text = x, Value = x }).ToList();
+            ViewBag.AllLanguages = Enum.GetNames(typeof(Language))
+                .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
             ViewBag.AllUsers = users
                 .Select(x =>
                      new SelectListItem
                      {
                          Selected = false,
-                         Text = String.Join(" ", x.LastName, x.FirstName, x.FathersName),
+                         Text = String.Join(" ", x.I18nUserInitials.FirstOrDefault(y => y.Language == publication.Language).LastName,
+                                                 x.I18nUserInitials.FirstOrDefault(y => y.Language == publication.Language).FirstName,
+                                                 x.I18nUserInitials.FirstOrDefault(y => y.Language == publication.Language).FathersName),
                          Value = x.Id
                      })
                     .ToList();
@@ -209,16 +221,20 @@ namespace UserManagement.Controllers
             }
             ViewBag.AllPublicationTypes = Enum.GetNames(typeof(PublicationType))
                 .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
+            ViewBag.AllLanguages = Enum.GetNames(typeof(Language))
+                .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
             var users = db.Users.ToList();
             ViewBag.AllUsers = users
-                .Where(x => UserManager.IsInRole(x.Id, "Викладач") || UserManager.IsInRole(x.Id, "Адміністрація ректорату") || 
+                .Where(x => UserManager.IsInRole(x.Id, "Викладач") || UserManager.IsInRole(x.Id, "Адміністрація ректорату") ||
                 UserManager.IsInRole(x.Id, "Адміністрація деканату") || UserManager.IsInRole(x.Id, "Керівник кафедри"))
                 .Where(y => !publication.User.Contains(y) && y.IsActive)
                 .Select(x =>
                      new SelectListItem
                      {
                          Selected = false,
-                         Text = String.Join(" ", x.LastName, x.FirstName, x.FathersName),
+                         Text = String.Join(" ", x.I18nUserInitials.FirstOrDefault(y => y.Language == publication.Language).LastName,
+                                                 x.I18nUserInitials.FirstOrDefault(y => y.Language == publication.Language).FirstName,
+                                                 x.I18nUserInitials.FirstOrDefault(y => y.Language == publication.Language).FathersName),
                          Value = x.Id
                      })
                     .ToList();
@@ -230,19 +246,24 @@ namespace UserManagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Name,OtherAuthors,Date,SizeOfPages,PublicationType")] Publication publication,
+        public ActionResult Edit([Bind(Include = "ID,Name,OtherAuthors,Date,SizeOfPages,PublicationType,Language," +
+            "Link,Edition,Magazine,DOI,Tome")] Publication publication,
             [Bind(Include = "UserToAdd")]String[] userToAdd)
         {
             ViewBag.AllPublicationTypes = Enum.GetNames(typeof(PublicationType))
                 .Select(x => new SelectListItem { Selected = false, Text = x, Value = x }).ToList();
-            var users = db.Users.ToList();
+            ViewBag.AllLanguages = Enum.GetNames(typeof(Language))
+                .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
+            var users = db.Users.Where(x => x.Roles.Count == 1 && x.Roles.Any(y => y.RoleId != db.Roles.Where(z => z.Name == "Superadmin").FirstOrDefault().Id)).ToList();
             ViewBag.AllUsers = users
                 .Where(y => !publication.User.Contains(y))
                 .Select(x =>
                      new SelectListItem
                      {
                          Selected = false,
-                         Text = String.Join(" ", x.LastName, x.FirstName, x.FathersName),
+                         Text = String.Join(" ", x.I18nUserInitials.FirstOrDefault(y => y.Language == publication.Language).LastName,
+                                                 x.I18nUserInitials.FirstOrDefault(y => y.Language == publication.Language).FirstName,
+                                                 x.I18nUserInitials.FirstOrDefault(y => y.Language == publication.Language).FathersName),
                          Value = x.Id
                      })
                     .ToList();
@@ -265,6 +286,7 @@ namespace UserManagement.Controllers
                 publicationFromDB.OtherAuthors = publication.OtherAuthors;
                 publicationFromDB.PublicationType = publication.PublicationType;
                 publicationFromDB.SizeOfPages = publication.SizeOfPages;
+                publicationFromDB.Language = publication.Language;
                 publicationFromDB.Date = publication.Date;
                 if (userToAdd != null && userToAdd.Length != 0)
                 {
@@ -290,6 +312,10 @@ namespace UserManagement.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Publication publication = db.Publication.Find(id);
+            if (publication.AcceptedToPrintPublicationReport.Union(publication.PrintedPublicationReport.Union(publication.RecomendedPublicationReport)).Count() > 0)
+            {
+                ViewBag.Exists = "Ця публікація включена в звіт. Неможливо видалити.";
+            }
             if (publication == null)
             {
                 return HttpNotFound();
@@ -303,6 +329,10 @@ namespace UserManagement.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Publication publication = db.Publication.Find(id);
+            if (publication.AcceptedToPrintPublicationReport.Union(publication.PrintedPublicationReport.Union(publication.RecomendedPublicationReport)).Count() > 0)
+            {
+                return RedirectToAction("Index");
+            }
             db.Publication.Remove(publication);
             db.SaveChanges();
             return RedirectToAction("Index");

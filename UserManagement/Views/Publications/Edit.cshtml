@@ -7,10 +7,10 @@
 <h2>Редагувати</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit", "Publications", FormMethod.Post, new { @id="editForm"}))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Публікації</h4>
         <hr />
@@ -29,7 +29,7 @@
             <label class="control-label col-md-2">Інші автори</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.OtherAuthors, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.OtherAuthors, "", new { @class = "text-danger", @id= "OtherAuthors" })
+                @Html.ValidationMessageFor(model => model.OtherAuthors, "", new { @class = "text-danger", @id = "OtherAuthors" })
             </div>
         </div>
 
@@ -55,13 +55,66 @@
              "Виберіть тип",
              new { @class = "form-control col-md-2", @style = "margin-left: 15px;" })
         </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Мова публікації</label>
+            @Html.DropDownList("Language",
+             new SelectList(ViewBag.AllLanguages, "Value", "Text"),
+             "Виберіть мову",
+             new { @class = "form-control col-md-2", @style = "margin-left: 15px;", @id="languageSelect" })
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Посилання на публікацію в інтернеті</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Link, new { htmlAttributes = new { @class = "form-control", @id = "OtherAuthors" } })
+                @Html.ValidationMessageFor(model => model.Link, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Видавництво</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Edition, new { htmlAttributes = new { @class = "form-control", @id = "OtherAuthors" } })
+                @Html.ValidationMessageFor(model => model.Edition, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Назва журналу</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Magazine, new { htmlAttributes = new { @class = "form-control", @id = "OtherAuthors" } })
+                @Html.ValidationMessageFor(model => model.Magazine, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">ДОІ</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DOI, new { htmlAttributes = new { @class = "form-control", @id = "OtherAuthors" } })
+                @Html.ValidationMessageFor(model => model.DOI, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Том</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Tome, new { htmlAttributes = new { @class = "form-control", @id = "OtherAuthors" } })
+                @Html.ValidationMessageFor(model => model.Tome, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
         <div class="form-group">
             <label class="control-label col-md-2">Зареєстровані автори</label>
             <div class="col-md-10" style="padding-top:7px">
                 @foreach (var i in Model.User)
                 {
-                    <div>@i.LastName&nbsp;@i.FirstName</div>
+                    foreach (var initial in i.I18nUserInitials)
+                    {
+                        if (initial.Language == Model.Language)
+                        {
+                            <div>@initial.FirstName&nbsp;@initial.LastName</div>
+                            break;
+                        }
+                    }
                     @Html.ActionLink("Видалити", "DeleteUser", new { publicationId = Model.ID, userId = i.Id })
                 }
             </div>
@@ -108,6 +161,10 @@
 <script src="/../Scripts/docsupport/prism.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
     function updateSelect() {
+        $('#languageSelect').on("change", function () {
+            $('#editForm').submit();
+        });
+
         $('.chosen-select').on('chosen:ready', function () {
             $(".chosen-search-input").keydown(function (event) {
                 var newAuthor = $('.chosen-search-input').val();

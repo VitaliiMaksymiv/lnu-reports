@@ -50,8 +50,54 @@
         <dd>
             @Html.DisplayFor(model => model.PublicationType)
         </dd>
+        <dt>
+            Мова
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Language)
+        </dd>
+
+        <dt>
+            Посилання на публікацію в інтернеті
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Link)
+        </dd>
+        <dt>
+            Видавництво
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Edition)
+        </dd>
+        <dt>
+            Назва журналу
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Magazine)
+        </dd>
+        <dt>
+            ДОІ
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DOI)
+        </dd>
+        <dt>
+            Том
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tome)
+        </dd>
+
 
     </dl>
+
+    <p class="danger">@ViewBag.Exists</p>
 
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()

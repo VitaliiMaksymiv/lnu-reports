@@ -4,6 +4,7 @@ using Microsoft.Owin;
 using Owin;
 using System;
 using UserManagement.Models;
+using UserManagement.Models.db;
 
 [assembly: OwinStartup(typeof(UserManagement.Startup))]
 namespace UserManagement
@@ -36,9 +37,6 @@ namespace UserManagement
                 var user = new ApplicationUser();
                 user.UserName = "superadmin@lnu.edu.ua";
                 user.Email = "superadmin@lnu.edu.ua";
-                user.FirstName = "superadmin@lnu.edu.ua";
-                user.LastName = "superadmin@lnu.edu.ua";
-                user.FathersName = "superadmin@lnu.edu.ua";
                 user.BirthDate = DateTime.Now;
                 user.DefenseYear = DateTime.Now;
                 user.AwardingDate = DateTime.Now;
@@ -47,14 +45,14 @@ namespace UserManagement
                 string userPWD = "qwerty1";
 
                 var chkUser = UserManager.Create(user, userPWD);
- 
+
                 if (chkUser.Succeeded)
                 {
                     var result1 = UserManager.AddToRole(user.Id, "Superadmin");
 
                 }
             }
-            
+
             if (!roleManager.RoleExists("Викладач"))
             {
                 var role = new IdentityRole();
@@ -82,6 +80,8 @@ namespace UserManagement
                 role.Name = "Керівник кафедри";
                 roleManager.Create(role);
             }
+
+            
         }
     }
 }

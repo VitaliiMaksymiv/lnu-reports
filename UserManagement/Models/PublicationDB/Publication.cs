@@ -24,6 +24,12 @@ namespace UserManagement.Models.db
         public DateTime Date { get; set; }
         public Double SizeOfPages { get; set; }
         public PublicationType PublicationType { get; set; }
+        public Language Language { get; set; }
+        public String Link { get; set; }
+        public String Edition { get; set; }
+        public String Magazine { get; set; }
+        public String DOI { get; set; }
+        public String Tome { get; set; }
         
         public String MainAuthor { get; set; }
         public Boolean IsMainAuthorRegistered { get; set; } = false;

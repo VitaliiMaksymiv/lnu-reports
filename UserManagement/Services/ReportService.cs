@@ -61,6 +61,8 @@ namespace UserManagement.Services
         private static String SCIENCE_DEGREE_YEAR_CONST = "{SCIENCE_DEGREE_YEAR}";
         private static String THEME_SCIENTIFIC_WORK_CONST = "{THEME_SCIENTIFIC_WORK}";
         private static String DESCR_SCIENTIFIC_WORK_CONST = "{DESCR_SCIENTIFIC_WORK_CONST}";
+        private static String THEME_NUMBER_SCIENTIFIC_WORK_CONST = "{THEME_NUMBER_SCIENTIFIC_WORK_CONST}";
+        private static String PERIOD_SCIENTIFIC_WORK_CONST = "{PERIOD_SCIENTIFIC_WORK_CONST}";
         private static String HEAD_SCIENTIFIC_WORK_CONST = "{HEAD_SCIENTIFIC_WORK_CONST}";
         private static String PROTOCOL_CONST = "{PROTOCOL_CONST}";
         private static String DATE_CONST = "{DATE_CONST}";
@@ -234,17 +236,18 @@ namespace UserManagement.Services
 
         private String GenerateHtmlTemplateWithoutBody()
         {
-            return "<!DOCTYPE html><html><head><meta charset = \"utf-8\"/><title>Звіт</title><style>p, h2 {margin: 0;}.body {line-height: 23px;width: 210mm;padding: 5mm 10mm;margin: auto;border: 1px solid black;}.header {text-align: center;}.block {margin-top: 25px;}.input-text {margin-left: 34px;}table, th, td {border: 1px solid black;border-collapse: collapse;}th, td {padding: 7px;}.table-report {margin: auto;}.footer-text{margin-top:10px;}</style></head> {BODY}</html>";
+            return "<!DOCTYPE html><html><head><meta charset = \"utf-8\"/><title>Звіт</title><style>p, h2 {margin: 0;}.body {line-height: 23px;width: 210mm;padding: 5mm 10mm;margin: auto;}.header {text-align: center;}.block {margin-top: 25px;}.input-text {margin-left: 34px;}table, th, td {border: 1px solid black;border-collapse: collapse;}th, td {padding: 7px;}.table-report {margin: auto;}.footer-text{margin-top:10px;}</style></head> {BODY}</html>";
         }
 
         private string GenerateTemplateForPunktOne()
         {
             return "<div class=\"block\"><p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp1.Участь у науково-дослідній тематиці підрозділу − шифр теми, категорія (держбюджетна,госпдоговірна, в межах робочого часу), назва, стисло зміст виконаної роботи(до семи рядків).</p><p class=\"input-text\"><i>"
-                + THEME_SCIENTIFIC_WORK_CONST
+                + THEME_SCIENTIFIC_WORK_CONST + ". " 
+                + THEME_NUMBER_SCIENTIFIC_WORK_CONST 
+                + "; " + HEAD_SCIENTIFIC_WORK_CONST + " "
+                + PERIOD_SCIENTIFIC_WORK_CONST
                 + "</i></p><p class=\"input-text block\">"
                 + DESCR_SCIENTIFIC_WORK_CONST
-                + "</p><p class=\"input-text\">Науковий керівник: "
-                + HEAD_SCIENTIFIC_WORK_CONST
                 + "</p></div>";
         }
         private string GenerateTemplateForGenericPunkt(String title)
@@ -291,12 +294,13 @@ namespace UserManagement.Services
 
         private string GetHeaderOfReport(Report report)
         {
+            var initials = report.User.I18nUserInitials.Where(x => x.Language == Language.UA).First();
             return ReplaceStringWithParameters(GenerateTemplateForHeadOfReport(), new Dictionary<string, string>()
             {
                 [YEAR_CONST] = report.Date.Value.Year.ToString(),
                 [POSITION_CONST] = report.User.Position.Value,
                 [CATHEDRA_CONST] = report.User.Cathedra.Name.Replace("Кафедра ", ""),
-                [USER_NAME_CONST] = report.User.LastName + " " + report.User.FirstName + " " + report.User.FathersName,
+                [USER_NAME_CONST] = initials.LastName + " " + initials.FirstName + " " + initials.FathersName,
                 [BIRTHDAY_CONST] = report.User.BirthDate.ToString("yyyy-MM-dd"),
                 [GRADUATION_YEAR_CONST] = report.User.GraduationDate.Year.ToString(),
                 [ACADEMIC_STATUS_YEAR_CONST] = report.User.AcademicStatus.Value == "Без ступеня" ? report.User.AcademicStatus.Value : report.User.AcademicStatus.Value + ", " + report.User.DefenseYear.Year.ToString(),
@@ -312,6 +316,8 @@ namespace UserManagement.Services
             return ReplaceStringWithParameters(GenerateTemplateForPunktOne(), new Dictionary<string, string>()
             {
                 [THEME_SCIENTIFIC_WORK_CONST] = report.ThemeOfScientificWork.Value,
+                [THEME_NUMBER_SCIENTIFIC_WORK_CONST] = report.ThemeOfScientificWork.ThemeNumber,
+                [PERIOD_SCIENTIFIC_WORK_CONST] = report.ThemeOfScientificWork.PeriodFrom.Year.ToString() + " - " + report.ThemeOfScientificWork.PeriodTo.Year.ToString(),
                 [DESCR_SCIENTIFIC_WORK_CONST] = report.ThemeOfScientificWorkDescription,
                 [HEAD_SCIENTIFIC_WORK_CONST] = report.ThemeOfScientificWork.ScientificHead,
             });

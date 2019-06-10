@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using UserManagement.Models.db;
 
 namespace UserManagement.Models
 {
@@ -69,16 +70,7 @@ namespace UserManagement.Models
         public string Email { get; set; }
 
         [Required]
-        [Display(Name = "Ім’я")]
-        public string FirstName { get; set; }
-
-        [Required]
-        [Display(Name = "Прізвище")]
-        public string LastName { get; set; }
-
-        [Required]
-        [Display(Name = "По-батькові")]
-        public string FathersName { get; set; }
+        public ICollection<I18nUserInitials> I18nUserInitials { get; set; }
 
         [Required]
         [Display(Name = "Кількість публікацій до реєстрації")]

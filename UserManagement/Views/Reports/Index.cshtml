@@ -89,7 +89,7 @@
             }
             <div class="buttonsBlock">
                 <div></div>
-                <button type="button" onclick="handleNextStep()" class="btn btn-default nextButton">Next</button>
+                <button type="button" onclick="handleNextStep()" class="btn btn-default nextButton">Наступна</button>
             </div>
             <input hidden name="stepIndex" id="stepIndex_1" />
             <input hidden name="oldIndex" id="oldIndex_1" />
@@ -123,8 +123,8 @@
                 </div>
             </div>
             <div class="buttonsBlock">
-                <button type="button" onclick="handlePreviousStep()" class="btn btn-default nextButton">Previous</button>
-                <button type="button" onclick="handleNextStep()" class="btn btn-default nextButton">Next</button>
+                <button type="button" onclick="handlePreviousStep()" class="btn btn-default nextButton">Попередня</button>
+                <button type="button" onclick="handleNextStep()" class="btn btn-default nextButton">Наступна</button>
             </div>
             <input hidden name="stepIndex" value="@ViewBag.stepIndex" id="stepIndex_2" />
             <input hidden name="oldIndex" id="oldIndex_2" />
@@ -261,8 +261,8 @@
 
             </div>
             <div class="buttonsBlock">
-                <button type="button" onclick="handlePreviousStep()" class="btn btn-default nextButton">Previous</button>
-                <button type="button" onclick="handleNextStep()" class="btn btn-default nextButton">Next</button>
+                <button type="button" onclick="handlePreviousStep()" class="btn btn-default nextButton">Попередня</button>
+                <button type="button" onclick="handleNextStep()" class="btn btn-default nextButton">Наступна</button>
                 <div></div>
             </div>
             <input hidden name="stepIndex" value="@ViewBag.stepIndex" id="stepIndex_3" />
@@ -295,8 +295,8 @@
             </div>
             @Html.ValidationSummary("", new { @class = "text-danger" })
             <div class="buttonsBlock">
-                <button type="button" onclick="handlePreviousStep()" class="btn btn-default nextButton">Previous</button>
-                <button type="button" onclick="handleNextStep()" class="btn btn-default nextButton">Finish</button>
+                <button type="button" onclick="handlePreviousStep()" class="btn btn-default nextButton">Попередня</button>
+                <button type="button" onclick="handleNextStep()" class="btn btn-default nextButton">Завершення</button>
             </div>
             <input hidden name="stepIndex" value="@ViewBag.stepIndex" id="stepIndex_4" />
             <input hidden name="oldIndex" id="oldIndex_4" />
@@ -305,22 +305,23 @@
     </section>
     <h3>Завершення</h3>
     <section class="sectionBody">
-            <div style="text-align: center;
+        <div style="text-align: center;
                         margin: 20px;
                         font-size: 22px;
                         color: green;">
-                Ваш звіт успішно заповнено!
-            </div>
-            <div style="padding-top: 50px;
+            Ваш звіт успішно заповнено!
+        </div>
+        <div style="padding-top: 50px;
                         display: flex;
                         justify-content: space-evenly;">
-                @Html.ActionLink("Підписати", "SignIn", "ReportList", new { reportId = Model.ID}, new { @class = "btn btn-default"})
-                <a href="@Url.Action("Preview", "Reports", new { reportId = Model.ID })"
-                   target="_blank"
-                   class="btn btn-default">
-                    Переглянути
-                </a>
-            </div>
+            @Html.ActionLink("Підписати", "SignIn", "ReportList", new { reportId = Model.ID }, new { @class = "btn btn-default" })
+            @Html.ActionLink("Експорт у PDF", "PreviewPdf", "Reports", new { reportId = Model.ID }, new { @class = "btn btn-default" })
+            <a href="@Url.Action("Preview", "Reports", new { reportId = Model.ID })"
+               target="_blank"
+               class="btn btn-default">
+                Переглянути
+            </a>
+        </div>
     </section>
 </div>
 

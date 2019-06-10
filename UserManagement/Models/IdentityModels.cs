@@ -20,9 +20,6 @@ namespace UserManagement.Models
         }
 
         public Int32 PublicationCounterBeforeRegistration { get; set; } = 0;
-        public String FirstName { get; set; } = "";
-        public String LastName { get; set; } = "";
-        public String FathersName { get; set; } = "";
         public Boolean IsActive { get; set; } = false;
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
@@ -42,6 +39,7 @@ namespace UserManagement.Models
         public virtual ScienceDegree ScienceDegree { get; set; }
         public virtual Position Position { get; set; }
         public virtual ICollection<Publication> Publication { get; set; }
+        public virtual ICollection<I18nUserInitials> I18nUserInitials { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

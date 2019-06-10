@@ -55,6 +55,9 @@
     <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="Rotativa, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rotativa.1.7.4-rc\lib\net45\Rotativa.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -264,6 +267,26 @@
     <Compile Include="Migrations\201906041317517_AddedConfirmedReportFieldNullable.Designer.cs">
       <DependentUpon>201906041317517_AddedConfirmedReportFieldNullable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906070917560_AddedI18nUsersInitials.cs" />
+    <Compile Include="Migrations\201906070917560_AddedI18nUsersInitials.Designer.cs">
+      <DependentUpon>201906070917560_AddedI18nUsersInitials.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906090908527_ChangedUserName.cs" />
+    <Compile Include="Migrations\201906090908527_ChangedUserName.Designer.cs">
+      <DependentUpon>201906090908527_ChangedUserName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906091122030_AddedThemeNumber.cs" />
+    <Compile Include="Migrations\201906091122030_AddedThemeNumber.Designer.cs">
+      <DependentUpon>201906091122030_AddedThemeNumber.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906091500239_AddedThemeFinancials.cs" />
+    <Compile Include="Migrations\201906091500239_AddedThemeFinancials.Designer.cs">
+      <DependentUpon>201906091500239_AddedThemeFinancials.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906101343051_ChangedPublicationFields.cs" />
+    <Compile Include="Migrations\201906101343051_ChangedPublicationFields.Designer.cs">
+      <DependentUpon>201906101343051_ChangedPublicationFields.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\PublicationDB\Publication.cs" />
     <Compile Include="Models\PublicationDB\PublicationType.cs" />
@@ -274,6 +297,7 @@
     <Compile Include="Models\UserManagement\db\AcademicStatus.cs" />
     <Compile Include="Models\UserManagement\db\Cathedra.cs" />
     <Compile Include="Models\UserManagement\db\Faculty.cs" />
+    <Compile Include="Models\UserManagement\db\I18nUserInitials.cs" />
     <Compile Include="Models\UserManagement\db\Position.cs" />
     <Compile Include="Models\UserManagement\db\ScienceDegree.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -292,6 +316,10 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Rotativa\help-wkhtmltoimage.txt" />
+    <Content Include="Rotativa\help-wkhtmltopdf.txt" />
+    <Content Include="Rotativa\wkhtmltoimage.exe" />
+    <Content Include="Rotativa\wkhtmltopdf.exe" />
     <Content Include="Scripts\chosen-sprite%402x.png" />
     <Content Include="Scripts\chosen-sprite.png" />
     <Content Include="Scripts\chosen.css" />
@@ -321,6 +349,7 @@
     <Content Include="Scripts\jquery.steps.js" />
     <Content Include="Scripts\jquery.steps.min.js" />
     <Content Include="Scripts\LICENSE.md" />
+    <Content Include="App_Browsers\qt.browser" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -377,6 +406,7 @@
     <Content Include="Views\Reports\Index.cshtml" />
     <Content Include="Views\Reports\EditorTemplates\PublicationOption.cshtml" />
     <Content Include="Views\ReportList\Index.cshtml" />
+    <Content Include="Views\Manage\EditorTemplates\I18nUserInitials.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -440,6 +470,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906041317517_AddedConfirmedReportFieldNullable.resx">
       <DependentUpon>201906041317517_AddedConfirmedReportFieldNullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906070917560_AddedI18nUsersInitials.resx">
+      <DependentUpon>201906070917560_AddedI18nUsersInitials.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906090908527_ChangedUserName.resx">
+      <DependentUpon>201906090908527_ChangedUserName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906091122030_AddedThemeNumber.resx">
+      <DependentUpon>201906091122030_AddedThemeNumber.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906091500239_AddedThemeFinancials.resx">
+      <DependentUpon>201906091500239_AddedThemeFinancials.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906101343051_ChangedPublicationFields.resx">
+      <DependentUpon>201906101343051_ChangedPublicationFields.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

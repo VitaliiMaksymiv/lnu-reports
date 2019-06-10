@@ -17,28 +17,29 @@
         <dd>
             @Html.DisplayFor(model => model.Email)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
+        @foreach (var i in Model.I18nUserInitials)
+        {
+            <dt>
+                Ім'я (@i.Language.ToString())
+            </dt>
+            <dd>
+                @i.FirstName
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
+            <dt>
+                По-батькові (@i.Language.ToString())
+            </dt>
+            <dd>
+                @i.FathersName
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.FathersName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FathersName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
+            <dt>
+                Прізвище (@i.Language.ToString())
+            </dt>
+            <dd>
+                @i.LastName
+            </dd>
+        }
 
         <dt>
             @Html.DisplayNameFor(model => model.BirthDate)

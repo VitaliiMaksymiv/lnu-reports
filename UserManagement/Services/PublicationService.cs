@@ -17,14 +17,16 @@ namespace UserManagement.Services
             string toReturn = "";
             if (user != null)
             {
-                toReturn = user.LastName + " " + user.FirstName.Substring(0, 1).ToUpper() + ". " + user.FathersName.Substring(0, 1).ToUpper() + ". ";
+                var initials = user.I18nUserInitials.Where(x => x.Language == publication.Language).First();
+                toReturn = initials.LastName + " " + initials.FirstName.Substring(0, 1).ToUpper() + ". " + initials.FathersName.Substring(0, 1).ToUpper() + ". ";
             }
             toReturn = toReturn + publication.Name + " / ";
             for (var i = 0; i < publication.User.Count; i++)
             {
-                toReturn = toReturn + publication.User.ElementAt(i).FirstName.Substring(0, 1).ToUpper()
-                    + ". " + publication.User.ElementAt(i).FathersName.Substring(0, 1).ToUpper()
-                    + ". " + publication.User.ElementAt(i).LastName;
+                var initials = publication.User.ElementAt(i).I18nUserInitials.Where(x => x.Language == publication.Language).First();
+                toReturn = toReturn + initials.FirstName.Substring(0, 1).ToUpper()
+                    + ". " + initials.FathersName.Substring(0, 1).ToUpper()
+                    + ". " + initials.LastName;
                 if (i == publication.User.Count - 1)
                 {
                     if (publication.OtherAuthors == null || publication.OtherAuthors == "")
@@ -32,7 +34,16 @@ namespace UserManagement.Services
                         toReturn = toReturn + ". – " + publication.Date.Year + ".";
                         if (publication.PublicationType == PublicationType.Монографія)
                         {
-                            toReturn = toReturn + " " + publication.SizeOfPages + " друк. арк.";
+                            toReturn = toReturn + " " + publication.SizeOfPages;
+                            switch (publication.Language)
+                            {
+                                case Language.UA:
+                                    toReturn += " друк. арк.";
+                                    break;
+                                case Language.EN:
+                                    toReturn += " pages";
+                                    break;
+                            }
                         }
                         break;
                     } else
@@ -40,7 +51,16 @@ namespace UserManagement.Services
                         toReturn = toReturn + ", " + publication.OtherAuthors + ". – " + publication.Date.Year + ".";
                         if (publication.PublicationType == PublicationType.Монографія)
                         {
-                            toReturn = toReturn + " " + publication.SizeOfPages + " друк. арк.";
+                            toReturn = toReturn + " " + publication.SizeOfPages;
+                            switch (publication.Language)
+                            {
+                                case Language.UA:
+                                    toReturn += " друк. арк.";
+                                    break;
+                                case Language.EN:
+                                    toReturn += " p.";
+                                    break;
+                            }
                         }
                     }
                 }

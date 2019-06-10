@@ -1,5 +1,6 @@
 ﻿@model PagedList.IPagedList<UserManagement.Models.db.Publication>
 @using PagedList.Mvc;
+@using UserManagement.Models.db;
 @{
     ViewBag.Title = "Публікації";
 }
@@ -90,7 +91,14 @@
             <td>
                 @foreach (var user in item.User)
                 {
-                    <label style="font-weight:unset">@user.FirstName @user.LastName</label>
+                    foreach (var initial in user.I18nUserInitials)
+                    {
+                        if (initial.Language == item.Language)
+                        {
+                            <label style="font-weight:unset">@initial.FirstName @initial.LastName</label>
+                            break;
+                        }
+                    }
                 }
             </td>
             <td>

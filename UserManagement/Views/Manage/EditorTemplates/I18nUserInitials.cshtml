@@ -1,0 +1,23 @@
+﻿@model UserManagement.Models.db.I18nUserInitials
+
+@Html.HiddenFor(x => x.ID)
+@Html.HiddenFor(x => x.Language)
+<div class="form-group">
+    <label class="col-md-2 control-label">Ім’я (@Model.Language)</label>
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @Value = Model.FirstName })
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-md-2 control-label">Прізвище (@Model.Language)</label>
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @Value = Model.LastName })
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-md-2 control-label">По-батькові (@Model.Language)</label>
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.FathersName, new { @class = "form-control", @Value = Model.FathersName })
+    </div>
+</div>
+

@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNet.Identity;
+using Rotativa;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using UserManagement.Converter;
 using UserManagement.Models;
@@ -17,13 +17,15 @@ namespace UserManagement.Controllers
         private static ApplicationDbContext db = new ApplicationDbContext();
         private ReportService reportService = new ReportService(db);
         // GET: Report
-        public ActionResult Index(string dateFrom, string dateTo, int? stepIndex)
+        public ActionResult Index(string dateFrom, string dateTo, int? stepIndex, int? reportId)
         {
+            db = new ApplicationDbContext();
             string dateFromVerified = dateFrom ?? "";
             string dateToVerified = dateTo ?? "";
             ViewBag.dateFrom = dateFrom;
             ViewBag.dateTo = dateTo;
             ViewBag.stepIndex = stepIndex ?? 0;
+            int reportVerifiedId = reportId ?? -1;
 
             var currentUser = db.Users.Where(x => x.UserName == User.Identity.Name).First();
             var themes = db.ThemeOfScientificWork.Where(x => x.Cathedra.Faculty.ID == currentUser.Cathedra.Faculty.ID).ToList();
@@ -32,8 +34,16 @@ namespace UserManagement.Controllers
                 Text = x.Value,
                 Value = x.ID.ToString(),
             }).ToList();
-            var oldReport = db.Reports.Where(x => !x.IsSigned && x.User.UserName == User.Identity.Name).FirstOrDefault();
+            Report oldReport;
+            if (reportVerifiedId == -1)
+            {
+                oldReport = db.Reports.Where(x => !x.IsSigned && x.User.UserName == User.Identity.Name).FirstOrDefault();
+            } else
+            {
+                oldReport = db.Reports.Find(reportVerifiedId);
+            }
             var allPublications = db.Publication.Where(x => x.User.Any(y => y.UserName == User.Identity.Name)).ToList();
+            allPublications = allPublications.Where(x => !x.AcceptedToPrintPublicationReport.Union(x.RecomendedPublicationReport).Union(x.PrintedPublicationReport).Any(y => y.IsSigned || y.IsConfirmed)).ToList();
             if (oldReport != null && dateFromVerified == "" && dateToVerified == "")
             {
                 return ChooseOldReport(oldReport, allPublications);
@@ -69,12 +79,17 @@ namespace UserManagement.Controllers
         public ActionResult Update(ReportViewModel reportViewModel, int? stepIndex, int? oldIndex)
         {
             CreateOrUpdateReport(reportViewModel, oldIndex ?? 0);
-            return RedirectToAction("Index", new { stepIndex = stepIndex });
+            return RedirectToAction("Index", new { stepIndex = stepIndex, reportId = reportViewModel.ID });
         }
 
         public ActionResult Preview(int reportId)
         {
             return Content(reportService.GenerateHTMLReport(reportId));
+        }
+
+        public ActionResult PreviewPdf(int reportId)
+        {
+            return new ActionAsPdf("Preview", new { reportId = reportId});
         }
 
         private void CreateOrUpdateReport(ReportViewModel reportViewModel, int stepIndex)

@@ -29,9 +29,9 @@ namespace UserManagement.Models.Reports
         public DateTime? Date { get; set; }
 
         public int? ThemeOfScientificWorkId { get; set; }
-        public List<PublicationOption> PrintedPublication { get; set;}
-        public List<PublicationOption> RecomendedPublication { get; set; }
-        public List<PublicationOption> AcceptedToPrintPublication { get; set; }
+        public List<PublicationOption> PrintedPublication { get; set; } = new List<PublicationOption>();
+        public List<PublicationOption> RecomendedPublication { get; set; } = new List<PublicationOption>();
+        public List<PublicationOption> AcceptedToPrintPublication { get; set; } = new List<PublicationOption>();
     }
 
     public class PublicationOption

@@ -41,43 +41,80 @@
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IsSigned)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsConfirmed)
-            </td>
-            <td>
-                @item.User.LastName @item.User.FirstName @item.User.FathersName
-            </td>
-            <td>
                 @if (!item.IsSigned)
                 {
-                    @Html.ActionLink("Підписати", "Sign", new { reportId = item.ID }, new { @style = "margin-right: 5px;" })
-                    if (@item.User.UserName == @User.Identity.Name)
+                    using (Html.BeginForm("Sign", "ReportList", FormMethod.Get, new { @id = "signCheckboxForm_" + item.ID }))
                     {
-                        @Html.ActionLink("Редагувати", "Index", "Reports", new { }, new { @style = "margin-right: 5px;" })
+                        @Html.Hidden("reportId", item.ID)
                     }
+                    @Html.CheckBoxFor(modelItem => item.IsSigned, new { @id = "signCheckbox_" + item.ID })
                 }
                 else
                 {
-                    if (User.IsInRole("Керівник кафедри") && !item.IsConfirmed)
-                    {
-                        @Html.ActionLink("Підтвердити", "Confirm", new { reportId = item.ID }, new { @style = "margin-right: 5px;" })
-                   }
+                    @Html.DisplayFor(modelItem => item.IsSigned)
                 }
+            </td>
+            <td>
+                @if (!item.IsConfirmed && User.IsInRole("Керівник кафедри") && item.IsSigned)
+                {
+                    using (Html.BeginForm("Confirm", "ReportList", FormMethod.Get, new { @id = "confirmCheckboxForm_" + item.ID }))
+                    {
+                        @Html.Hidden("reportId", item.ID)
+                    }
+                    @Html.CheckBoxFor(modelItem => item.IsConfirmed, new { @id = "confirmCheckbox_" + item.ID })
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.IsConfirmed)
+                }
+            </td>
+            <td>
+                @foreach (var initial in item.User.I18nUserInitials)
+                {
+                    if (initial.Language == UserManagement.Models.db.Language.UA)
+                    {
+                        <span>@initial.FirstName&nbsp;@initial.LastName</span>
+                        break;
+                    }
+                }
+            </td>
+            <td>
                 <a href="@Url.Action("Preview", "Reports", new { reportId = item.ID })"
                    target="_blank">
                     Переглянути
                 </a>
+                @if (!item.IsSigned)
+                {
+                    if (@item.User.UserName == @User.Identity.Name)
+                    {
+                        @Html.ActionLink("Редагувати", "Index", "Reports", new { reportId = item.ID }, new { @style = "margin-right: 5px;" })
+                    }
+                }
+                @if (!item.IsConfirmed && User.IsInRole("Керівник кафедри") && item.IsSigned)
+                {
+                    @Html.ActionLink("Завернути", "Negate", "ReportList", new { reportId = item.ID }, new { @style = "margin-right: 5px;" })
+                }
             </td>
         </tr>
     }
 
 </table>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 <script>
     function submitDate() {
         $('#dateForm').submit();
     }
+    function events() {
+        $('[id^="signCheckbox"]').on('change', function (ev) {
+            console.log(this.id.split("_")[1]);
+            $('#signCheckboxForm_' + this.id.split("_")[1]).submit();
+        });
+
+        $('[id^="confirmCheckbox"]').on('change', function (ev) {
+            $('#confirmCheckboxForm_' + this.id.split("_")[1]).submit();
+        })
+    }
+    events();
 </script>
 Сторінка @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) з @Model.PageCount
 

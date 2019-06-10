@@ -13,6 +13,9 @@
 <table class="table">
     <tr>
         <th>
+            Номер
+        </th>
+        <th>
             Тема наукової роботи
         </th>
         <th>
@@ -26,6 +29,9 @@
 
 @foreach (var item in Model) {
     <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ThemeNumber)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.Value)
         </td>

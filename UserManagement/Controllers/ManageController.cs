@@ -171,9 +171,7 @@ namespace UserManagement.Controllers
             {
                 var currentUserId = User.Identity.GetUserId();
                 var user = db.Users.First(x => x.Id == currentUserId);
-                user.FirstName = model.FirstName;
-                user.LastName = model.LastName;
-                user.FathersName = model.FathersName;
+                user.I18nUserInitials.Clear();
                 user.BirthDate = model.BirthDate;
                 user.AwardingDate = model.AwardingDate;
                 user.GraduationDate = model.GraduationDate;
@@ -182,6 +180,8 @@ namespace UserManagement.Controllers
                 user.AcademicStatus = db.AcademicStatus.First(x => x.Value == model.AcademicStatus);
                 user.ScienceDegree = db.ScienceDegree.First(x => x.Value == model.ScienceDegree);
                 user.Position = db.Position.First(x => x.Value == model.Position);
+                user.I18nUserInitials = model.I18nUserInitials;
+                user.PublicationCounterBeforeRegistration = model.PublicationsBeforeRegister;
                 db.SaveChanges();
 
                 return RedirectToAction("Index", "Manage");
@@ -199,21 +199,22 @@ namespace UserManagement.Controllers
             ViewBag.AllAcademicStatuses = db.AcademicStatus.ToList().Select(x => x.Value);
             ViewBag.AllScienceDegrees = db.ScienceDegree.ToList().Select(x => x.Value);
             ViewBag.AllPositions = db.Position.ToList().Select(x => x.Value);
-            ViewBag.FirstName = user.FirstName;
-            ViewBag.LastName = user.LastName;
-            ViewBag.FathersName = user.FathersName;
-            ViewBag.BirthDate = user.BirthDate;
-            ViewBag.AwardingDate = user.AwardingDate;
-            ViewBag.GraduationDate = user.GraduationDate;
-            ViewBag.DefenseYear = user.DefenseYear;
+            ViewBag.BirthDate = user.BirthDate.ToString("dd/MM/yyyy");
+            ViewBag.AwardingDate = user.AwardingDate.ToString("dd/MM/yyyy");
+            ViewBag.GraduationDate = user.GraduationDate.ToString("dd/MM/yyyy");
+            ViewBag.DefenseYear = user.DefenseYear.ToString("dd/MM/yyyy");
+            ViewBag.PublicationsBeforeRegister = user.PublicationCounterBeforeRegistration;
             if (user.AcademicStatus != null)
                 ViewBag.AcademicStatus = user.AcademicStatus.Value.ToString();
             if (user.ScienceDegree != null)
                 ViewBag.ScienceDegree = user.ScienceDegree.Value.ToString();
             if (user.Position != null)
                 ViewBag.Position = user.Position.Value.ToString();
-            var viewModel = new UpdateViewModel();
-            viewModel.Email = user.Email;
+            var viewModel = new UpdateViewModel()
+            {
+                Email = user.Email,
+                I18nUserInitials = user.I18nUserInitials,
+            };
             return View(viewModel);
         }
 

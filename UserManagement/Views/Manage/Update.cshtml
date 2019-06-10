@@ -8,35 +8,18 @@
 @using (Html.BeginForm("Update", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
-    <hr />  
-    <div class="form-group">
-        @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @Value = ViewBag.FirstName })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @Value = ViewBag.LastName })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.FathersName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.FathersName, new { @class = "form-control", @Value = ViewBag.FathersName })
-        </div>
-    </div>
+    <hr />
+    @Html.EditorFor(x => x.I18nUserInitials)
     <div class="form-group">
         @Html.LabelFor(m => m.PublicationsBeforeRegister, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.PublicationsBeforeRegister, new { @class = "form-control", @Value = ViewBag.FirstName, @Type="number" })
+            @Html.TextBoxFor(m => m.PublicationsBeforeRegister, new { @class = "form-control", @Value = ViewBag.PublicationsBeforeRegister, @Type = "number" })
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.BirthDate, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-        @Html.EditorFor(m => m.BirthDate, new { @class = "form-control", @Value = ViewBag.BirthDate })
+            @Html.EditorFor(m => m.BirthDate, new { @class = "form-control", @Value = ViewBag.BirthDate })
         </div>
     </div>
     <div class="form-group">
@@ -61,7 +44,7 @@
         <label class="control-label col-md-2">Академічний статус</label>
         @Html.DropDownList("AcademicStatus",
                     new SelectList(ViewBag.AllAcademicStatuses),
-                    new { @class = "form-control chosen-select", @Value = ViewBag.AcademicStatus == null ? "" : ViewBag.AcademicStatus})
+                    new { @class = "form-control chosen-select", @Value = ViewBag.AcademicStatus == null ? "" : ViewBag.AcademicStatus })
     </div>
     <div class="form-group">
         <label class="control-label col-md-2">Науковий ступінь</label>

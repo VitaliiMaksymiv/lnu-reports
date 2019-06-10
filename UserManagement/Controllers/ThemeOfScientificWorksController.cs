@@ -45,6 +45,8 @@ namespace UserManagement.Controllers
         // GET: ThemeOfScientificWorks/Create
         public ActionResult Create()
         {
+            ViewBag.AllFinancials = Enum.GetNames(typeof(Financial))
+                .Select(x => new SelectListItem { Selected = false, Text = x.ToLower(), Value = x }).ToList();
             return View();
         }
 
@@ -53,7 +55,7 @@ namespace UserManagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Value,ScientificHead,PeriodFrom,PeriodTo")] ThemeOfScientificWork themeOfScientificWork)
+        public ActionResult Create([Bind(Include = "ID,Value,ScientificHead,PeriodFrom,PeriodTo,Financial")] ThemeOfScientificWork themeOfScientificWork)
         {
             if (ModelState.IsValid)
             {
@@ -75,6 +77,8 @@ namespace UserManagement.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             ThemeOfScientificWork themeOfScientificWork = db.ThemeOfScientificWork.Find(id);
+            ViewBag.AllFinancials = Enum.GetNames(typeof(Financial))
+                .Select(x => new SelectListItem { Selected = false, Text = x.ToLower(), Value = x }).ToList();
             if (themeOfScientificWork == null)
             {
                 return HttpNotFound();
@@ -87,7 +91,7 @@ namespace UserManagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Value,ScientificHead,PeriodFrom,PeriodTo")] ThemeOfScientificWork themeOfScientificWork)
+        public ActionResult Edit([Bind(Include = "ID,Value,ScientificHead,PeriodFrom,PeriodTo,ThemeNumber,Financial")] ThemeOfScientificWork themeOfScientificWork)
         {
             if (ModelState.IsValid)
             {

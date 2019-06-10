@@ -58,10 +58,24 @@
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
+                @foreach (var i in item.I18nUserInitials)
+                {
+                    if (i.Language == UserManagement.Models.db.Language.UA)
+                    {
+                        @Html.DisplayFor(modelItem => i.FirstName)
+                        break;
+                    }
+                }
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LastName)
+                @foreach (var i in item.I18nUserInitials)
+                {
+                    if (i.Language == UserManagement.Models.db.Language.UA)
+                    {
+                        @Html.DisplayFor(modelItem => i.LastName)
+                        break;
+                    }
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IsActive)

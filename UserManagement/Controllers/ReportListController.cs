@@ -57,6 +57,14 @@ namespace UserManagement.Controllers
             db.SaveChanges();
             return RedirectToAction("Index", "ReportList");
         }
+        public ActionResult Negate(int reportId)
+        {
+            var report = db.Reports.Find(reportId);
+            report.IsSigned = false;
+            report.IsConfirmed = false;
+            db.SaveChanges();
+            return RedirectToAction("Index", "ReportList");
+        }
         public ActionResult Confirm(int reportId)
         {
             var report = db.Reports.Find(reportId);
