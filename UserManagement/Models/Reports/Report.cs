@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using UserManagement.Models.Reports;
 
 namespace UserManagement.Models.db
 {
@@ -39,5 +40,8 @@ namespace UserManagement.Models.db
         public virtual ICollection<Publication> RecomendedPublication { get; set; }// Пункт 6.2
         [InverseProperty("AcceptedToPrintPublicationReport")]
         public virtual ICollection<Publication> AcceptedToPrintPublication { get; set; }// Пункт 6.2.5
+
+
+        public virtual List<CathedraReport> CathedraReport { get; set; }
     }
 }

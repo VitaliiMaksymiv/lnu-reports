@@ -1,0 +1,603 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>Звіт</title>
+    <style>
+        p, h2 {
+            margin: 0;
+        }
+
+        .body {
+            line-height: 23px;
+            width: 210mm;
+            padding: 5mm 10mm;
+            margin: auto;
+            border: 1px solid black;
+        }
+
+        .header {
+            text-align: center;
+        }
+
+        .block {
+            margin-top: 25px;
+        }
+
+        .input-text {
+            margin-left: 34px;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 7px;
+        }
+
+        .table-report {
+            margin: auto;
+            margin-top:10px;
+        }
+        .footer-text{
+            margin-top:10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="body">
+        <div class="header">
+            <h2>Звіт про наукову роботу {кафедри} у {Рік}</h2>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                1. Досягнення провідних наукових шкіл за звітний рік (до 1 с.):
+            </p>
+            <p class="input-text">
+                {ACHIVEMENT_CONST}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                2. Держбюджетні теми: шифр, назва, науковий керівник (науковий ступінь, вчене звання), 
+                № держреєстрації, термін виконання, кількість штатних 
+                виконавців і сумісників із зазначенням їхніх посад, наукових ступенів, вчених звань:
+            </p>
+            <p class="input-text">
+                {BUDGET_THEME}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                Узагальнені результати виконання теми (за весь час дії теми (для завершених) та за звітний рік зокрема):
+            </p>
+            <p class="input-text">
+                {BUDGET_THEME_DESCRIPTION}
+            </p>
+        </div>
+
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                2.1. Резюме (0,3 с.):
+            </p>
+            <p class="input-text">
+                {BUDGET_CV}
+            </p>
+        </div>
+
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                2.2. Захищені дисертації співробітниками, докторантами та аспірантами (назва, ПІБ):
+            </p>
+            <p class="input-text">
+                {DEFENSES_OF_COWORKERS_BUDGET}
+            </p>
+        </div> 
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                2.3 Опубліковані монографії, підручники,
+                навчальні посібники, словники, переклади наукових праць, кількість статей, тез доповідей на конференціях:
+            </p>
+            <p class="input-text">
+                Всього по темі опубліковано {COUNT_PUBLICATIONS_BUDGET}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                2.4 Подані заявки, отримані патенти на винахід (корисну модель):
+            </p>
+            <p class="input-text">
+                {APPLICATION_ON_INVENTION_BUDGET}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                2.5 Інше (макети приладів, нові методики, технології, експериментальні зразки матеріалів, рекламна діяльність тощо):
+            </p>
+            <p class="input-text">
+                {OTHER_BUDGET}
+            </p>
+        </div>
+        
+
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                3. Теми, які виконуються в межах робочого часу викладачів: назва, 
+                науковий керівник (науковий ступінь, вчене звання), № держреєстрації, термін виконання:
+            </p>
+            <p class="input-text">
+                {IN_WORK_THEME}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                Узагальнені результати виконання теми (за весь час дії теми (для завершених) та за звітний рік зокрема):
+            </p>
+            <p class="input-text">
+                {IN_WORK_THEME_DESCRIPTION}
+            </p>
+        </div>
+
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                3.1. Резюме (0,3 с.):
+            </p>
+            <p class="input-text">
+                {IN_WORK_CV}
+            </p>
+        </div>
+
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                3.2. Захищені дисертації співробітниками, докторантами та аспірантами (назва, ПІБ):
+            </p>
+            <p class="input-text">
+                {DEFENSES_OF_COWORKERS_IN_WORK}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                3.3 Опубліковані монографії, підручники,
+                навчальні посібники, словники, переклади наукових праць, кількість статей, тез доповідей на конференціях:
+            </p>
+            <p class="input-text">
+                Всього по темі опубліковано {COUNT_PUBLICATIONS_IN_WORK}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                3.4 Подані заявки, отримані патенти на винахід (корисну модель):
+            </p>
+            <p class="input-text">
+                {APPLICATION_ON_INVENTION_IN_WORK}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                3.5 Інше (макети приладів, нові методики, технології, експериментальні зразки матеріалів, рекламна діяльність тощо):
+            </p>
+            <p class="input-text">
+                {OTHER_IN_WORK}
+            </p>
+        </div>
+
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                4. Госпдоговірна тематика (шифр, назва, науковий керівник, термін виконання, 
+                кількість штатних виконавців і сумісників із зазначенням їхніх посад, наукового ступеня, вченого звання):
+            </p>
+            <p class="input-text">
+                {HOSPDOHOVIR_THEME}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                Узагальнені результати виконання теми (за весь час дії теми (для завершених) та за звітний рік зокрема):
+            </p>
+            <p class="input-text">
+                {HOSPDOHOVIR_THEME_DESCRIPTION}
+            </p>
+        </div>
+
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                4.1. Резюме (0,3 с.):
+            </p>
+            <p class="input-text">
+                {HOSPDOHOVIR_CV}
+            </p>
+        </div>
+
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                4.2. Захищені дисертації співробітниками, докторантами та аспірантами (назва, ПІБ):
+            </p>
+            <p class="input-text">
+                {DEFENSES_OF_COWORKERS_HOSPDOHOVIR}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                4.3 Опубліковані монографії, підручники,
+                навчальні посібники, словники, переклади наукових праць, кількість статей, тез доповідей на конференціях:
+            </p>
+            <p class="input-text">
+                Всього по темі опубліковано {COUNT_PUBLICATIONS_HOSPDOHOVIR}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                4.4 Подані заявки, отримані патенти на винахід (корисну модель):
+            </p>
+            <p class="input-text">
+                {APPLICATION_ON_INVENTION_HOSPDOHOVIR}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                4.5 Інше (макети приладів, нові методики, технології, експериментальні зразки матеріалів, рекламна діяльність тощо):
+            </p>
+            <p class="input-text">
+                {OTHER_HOSPDOHOVIR}
+            </p>
+        </div>
+
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                5. Інші форми наукової діяльності (робота спеціалізованих вчених, експертних рад, рецензування та опонування дисертацій тощо):
+            </p>
+            <p class="input-text">
+                {OTHER_FORM_OF_SCIENTIFIC_WORK}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                6. Зовнішні зв’язки:
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                6.1. Співпраця з науковими установами НАН України 
+                та галузевих академій наук України (наукові стажування, кількість спільних публікацій, спільні наукові заходи):
+            </p>
+            <p class="input-text">
+                {COOPERATION_WITH_ACADEMY_OF_SCIENCE}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                6.2. Співпраця із закордонними науковими установами та фірмами (наукові стажування, 
+                ґранти (додаток 3), контракти, кількість спільних публікацій, спільні наукові заходи, запрошення закордонних науковців):
+            </p>
+            <p class="input-text">
+                {COOPERATION_WITH_FOREIGN_SCIENTIFIC}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                8. Студентська наукова робота: кількість наукових гуртків і кількість студентів, 
+                що беруть участь у їхній роботі; участь (кількість студентів) у 
+                виконанні держбюджетної чи іншої наукової тематики; проведені студентські
+                наукові конференції на базі університету; виступи на конференціях
+                (кількість доповідей за участю студентів, назви конференцій); індивідуальні 
+                та спільні зі співробітниками університету публікації; отримані нагороди
+                у II етапі Всеукраїнських студентських Олімпіад, міжнародних Олімпіадах,
+                Всеукраїнських конкурсах студентських наукових робіт, турнірах, чемпіонатах тощо:
+            </p>
+            <p class="input-text">
+                {STUDENTS_WORK}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                9. Публікації: (бібліографічний опис згідно з державним стандартом).
+            </p>
+        </div>
+        <div class="block">
+            <p class="header"><b>Монографії</b></p>
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                Видано {COUNT_MONOGRAPHY} загальним обсягом {COUNT_MONOGRAPHY_PAGES}.
+            </p>
+        </div>
+        <table class="table-report">
+            <tr>
+                <th>
+                    Бібліографічний опис
+                </th>
+                <th>
+                    Обсяг, друк. арк.
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    Some monography
+                </td>
+                <td>
+                    Pages
+                </td>
+            </tr>
+        </table>
+        <div class="block">
+            <p class="header"><b>Підручники</b></p>
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                Видано {COUNT_BOOK} загальним обсягом {COUNT_BOOK_PAGES}.
+            </p>
+        </div>
+        <table class="table-report">
+            <tr>
+                <th>
+                    Бібліографічний опис
+                </th>
+                <th>
+                    Обсяг, друк. арк.
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    Some book
+                </td>
+                <td>
+                    Pages
+                </td>
+            </tr>
+        </table>
+        <div class="block">
+            <p class="header"><b>Навчальні посібники</b></p>
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                Видано {COUNT_TRAINING_BOOK} загальним обсягом {COUNT_TRAINING_BOOK_PAGES}.
+            </p>
+        </div>
+        <table class="table-report">
+            <tr>
+                <th>
+                    Бібліографічний опис
+                </th>
+                <th>
+                    Обсяг, друк. арк.
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    Some training book
+                </td>
+                <td>
+                    Pages
+                </td>
+            </tr>
+        </table>
+        <div class="block">
+            <p class="header"><b>Наукові журнали</b></p>
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                Видано {COUNT_TRAINING_MAGAZINES} загальним обсягом {COUNT_TRAINING_MAGAZINES_PAGES}.
+            </p>
+        </div>
+        <table class="table-report">
+            <tr>
+                <th>
+                    Бібліографічний опис
+                </th>
+                <th>
+                    Обсяг, друк. арк.
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    Some training magazine
+                </td>
+                <td>
+                    Pages
+                </td>
+            </tr>
+        </table>
+        <div class="block">
+            <p class="header"><b>Вісники</b></p>
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                Видано {COUNT_VISNYK} загальним обсягом {COUNT_VISNYK_PAGES}.
+            </p>
+        </div>
+        <table class="table-report">
+            <tr>
+                <th>
+                    Бібліографічний опис
+                </th>
+                <th>
+                    Обсяг, друк. арк.
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    Some visnyk
+                </td>
+                <td>
+                    Pages
+                </td>
+            </tr>
+        </table>
+        <div class="block">
+            <p class="header"><b>Збірники наукових праць</b></p>
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                Видано {COUNT_ZBIRNYK_WORKS} загальним обсягом {COUNT_ZBIRNYK_WORKS_PAGES}.
+            </p>
+        </div>
+        <table class="table-report">
+            <tr>
+                <th>
+                    Бібліографічний опис
+                </th>
+                <th>
+                    Обсяг, друк. арк.
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    Some ZBIRNYK_WORKS
+                </td>
+                <td>
+                    Pages
+                </td>
+            </tr>
+        </table>
+        <div class="block">
+            <p class="header"><b>Статті</b></p>
+        </div>
+
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                Статті в інших закордонних виданнях:
+            </p>
+            <p class="input-text">
+                {ARTICLES_FOERIGN}
+            </p>
+        </div>
+
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                Статті у фахових виданнях України:
+            </p>
+            <p class="input-text">
+                {ARTICLES_NATIONAL_FAH}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                Статті в інших виданнях України:
+            </p>
+            <p class="input-text">
+                {ARTICLES_NATIONAL_OTHER}
+            </p>
+        </div>
+        <div class="block">
+            <p class="header"><b>Тези доповідей на конференціях</b></p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                Тези доповідей на міжнародних конференціях:
+            </p>
+            <p class="input-text">
+                {CONFERENCES_INTERNATIONAL}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                Тези доповідей на вітчизняних конференціях:
+            </p>
+            <p class="input-text">
+                {CONFERENCES_NATIONAL}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                10. Конференції: стислий звіт про проведення конференцій на базі університету (0,5 с. про кожну конференцію):
+            </p>
+            <p class="input-text">
+                {CONFERENCES_REPORT}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                10. Конференції: стислий звіт про проведення конференцій на базі університету (0,5 с. про кожну конференцію):
+            </p>
+            <p class="input-text">
+                {CONFERENCES_REPORT}
+            </p>
+        </div>
+
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                11. Патентно-ліцензійна діяльність:
+            </p>
+        </div>
+
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                11.1 Заявки на винахід (корисну модель) (на видачу патенту на винахід (корисну модель)) −
+                автори, назва, № заявки, дата подачі, заявник(и):
+            </p>
+            <p class="input-text">
+                {заявка}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                11.2 Патенти на винахід (корисну модель) − автори, назва, № патенту, дата видачі, заявник(и):
+            </p>
+            <p class="input-text">
+                {патент}
+            </p>
+        </div>
+
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                12. Матеріальна база підрозділу (обладнання, придбане за звітний період чи введене в дію на кінець звітного року):
+            </p>
+            <p class="input-text">
+                {MATERIALS}
+            </p>
+        </div>
+        <div class="block">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                13. Пропозиції щодо нових форм організації наукової роботи в ринкових умовах:
+            </p>
+            <p class="input-text">
+                {PROPOSITIONS}
+            </p>
+        </div>
+        <div class="block input-text">
+            <p>
+                Звіт заслухано і затверджено на Вченій (науково-технічній) раді {факультету}, протокол №: {протокол} від {дата}
+            </p>
+            <p class="footer-text">
+                Декан {факультету} __________________ {ПІБ Декана}
+            </p>
+        </div>
+    </div>
+</body>
+</html>

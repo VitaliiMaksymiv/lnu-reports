@@ -21,6 +21,7 @@ namespace UserManagement.Controllers
         // GET: ReportList
         public ActionResult Index(int? page, string dateFrom, string dateTo)
         {
+            db = new ApplicationDbContext();
             int pageSize = 15;
             int pageNumber = (page ?? 1);
             string dateFromVerified = dateFrom ?? "";

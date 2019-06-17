@@ -1,0 +1,696 @@
+﻿@model UserManagement.Models.Reports.CathedraReportViewModel
+
+@{
+    ViewBag.Title = "Звітність";
+}
+<style type="text/css" media="all">
+    .publicationBlock {
+        margin-top: 25px;
+    }
+
+    .headerPublication {
+        font-weight: 600;
+    }
+
+    .sectionBody {
+        overflow-y: auto;
+    }
+
+    #wizard {
+        display: none;
+    }
+    /* fix rtl for demo */
+    .chosen-rtl .chosen-drop {
+        left: -9000px;
+    }
+
+    .chosen-container {
+        margin-left: 15px;
+    }
+
+    .otherActionBlock {
+        margin-top: 10px;
+    }
+
+    .nextButton {
+        width: 100px;
+    }
+
+    .buttonsBlock {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 50px;
+    }
+</style>
+
+<h2>Звіт кафедри</h2>
+
+<div id="wizard">
+    <h3>Держбюджетні теми</h3>
+    <section class="sectionBody">
+        @using (@Html.BeginForm("Update", "ReportsCathedra", FormMethod.Post, new { @id = "updateBudgetThemeForm" }))
+        {
+            <div class="otherActionBlock">
+                <p>
+                    <b>
+                        2. Держбюджетні теми: шифр, назва, науковий керівник (науковий ступінь, вчене звання),
+                        № держреєстрації, термін виконання, кількість штатних виконавців і сумісників із
+                        зазначенням їхніх посад, наукових ступенів, вчених звань.
+                    </b>
+                </p>
+                @Html.DropDownList("BudgetThemeId",
+                           new SelectList(ViewBag.ScientificThemesByFaculty, "Value", "Text"),
+                           "Виберіть тему наукової роботи",
+                           new
+                           {
+                               @class = "form-control chosen-select-budget-theme",
+                               @Value = Model.BudgetThemeId,
+                           })
+            </div>
+            <div class="otherActionBlock">
+                <p><b>Узагальнені результати виконання теми (за весь час дії теми (для завершених) та за звітний рік зокрема):</b></p>
+                @Html.TextAreaFor(model => model.AllDescriptionBudgetTheme, 6, 70, new
+           {
+               @class = "control-label",
+               @style = "max-width: 100%",
+               @id = "budgetThemeDescription",
+               @Value = Model.AllDescriptionBudgetTheme,
+           })
+            </div>
+            <div class="otherActionBlock">
+                <p><b>2.1 Резюме (0,3 с.):</b></p>
+                @Html.TextAreaFor(model => model.CVBudgetTheme, 6, 70, new
+           {
+               @class = "control-label",
+               @style = "max-width: 100%",
+               @Value = Model.CVBudgetTheme,
+           })
+            </div>
+
+            <div class="otherActionBlock">
+                <p><b>2.2 Захищені дисертації співробітниками, докторантами та аспірантами (назва, ПІБ):</b></p>
+                @Html.TextAreaFor(model => model.DefensesOfCoworkersBudgetTheme, 6, 70, new
+           {
+               @class = "control-label",
+               @style = "max-width: 100%",
+               @Value = Model.DefensesOfCoworkersBudgetTheme,
+           })
+            </div>
+            if (Model.PrintedPublicationBudgetTheme.Count > 0)
+            {
+                <div class="publicationBlock">
+                    <p class="headerPublication">
+                        2.3 Опубліковані монографії, підручники, навчальні посібники,
+                        словники, переклади наукових праць, кількість статей, тез доповідей на конференціях:
+                    </p>
+                    @Html.EditorFor(model => model.PrintedPublicationBudgetTheme)
+                </div>
+            }
+            if (Model.PrintedPublicationBudgetTheme.Count == 0)
+            {
+                <div class="otherActionBlock">
+                    <p style="margin-top:100px">
+                        Немає публікацій.
+                    </p>
+                </div>
+            }
+
+            <div class="otherActionBlock">
+                <p><b>2.4 Подані заявки, отримані патенти на винахід (корисну модель):</b></p>
+                @Html.TextAreaFor(model => model.ApplicationAndPatentsOnInventionBudgetTheme, 6, 70, new
+           {
+               @class = "control-label",
+               @style = "max-width: 100%",
+               @Value = Model.ApplicationAndPatentsOnInventionBudgetTheme,
+           })
+            </div>
+
+            <div class="otherActionBlock">
+                <p><b>2.5 Інше (макети приладів, нові методики, технології, експериментальні зразки матеріалів, рекламна діяльність тощо):</b></p>
+                @Html.TextAreaFor(model => model.OtherBudgetTheme, 6, 70, new
+           {
+               @class = "control-label",
+               @style = "max-width: 100%",
+               @Value = Model.OtherBudgetTheme,
+           })
+            </div>
+            <div class="buttonsBlock">
+                <div></div>
+                <button type="button" onclick="handleNextStep()" class="btn btn-default nextButton">Наступна</button>
+            </div>
+            <input hidden name="stepIndex" id="stepIndex_1" />
+            <input hidden name="oldIndex" id="oldIndex_1" />
+                    <input hidden name="ID" value="@Model.ID" />
+        }
+    </section>
+    <h3>Теми в межах робочого часу</h3>
+    <section class="sectionBody">
+        @using (@Html.BeginForm("Update", "ReportsCathedra", FormMethod.Post, new { @id = "updateInWorkThemeForm" }))
+        {
+            <div class="otherActionBlock">
+                <p>
+                    <b>
+                        3. Теми, які виконуються в межах робочого часу викладачів: назва,
+                        науковий керівник (науковий ступінь, вчене звання), № держреєстрації, термін виконання.
+                    </b>
+                </p>
+                @Html.DropDownList("ThemeInWorkTimeId",
+                           new SelectList(ViewBag.ScientificThemesByFaculty, "Value", "Text"),
+                           "Виберіть тему наукової роботи",
+                           new
+                           {
+                               @class = "form-control chosen-select-in-work-theme",
+                               @Value = Model.ThemeInWorkTimeId,
+                           })
+            </div>
+            <div class="otherActionBlock">
+                <p><b>Узагальнені результати виконання теми (за весь час дії теми (для завершених) та за звітний рік зокрема):</b></p>
+                @Html.TextAreaFor(model => model.AllDescriptionThemeInWorkTime, 6, 70, new
+           {
+               @class = "control-label",
+               @style = "max-width: 100%",
+               @id = "inWorkThemeDescription",
+               @Value = Model.AllDescriptionThemeInWorkTime,
+           })
+            </div>
+            <div class="otherActionBlock">
+                <p><b>3.1 Резюме (0,3 с.):</b></p>
+                @Html.TextAreaFor(model => model.CVThemeInWorkTime, 6, 70, new
+           {
+               @class = "control-label",
+               @style = "max-width: 100%",
+               @Value = Model.CVThemeInWorkTime,
+           })
+            </div>
+
+            <div class="otherActionBlock">
+                <p><b>3.2 Захищені дисертації співробітниками, докторантами та аспірантами (назва, ПІБ):</b></p>
+                @Html.TextAreaFor(model => model.DefensesOfCoworkersThemeInWorkTime, 6, 70, new
+           {
+               @class = "control-label",
+               @style = "max-width: 100%",
+               @Value = Model.DefensesOfCoworkersThemeInWorkTime,
+           })
+            </div>
+            if (Model.PrintedPublicationThemeInWorkTime.Count > 0)
+            {
+                <div class="publicationBlock">
+                    <p class="headerPublication">
+                        3.3 Опубліковані монографії, підручники, навчальні посібники,
+                        словники, переклади наукових праць, кількість статей, тез доповідей на конференціях:
+                    </p>
+                    @Html.EditorFor(model => model.PrintedPublicationThemeInWorkTime)
+                </div>
+            }
+            if (Model.PrintedPublicationThemeInWorkTime.Count == 0)
+            {
+                <div class="otherActionBlock">
+                    <p style="margin-top:100px">
+                        Немає публікацій.
+                    </p>
+                </div>
+            }
+
+            <div class="otherActionBlock">
+                <p><b>3.4 Подані заявки, отримані патенти на винахід (корисну модель):</b></p>
+                @Html.TextAreaFor(model => model.ApplicationAndPatentsOnInventionThemeInWorkTime, 6, 70, new
+           {
+               @class = "control-label",
+               @style = "max-width: 100%",
+               @Value = Model.ApplicationAndPatentsOnInventionThemeInWorkTime,
+           })
+            </div>
+
+            <div class="otherActionBlock">
+                <p><b>3.5 Інше (макети приладів, нові методики, технології, експериментальні зразки матеріалів, рекламна діяльність тощо):</b></p>
+                @Html.TextAreaFor(model => model.OtherThemeInWorkTime, 6, 70, new
+           {
+               @class = "control-label",
+               @style = "max-width: 100%",
+               @Value = Model.OtherThemeInWorkTime,
+           })
+            </div>
+            <div class="buttonsBlock">
+                <button type="button" onclick="handlePreviousStep()" class="btn btn-default nextButton">Попередня</button>
+                <button type="button" onclick="handleNextStep()" class="btn btn-default nextButton">Наступна</button>
+            </div>
+            <input hidden name="stepIndex" id="stepIndex_2" />
+            <input hidden name="oldIndex" id="oldIndex_2" />
+            <input hidden name="ID" value="@Model.ID" />
+        }
+    </section>
+
+    <h3>Госпдоговірна тематика</h3>
+    <section class="sectionBody">
+        @using (@Html.BeginForm("Update", "ReportsCathedra", FormMethod.Post, new { @id = "updateHospDohovirThemeForm" }))
+        {
+            <div class="otherActionBlock">
+                <p>
+                    <b>
+                        4. Госпдоговірна тематика (шифр, назва, науковий керівник, термін виконання,
+                        кількість штатних виконавців і сумісників із зазначенням їхніх посад, наукового ступеня, вченого звання).
+                    </b>
+                </p>
+                @Html.DropDownList("HospDohovirThemeId",
+                           new SelectList(ViewBag.ScientificThemesByFaculty, "Value", "Text"),
+                           "Виберіть тему наукової роботи",
+                           new
+                           {
+                               @class = "form-control chosen-select-hospdohovir-theme",
+                               @Value = Model.HospDohovirThemeId,
+                           })
+            </div>
+            <div class="otherActionBlock">
+                <p><b>Узагальнені результати виконання теми (за весь час дії теми (для завершених) та за звітний рік зокрема):</b></p>
+                @Html.TextAreaFor(model => model.AllDescriptionHospDohovirTheme, 6, 70, new
+           {
+               @class = "control-label",
+               @style = "max-width: 100%",
+               @id = "hospDohovirThemeDescription",
+               @Value = Model.AllDescriptionHospDohovirTheme,
+           })
+            </div>
+            <div class="otherActionBlock">
+                <p><b>4.1 Резюме (0,3 с.):</b></p>
+                @Html.TextAreaFor(model => model.CVHospDohovirTheme, 6, 70, new
+           {
+               @class = "control-label",
+               @style = "max-width: 100%",
+               @Value = Model.CVHospDohovirTheme,
+           })
+            </div>
+
+            <div class="otherActionBlock">
+                <p><b>4.2 Захищені дисертації співробітниками, докторантами та аспірантами (назва, ПІБ):</b></p>
+                @Html.TextAreaFor(model => model.DefensesOfCoworkersHospDohovirTheme, 6, 70, new
+           {
+               @class = "control-label",
+               @style = "max-width: 100%",
+               @Value = Model.DefensesOfCoworkersHospDohovirTheme,
+           })
+            </div>
+            if (Model.PrintedPublicationHospDohovirTheme.Count > 0)
+            {
+                <div class="publicationBlock">
+                    <p class="headerPublication">
+                        4.3 Опубліковані монографії, підручники, навчальні посібники,
+                        словники, переклади наукових праць, кількість статей, тез доповідей на конференціях:
+                    </p>
+                    @Html.EditorFor(model => model.PrintedPublicationHospDohovirTheme)
+                </div>
+            }
+            if (Model.PrintedPublicationHospDohovirTheme.Count == 0)
+            {
+                <div class="otherActionBlock">
+                    <p style="margin-top:100px">
+                        Немає публікацій.
+                    </p>
+                </div>
+            }
+
+            <div class="otherActionBlock">
+                <p><b>4.4 Подані заявки, отримані патенти на винахід (корисну модель):</b></p>
+                @Html.TextAreaFor(model => model.ApplicationAndPatentsOnInventionHospDohovirTheme, 6, 70, new
+           {
+               @class = "control-label",
+               @style = "max-width: 100%",
+               @Value = Model.ApplicationAndPatentsOnInventionHospDohovirTheme,
+           })
+            </div>
+
+            <div class="otherActionBlock">
+                <p><b>4.5 Інше (макети приладів, нові методики, технології, експериментальні зразки матеріалів, рекламна діяльність тощо):</b></p>
+                @Html.TextAreaFor(model => model.OtherHospDohovirTheme, 6, 70, new
+           {
+               @class = "control-label",
+               @style = "max-width: 100%",
+               @Value = Model.OtherHospDohovirTheme,
+           })
+            </div>
+            <div class="buttonsBlock">
+                <button type="button" onclick="handlePreviousStep()" class="btn btn-default nextButton">Попередня</button>
+                <button type="button" onclick="handleNextStep()" class="btn btn-default nextButton">Наступна</button>
+            </div>
+            <input hidden name="stepIndex" id="stepIndex_3" />
+            <input hidden name="oldIndex" id="oldIndex_3" />
+            <input hidden name="ID" value="@Model.ID" />
+        }
+    </section>
+    <h3>Інше</h3>
+    <section class="sectionBody">
+        @using (@Html.BeginForm("Update", "ReportsCathedra", FormMethod.Post, new { @id = "updateOtherForm" }))
+        {
+            <div>
+                <div class="otherActionBlock">
+                    <p><b>1. Досягнення провідних наукових шкіл за звітний рік (до 1 с.):</b></p>
+                    @Html.TextAreaFor(model => model.AchivementSchool, 6, 70, new
+               {
+                   @class = "control-label",
+                   @style = "max-width: 100%",
+                   @Value = Model.AchivementSchool,
+               })
+                </div>
+
+                <div class="otherActionBlock">
+                    <p>
+                        <b>
+                            5. Інші форми наукової діяльності
+                            (робота спеціалізованих вчених, експертних рад, рецензування та опонування дисертацій тощо):
+                        </b>
+                    </p>
+                    @Html.TextAreaFor(model => model.OtherFormsOfScientificWork, 6, 70, new
+               {
+                   @class = "control-label",
+                   @style = "max-width: 100%",
+                   @Value = Model.OtherFormsOfScientificWork,
+               })
+                </div>
+
+                <div class="otherActionBlock">
+                    <p><b>6. Зовнішні зв’язки:</b></p>
+                    <p>
+                        <b>
+                            6.1. Співпраця з науковими установами НАН України
+                            та галузевих академій наук України
+                            (наукові стажування, кількість спільних публікацій, спільні наукові заходи):
+                        </b>
+                    </p>
+                    @Html.TextAreaFor(model => model.CooperationWithAcadamyOfScience, 6, 70, new
+               {
+                   @class = "control-label",
+                   @style = "max-width: 100%",
+                   @Value = Model.CooperationWithAcadamyOfScience,
+               })
+                </div>
+
+                <div class="otherActionBlock">
+                    <p>
+                        <b>
+                            6.2. Співпраця із закордонними науковими установами та фірмами
+                            (наукові стажування, ґранти (додаток 3), контракти, кількість
+                            спільних публікацій, спільні наукові заходи, запрошення закордонних науковців):
+                        </b>
+                    </p>
+                    @Html.TextAreaFor(model => model.CooperationWithForeignScientificInstitution, 6, 70, new
+               {
+                   @class = "control-label",
+                   @style = "max-width: 100%",
+                   @Value = Model.CooperationWithForeignScientificInstitution,
+               })
+                </div>
+
+                <div class="otherActionBlock">
+                    <p>
+                        <b>
+                            8. Студентська наукова робота: кількість наукових гуртків і кількість студентів,
+                            що беруть участь у їхній роботі; участь (кількість студентів) у виконанні держбюджетної
+                            чи іншої наукової тематики; проведені студентські наукові конференції на базі
+                            університету; виступи на конференціях (кількість доповідей за участю студентів,
+                            назви конференцій); індивідуальні та спільні зі співробітниками університету
+                            публікації; отримані нагороди у II етапі Всеукраїнських студентських Олімпіад,
+                            міжнародних Олімпіадах, Всеукраїнських конкурсах студентських наукових робіт,
+                            турнірах, чемпіонатах тощо:
+                        </b>
+                    </p>
+                    @Html.TextAreaFor(model => model.StudentsWorks, 6, 70, new
+               {
+                   @class = "control-label",
+                   @style = "max-width: 100%",
+                   @Value = Model.StudentsWorks,
+               })
+                </div>
+
+                <div class="otherActionBlock">
+                    <p>
+                        <b>
+                            10. Конференції: стислий звіт про проведення конференцій
+                            на базі університету (0,5 с. про кожну конференцію):
+                        </b>
+                    </p>
+                    @Html.TextAreaFor(model => model.ConferencesInUniversity, 6, 70, new
+               {
+                   @class = "control-label",
+                   @style = "max-width: 100%",
+                   @Value = Model.ConferencesInUniversity,
+               })
+                </div>
+
+                <div class="otherActionBlock">
+                    <p><b>11. Патентно-ліцензійна діяльність:</b></p>
+                    <p>
+                        <b>
+                            11.1. Заявки на винахід (корисну модель)
+                            (на видачу патенту на винахід (корисну модель)) − автори, назва, № заявки, дата подачі , заявник(и):
+                        </b>
+                    </p>
+                    @Html.TextAreaFor(model => model.ApplicationOnInvention, 6, 70, new
+               {
+                   @class = "control-label",
+                   @style = "max-width: 100%",
+                   @Value = Model.ApplicationOnInvention,
+               })
+                </div>
+
+                <div class="otherActionBlock">
+                    <p>
+                        <b>
+                            11.2. Патенти на винахід (корисну модель) − автори, назва, № патенту, дата видачі, заявник(и):
+                        </b>
+                    </p>
+                    @Html.TextAreaFor(model => model.Patents, 6, 70, new
+               {
+                   @class = "control-label",
+                   @style = "max-width: 100%",
+                   @Value = Model.Patents,
+               })
+                </div>
+
+                <div class="otherActionBlock">
+                    <p>
+                        <b>
+                            12. Матеріальна база підрозділу (обладнання, придбане за звітний період чи введене в дію на кінець звітного року):
+                        </b>
+                    </p>
+                    @Html.TextAreaFor(model => model.Materials, 6, 70, new
+               {
+                   @class = "control-label",
+                   @style = "max-width: 100%",
+                   @Value = Model.Materials,
+               })
+                </div>
+                <div class="otherActionBlock">
+                    <p>
+                        <b>
+                            13. Пропозиції щодо нових форм організації наукової роботи в ринкових умовах:
+                        </b>
+                    </p>
+                    @Html.TextAreaFor(model => model.PropositionForNewForms, 6, 70, new
+               {
+                   @class = "control-label",
+                   @style = "max-width: 100%",
+                   @Value = Model.PropositionForNewForms,
+               })
+                </div>
+
+            </div>
+            <div class="buttonsBlock">
+                <button type="button" onclick="handlePreviousStep()" class="btn btn-default nextButton">Попередня</button>
+                <button type="button" onclick="handleNextStep()" class="btn btn-default nextButton">Наступна</button>
+            </div>
+            <input hidden name="stepIndex" value="@ViewBag.stepIndex" id="stepIndex_4" />
+            <input hidden name="oldIndex" id="oldIndex_4" />
+            <input hidden name="ID" value="@Model.ID" />
+        }
+    </section>
+    <h3>Дата та протокол</h3>
+    <section class="sectionBody">
+        @using (@Html.BeginForm("Update", "ReportsCathedra", FormMethod.Post, new { @id = "updateFinishForm" }))
+        {
+            <div>
+                <div class="otherActionBlock">
+                    <p>
+                        <b>
+                            Дата:
+                        </b>
+                    </p>
+                    @Html.EditorFor(model => model.Date)
+                </div>
+                <div class="otherActionBlock">
+                    <p>
+                        <b>
+                            Протокол:
+                        </b>
+                    </p>
+                    @Html.TextBoxFor(model => model.Protocol)
+                </div>
+            </div>
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            <div class="buttonsBlock">
+                <button type="button" onclick="handlePreviousStep()" class="btn btn-default nextButton">Попередня</button>
+                <button type="button" onclick="handleNextStep()" class="btn btn-default nextButton">Завершення</button>
+            </div>
+            <input hidden name="stepIndex" value="@ViewBag.stepIndex" id="stepIndex_5" />
+            <input hidden name="oldIndex" id="oldIndex_5" />
+            <input hidden name="ID" value="@Model.ID" />
+        }
+    </section>
+    <h3>Завершення</h3>
+    <section class="sectionBody">
+        @using (@Html.BeginForm("Update", "ReportsCathedra", FormMethod.Post, new { @id = "updateEndForm" }))
+        {
+            <div style="text-align: center;
+                        margin: 20px;
+                        font-size: 22px;
+                        color: green;">
+                Ваш звіт успішно заповнено!
+            </div>
+            <div style="padding-top: 50px;
+                        display: flex;
+                        justify-content: space-evenly;">
+                @Html.ActionLink("Експорт у PDF", "PreviewPdf", "ReportsCathedra", new { reportId = Model.ID }, new { @class = "btn btn-default", @target = "_blank" })
+                @Html.ActionLink("Експорт у LaTex", "GetLatex", "ReportsCathedra", new { reportId = Model.ID }, new { @class = "btn btn-default" })
+                <a href="@Url.Action("Preview", "ReportsCathedra", new { reportId = Model.ID })"
+                   target="_blank"
+                   class="btn btn-default">
+                    Переглянути
+                </a>
+                <input hidden name="stepIndex" value="@ViewBag.stepIndex" id="stepIndex_6" />
+                <input hidden name="oldIndex" id="oldIndex_6" />
+                <input hidden name="ID" value="@Model.ID" />
+            </div>
+        }
+        </section>
+    </div>
+
+    <link rel="stylesheet" href="../Content/step.css">
+            <link rel="stylesheet" href="../Scripts/docsupport/prism.css">
+            <link rel="stylesheet" href="../Scripts/chosen.css">
+
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+            <script src="../Scripts/chosen.jquery.js" type="text/javascript"></script>
+            <script src="../Scripts/docsupport/prism.js" type="text/javascript" charset="utf-8"></script>
+            <script src="../Scripts/jquery.steps.js" type="text/javascript"></script>
+            <script src="../Scripts/jquery.steps.min.js" type="text/javascript"></script>
+            <script type="text/javascript">
+    var settings = {
+        headerTag: "h3",
+        bodyTag: "section",
+        transitionEffect: "slideLeft",
+        autoFocus: true,
+        titleTemplate: "#title#",
+        cssClass: "tabcontrol",
+        startIndex: @ViewBag.stepIndex,
+        onStepChanging: function (event, currentIndex, newIndex) { return onChangeStep(event, currentIndex, newIndex); },
+        transitionEffect: $.fn.steps.transitionEffect.none,
+        transitionEffectSpeed: 0,
+        enableAllSteps: true,
+        onInit: function (event) {
+            $("#wizard").css('display', 'block');
+        }
+    };
+
+    function themeDropdownOnChange() {
+        $('.chosen-select-budget-theme').on('change', function () {
+            var array = @Html.Raw(Json.Encode(@ViewBag.AllThemeDescriptions));
+            var temp = array[$('.chosen-select-budget-theme').val().toString()];
+            if (temp !== undefined) {
+                $("#budgetThemeDescription").val(temp.join("\n\r"))
+            } else {
+                $("#budgetThemeDescription").val('');
+            }
+        });
+        $('.chosen-select-in-work-theme').on('change', function () {
+            var array = @Html.Raw(Json.Encode(@ViewBag.AllThemeDescriptions));
+            var temp = array[$('.chosen-select-in-work-theme').val().toString()];
+            if (temp !== undefined) {
+                $("#inWorkThemeDescription").val(temp.join("\n\r"))
+            } else {
+                $("#inWorkThemeDescription").val('');
+            }
+        });
+        $('.chosen-select-hospdohovir-theme').on('change', function () {
+            var array = @Html.Raw(Json.Encode(@ViewBag.AllThemeDescriptions));
+            var temp = array[$('.chosen-select-hospdohovir-theme').val().toString()];
+            if (temp !== undefined) {
+                $("#hospDohovirThemeDescription").val(temp.join("\n\r"))
+            } else {
+                $("#hospDohovirThemeDescription").val('');
+            }
+        });
+    }
+
+    function changeStepPageAndSubmit(index, newIndex) {
+        $('[id^="stepIndex"]').each(function () {
+            $(this).val(newIndex);
+        });
+        $('[id^="oldIndex"]').each(function () {
+            $(this).val(index);
+        });
+        if (index == 0) {
+            $('#updateBudgetThemeForm').submit();
+        }
+        if (index == 1) {
+            $('#updateInWorkThemeForm').submit();
+        }
+        if (index == 2) {
+            $('#updateHospDohovirThemeForm').submit();
+        }
+        if (index == 3) {
+            $('#updateOtherForm').submit();
+        }
+        if (index == 4) {
+            $('#updateFinishForm').submit();
+        }
+        if (index == 5) {
+            $('#updateEndForm').submit();
+        }
+    };
+
+    function handleNextStep() {
+        var currentIndex = @ViewBag.stepIndex;
+        changeStepPageAndSubmit(currentIndex, currentIndex + 1);
+    };
+
+    function handlePreviousStep() {
+        var currentIndex = @ViewBag.stepIndex;
+        changeStepPageAndSubmit(currentIndex, currentIndex - 1);
+    };
+
+    function onChangeStep(event, currentIndex, newIndex) {
+        changeStepPageAndSubmit(currentIndex, newIndex);
+        return true;
+    }
+    function updateSteps() {
+        $('#wizard').steps(
+            settings
+        );
+    }
+
+    function updateSelect() {
+        $('.chosen-select-budget-theme').chosen(
+            {
+                placeholder_text_single: "Виберіть...",
+                disable_search_threshold: 10,
+                no_results_text: 'Не знайдено'
+            }
+        );
+        $('.chosen-select-in-work-theme').chosen(
+            {
+                placeholder_text_single: "Виберіть...",
+                disable_search_threshold: 10,
+                no_results_text: 'Не знайдено'
+            }
+        );
+        $('.chosen-select-hospdohovir-theme').chosen(
+            {
+                placeholder_text_single: "Виберіть...",
+                disable_search_threshold: 10,
+                no_results_text: 'Не знайдено'
+            }
+        );
+    }
+
+    updateSteps();
+    updateSelect();
+    themeDropdownOnChange();
+            </script>

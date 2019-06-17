@@ -37,14 +37,18 @@
                         {
                             <li>@Html.ActionLink("Користувачі", "Index", "UsersManagement")</li>
                         }
-                        if (User.IsInRole("Керівник кафедри"))
-                        {
-                            <li>@Html.ActionLink("Теми наукових робіт", "Index", "ThemeOfScientificWorks")</li>
-                        }
                         if (User.IsInRole("Викладач"))
                         {
                             <li>@Html.ActionLink("Публікації", "Index", "Publications")</li>
-                            <li>@Html.ActionLink("Сформувати звіт", "Index", "Reports")</li>
+                        }
+                        if (User.IsInRole("Керівник кафедри"))
+                        {
+                            <li>@Html.ActionLink("Наукові роботи", "Index", "ThemeOfScientificWorks")</li>
+                            <li>@Html.ActionLink("Звіт кафедри", "Index", "ReportsCathedra")</li>
+                        }
+                        if (User.IsInRole("Викладач"))
+                        {
+                            <li>@Html.ActionLink("Звіт викладача", "Index", "Reports")</li>
                         }
                         if (User.IsInRole("Викладач") || User.IsInRole("Керівник кафедри"))
                         {

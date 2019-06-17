@@ -311,18 +311,24 @@
                         color: green;">
             Ваш звіт успішно заповнено!
         </div>
-        <div style="padding-top: 50px;
+        @using (@Html.BeginForm("Update", "Reports", FormMethod.Post, new { @id = "updateEndForm" }))
+        {
+            <div style="padding-top: 50px;
                         display: flex;
                         justify-content: space-evenly;">
-            @Html.ActionLink("Підписати", "SignIn", "ReportList", new { reportId = Model.ID }, new { @class = "btn btn-default" })
-                        @Html.ActionLink("Експорт у PDF", "PreviewPdf", "Reports", new { reportId = Model.ID }, new { @class = "btn btn-default", @target="_blank" })
-                        @Html.ActionLink("Експорт у LaTex", "GetLatex", "Reports", new { reportId = Model.ID }, new { @class = "btn btn-default" })
-            <a href="@Url.Action("Preview", "Reports", new { reportId = Model.ID })"
-               target="_blank"
-               class="btn btn-default">
-                Переглянути
-            </a>
-        </div>
+                @Html.ActionLink("Підписати", "Sign", "ReportList", new { reportId = Model.ID }, new { @class = "btn btn-default" })
+                @Html.ActionLink("Експорт у PDF", "PreviewPdf", "Reports", new { reportId = Model.ID }, new { @class = "btn btn-default", @target = "_blank" })
+                @Html.ActionLink("Експорт у LaTex", "GetLatex", "Reports", new { reportId = Model.ID }, new { @class = "btn btn-default" })
+                <a href="@Url.Action("Preview", "Reports", new { reportId = Model.ID })"
+                   target="_blank"
+                   class="btn btn-default">
+                    Переглянути
+                </a>
+            </div>
+            <input hidden name="stepIndex" value="@ViewBag.stepIndex" id="stepIndex_5" />
+            <input hidden name="oldIndex" id="oldIndex_5" />
+            <input hidden name="ID" value="@Model.ID" />
+        }
     </section>
 </div>
 
@@ -375,6 +381,9 @@
         }
         if (index == 3) {
                 $('#updateFinishForm').submit();
+        }
+        if (index == 4) {
+            $('#updateEndForm').submit();
         }
     };
 

@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 using UserManagement.Models.PublicationDB;
+using UserManagement.Models.Reports;
 
 namespace UserManagement.Models.db
 {
@@ -30,6 +31,7 @@ namespace UserManagement.Models.db
         public String Magazine { get; set; }
         public String DOI { get; set; }
         public String Tome { get; set; }
+        public String Place { get; set; }
         
         public String MainAuthor { get; set; }
         public Boolean IsMainAuthorRegistered { get; set; } = false;
@@ -38,5 +40,9 @@ namespace UserManagement.Models.db
         public virtual ICollection<Report> PrintedPublicationReport { get; set; }
         public virtual ICollection<Report> RecomendedPublicationReport { get; set; }
         public virtual ICollection<Report> AcceptedToPrintPublicationReport { get; set; }
+
+        public virtual ICollection<CathedraReport> PrintedPublicationBudgetCathedraReport { get; set; }
+        public virtual ICollection<CathedraReport> PrintedPublicationInWorkCathedraReport { get; set; }
+        public virtual ICollection<CathedraReport> PrintedPublicationHospDohovirCathedraReport { get; set; }
     }
 }

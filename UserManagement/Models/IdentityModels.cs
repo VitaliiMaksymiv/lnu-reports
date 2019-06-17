@@ -8,6 +8,7 @@ using UserManagement.Models.db;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using System.Data;
+using UserManagement.Models.Reports;
 
 namespace UserManagement.Models
 {
@@ -40,6 +41,7 @@ namespace UserManagement.Models
         public virtual Position Position { get; set; }
         public virtual ICollection<Publication> Publication { get; set; }
         public virtual ICollection<I18nUserInitials> I18nUserInitials { get; set; }
+        public virtual ICollection<CathedraReport> CathedraReport { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -71,5 +73,6 @@ namespace UserManagement.Models
         }
 
         public System.Data.Entity.DbSet<UserManagement.Models.db.Report> Reports { get; set; }
+        public System.Data.Entity.DbSet<UserManagement.Models.Reports.CathedraReport> CathedraReport{ get; set; }
     }
 }

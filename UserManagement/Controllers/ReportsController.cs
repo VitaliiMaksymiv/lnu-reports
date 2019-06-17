@@ -30,7 +30,8 @@ namespace UserManagement.Controllers
             int reportVerifiedId = reportId ?? -1;
 
             var currentUser = db.Users.Where(x => x.UserName == User.Identity.Name).First();
-            var themes = db.ThemeOfScientificWork.Where(x => x.Cathedra.Faculty.ID == currentUser.Cathedra.Faculty.ID).ToList();
+            var themes = db.ThemeOfScientificWork
+                .Where(x => x.Cathedra.Faculty.ID == currentUser.Cathedra.Faculty.ID).ToList();
             ViewBag.ScientificThemesByFaculty = themes.Select(x => new SelectListItem
             {
                 Text = x.Value,

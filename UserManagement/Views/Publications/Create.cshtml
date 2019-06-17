@@ -59,7 +59,6 @@
             </div>
         </div>
 
-
         <div class="form-group">
             <label class="control-label col-md-2">Посилання на публікацію в інтернеті</label>
             <div class="col-md-10">
@@ -73,6 +72,13 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Edition, new { htmlAttributes = new { @class = "form-control", @id = "OtherAuthors" } })
                 @Html.ValidationMessageFor(model => model.Edition, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Місце видання</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Place, new { htmlAttributes = new { @class = "form-control", @id = "OtherAuthors" } })
+                @Html.ValidationMessageFor(model => model.Place, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -185,7 +191,7 @@
     }
 
     function publicationTypeChange(e) {
-        if (e.options[e.selectedIndex].value == "Монографія") {
+        if (e.options[e.selectedIndex].value == "Монографія" || e.options[e.selectedIndex].value == "Підручник") {
             $(".sizeOfPages").css("display", "block");
         } else {
             $(".sizeOfPages").css("display", "none");

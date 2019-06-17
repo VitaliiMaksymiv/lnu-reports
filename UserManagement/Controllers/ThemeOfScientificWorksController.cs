@@ -55,7 +55,7 @@ namespace UserManagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Value,ScientificHead,PeriodFrom,PeriodTo,Financial")] ThemeOfScientificWork themeOfScientificWork)
+        public ActionResult Create([Bind(Include = "ID,Value,ScientificHead,PeriodFrom,PeriodTo,Financial,ThemeNumber")] ThemeOfScientificWork themeOfScientificWork)
         {
             if (ModelState.IsValid)
             {

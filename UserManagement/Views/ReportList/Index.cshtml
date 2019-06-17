@@ -5,9 +5,13 @@
     ViewBag.Title = "Звіти";
 }
 
-<h2>Звіти</h2>
+<h2>Персональні звіти</h2>
 
-<form asp-controller="ReportList" asp-action="Index" id="dateForm">
+@if (User.IsInRole("Керівник кафедри"))
+{
+    @Html.ActionLink("Звіти кафедри", "Index", "ReportCathedraList")
+}
+<form asp-controller="ReportList" asp-action="Index" id="dateForm" style="margin-bottom:10px;">
     З: <input type="date" name="dateFrom" onchange="submitDate()" value="@ViewBag.dateFrom" />
     До: <input type="date" name="dateTo" onchange="submitDate()" value="@ViewBag.dateTo" />
 </form>
@@ -92,11 +96,11 @@
                 }
                 @if (!item.IsConfirmed && User.IsInRole("Керівник кафедри") && item.IsSigned)
                 {
-                    @Html.ActionLink("Завернути", "Negate", "ReportList", new { reportId = item.ID }, new { @style = "margin-right: 5px;" })
+                    @Html.ActionLink("Повернути", "Negate", "ReportList", new { reportId = item.ID }, new { @style = "margin-right: 5px;" })
                 }
 
                 @Html.ActionLink("PDF", "PreviewPdf", "Reports", new { reportId = item.ID }, new { @target = "_blank" })
-                @Html.ActionLink("LaTex", "GetLatex", "Reports", new { reportId = item.ID }, new { @style="margin-left:5px;"})
+                @Html.ActionLink("LaTex", "GetLatex", "Reports", new { reportId = item.ID }, new { @style = "margin-left:5px;" })
             </td>
         </tr>
     }

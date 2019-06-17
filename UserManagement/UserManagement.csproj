@@ -203,7 +203,9 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PublicationsController.cs" />
+    <Compile Include="Controllers\ReportCathedraListController.cs" />
     <Compile Include="Controllers\ReportListController.cs" />
+    <Compile Include="Controllers\ReportsCathedraController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\ThemeOfScientificWorksController.cs" />
     <Compile Include="Controllers\UsersManagementController.cs" />
@@ -287,11 +289,27 @@
     <Compile Include="Migrations\201906101343051_ChangedPublicationFields.Designer.cs">
       <DependentUpon>201906101343051_ChangedPublicationFields.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906121712353_AddedCathedraReport.cs" />
+    <Compile Include="Migrations\201906121712353_AddedCathedraReport.Designer.cs">
+      <DependentUpon>201906121712353_AddedCathedraReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906121759154_AddedConnectionWIthReports.cs" />
+    <Compile Include="Migrations\201906121759154_AddedConnectionWIthReports.Designer.cs">
+      <DependentUpon>201906121759154_AddedConnectionWIthReports.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906131901157_AddedPlaceFieldToPublication.cs" />
+    <Compile Include="Migrations\201906131901157_AddedPlaceFieldToPublication.Designer.cs">
+      <DependentUpon>201906131901157_AddedPlaceFieldToPublication.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\PublicationDB\Publication.cs" />
     <Compile Include="Models\PublicationDB\PublicationType.cs" />
+    <Compile Include="Models\Reports\OtherDefenses.cs" />
+    <Compile Include="Models\Reports\CoworkersDefenses.cs" />
+    <Compile Include="Models\Reports\CathedraDefenses.cs" />
     <Compile Include="Models\Reports\CathedraReport.cs" />
     <Compile Include="Models\Reports\Report.cs" />
+    <Compile Include="Models\Reports\CathedraReportViewModel.cs" />
     <Compile Include="Models\Reports\ReportViewModel.cs" />
     <Compile Include="Models\ScientificWorks\ThemeOfScientificWork.cs" />
     <Compile Include="Models\UserManagement\AccountViewModels.cs" />
@@ -305,6 +323,7 @@
     <Compile Include="Models\UserManagement\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\PublicationService.cs" />
+    <Compile Include="Services\CathedraReportService.cs" />
     <Compile Include="Services\ReportService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -362,6 +381,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Views\exampleCathedra.html" />
     <Content Include="Views\example.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -408,6 +428,9 @@
     <Content Include="Views\Reports\EditorTemplates\PublicationOption.cshtml" />
     <Content Include="Views\ReportList\Index.cshtml" />
     <Content Include="Views\Manage\EditorTemplates\I18nUserInitials.cshtml" />
+    <Content Include="Views\ReportsCathedra\EditorTemplates\PublicationOption.cshtml" />
+    <Content Include="Views\ReportsCathedra\Index.cshtml" />
+    <Content Include="Views\ReportCathedraList\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -486,6 +509,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906101343051_ChangedPublicationFields.resx">
       <DependentUpon>201906101343051_ChangedPublicationFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906121712353_AddedCathedraReport.resx">
+      <DependentUpon>201906121712353_AddedCathedraReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906121759154_AddedConnectionWIthReports.resx">
+      <DependentUpon>201906121759154_AddedConnectionWIthReports.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906131901157_AddedPlaceFieldToPublication.resx">
+      <DependentUpon>201906131901157_AddedPlaceFieldToPublication.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

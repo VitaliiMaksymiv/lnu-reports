@@ -301,7 +301,7 @@ namespace UserManagement.Services
                 [POSITION_CONST] = report.User.Position.Value,
                 [CATHEDRA_CONST] = report.User.Cathedra.Name.Replace("Кафедра ", ""),
                 [USER_NAME_CONST] = initials.LastName + " " + initials.FirstName + " " + initials.FathersName,
-                [BIRTHDAY_CONST] = report.User.BirthDate.ToString("yyyy-MM-dd"),
+                [BIRTHDAY_CONST] = report.User.BirthDate.ToString("dd.MM.yyyy"),
                 [GRADUATION_YEAR_CONST] = report.User.GraduationDate.Year.ToString(),
                 [ACADEMIC_STATUS_YEAR_CONST] = report.User.AcademicStatus.Value == "Без ступеня" ? report.User.AcademicStatus.Value : report.User.AcademicStatus.Value + ", " + report.User.DefenseYear.Year.ToString(),
                 [SCIENCE_DEGREE_YEAR_CONST] = report.User.ScienceDegree.Value == "Без звання" ? report.User.ScienceDegree.Value : report.User.ScienceDegree.Value + ", " + report.User.AwardingDate.Year.ToString(),

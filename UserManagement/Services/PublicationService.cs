@@ -31,42 +31,41 @@ namespace UserManagement.Services
                 {
                     if (publication.OtherAuthors == null || publication.OtherAuthors == "")
                     {
-                        toReturn = toReturn + ". – " + publication.Date.Year + ".";
-                        if (publication.PublicationType == PublicationType.Монографія)
-                        {
-                            toReturn = toReturn + " " + publication.SizeOfPages;
-                            switch (publication.Language)
-                            {
-                                case Language.UA:
-                                    toReturn += " друк. арк.";
-                                    break;
-                                case Language.EN:
-                                    toReturn += " pages";
-                                    break;
-                            }
-                        }
+                        toReturn = toReturn + ". – " + (publication.Place == null ? (publication.Date.Year + ".") :
+                            (": " + publication.Edition == null ? "" : ", " + publication.Date.Year + "."));
+                        toReturn += AddEndOfPublication(publication);
                         break;
                     } else
                     {
-                        toReturn = toReturn + ", " + publication.OtherAuthors + ". – " + publication.Date.Year + ".";
-                        if (publication.PublicationType == PublicationType.Монографія)
-                        {
-                            toReturn = toReturn + " " + publication.SizeOfPages;
-                            switch (publication.Language)
-                            {
-                                case Language.UA:
-                                    toReturn += " друк. арк.";
-                                    break;
-                                case Language.EN:
-                                    toReturn += " p.";
-                                    break;
-                            }
-                        }
+                        toReturn = toReturn + ", " + publication.OtherAuthors + ". – " + (publication.Place == null ? (publication.Date.Year + ".") :
+                            (": " + publication.Edition == null ? "" : ", " + publication.Date.Year + "."));
+                        toReturn += AddEndOfPublication(publication);
                     }
                 }
                 else
                 {
                     toReturn = toReturn + ", ";
+                }
+            }
+            return toReturn;
+        }
+        private String AddEndOfPublication(Publication publication)
+        {
+            string toReturn = "";
+            if (publication.PublicationType == PublicationType.Монографія
+                            || publication.PublicationType == PublicationType.Підручник
+                            || publication.PublicationType == PublicationType.Навчальний_Посібник
+                            || publication.PublicationType == PublicationType.Інше_Наукове_Видання)
+            {
+                toReturn = toReturn + " – " + (publication.Tome == null ? "" : (publication.Tome + ", ")) + publication.SizeOfPages;
+                switch (publication.Language)
+                {
+                    case Language.UA:
+                        toReturn += " друк. арк.";
+                        break;
+                    case Language.EN:
+                        toReturn += " p.";
+                        break;
                 }
             }
             return toReturn;
