@@ -184,9 +184,13 @@ namespace UserManagement.Controllers
                 user.PublicationCounterBeforeRegistration = model.PublicationsBeforeRegister;
                 db.SaveChanges();
 
+                ViewBag.BirthDate = user.BirthDate.ToString("yyyy-MM-dd");
+                ViewBag.AwardingDate = user.AwardingDate.ToString("yyyy-MM-dd");
+                ViewBag.GraduationDate = user.GraduationDate.ToString("yyyy-MM-dd");
+                ViewBag.DefenseYear = user.DefenseYear.ToString("yyyy-MM-dd");
                 return RedirectToAction("Index", "Manage");
             }
-
+            
             ViewBag.AllAcademicStatuses = db.AcademicStatus.ToList().Select(x => x.Value);
             ViewBag.AllScienceDegrees = db.ScienceDegree.ToList().Select(x => x.Value);
             ViewBag.AllPositions = db.Position.ToList().Select(x => x.Value);
@@ -199,10 +203,10 @@ namespace UserManagement.Controllers
             ViewBag.AllAcademicStatuses = db.AcademicStatus.ToList().Select(x => x.Value);
             ViewBag.AllScienceDegrees = db.ScienceDegree.ToList().Select(x => x.Value);
             ViewBag.AllPositions = db.Position.ToList().Select(x => x.Value);
-            ViewBag.BirthDate = user.BirthDate.ToString("dd/MM/yyyy");
-            ViewBag.AwardingDate = user.AwardingDate.ToString("dd/MM/yyyy");
-            ViewBag.GraduationDate = user.GraduationDate.ToString("dd/MM/yyyy");
-            ViewBag.DefenseYear = user.DefenseYear.ToString("dd/MM/yyyy");
+            ViewBag.BirthDate = user.BirthDate.ToString("yyyy-MM-dd");
+            ViewBag.AwardingDate = user.AwardingDate.ToString("yyyy-MM-dd");
+            ViewBag.GraduationDate = user.GraduationDate.ToString("yyyy-MM-dd");
+            ViewBag.DefenseYear = user.DefenseYear.ToString("yyyy-MM-dd");
             ViewBag.PublicationsBeforeRegister = user.PublicationCounterBeforeRegistration;
             if (user.AcademicStatus != null)
                 ViewBag.AcademicStatus = user.AcademicStatus.Value.ToString();

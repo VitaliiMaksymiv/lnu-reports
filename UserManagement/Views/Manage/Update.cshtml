@@ -19,25 +19,25 @@
     <div class="form-group">
         @Html.LabelFor(m => m.BirthDate, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.EditorFor(m => m.BirthDate, new { @class = "form-control", @Value = ViewBag.BirthDate })
+            <input name="BirthDate" type="date" class="form-control" value="@ViewBag.BirthDate" />
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.GraduationDate, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.EditorFor(m => m.GraduationDate, new { @class = "form-control", @Value = ViewBag.GraduationDate })
+            <input name="GraduationDate" type="date" class="form-control" value="@ViewBag.GraduationDate" />
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.DefenseYear, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.EditorFor(m => m.DefenseYear, new { @class = "form-control", @Value = ViewBag.DefenseYear })
+            <input name="DefenseYear" type="date" class="form-control" value="@ViewBag.DefenseYear" />
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.AwardingDate, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.EditorFor(m => m.AwardingDate, new { @class = "form-control", @Value = ViewBag.AwardingDate })
+            <input name="AwardingDate" type="date" class="form-control" value="@ViewBag.AwardingDate" />
         </div>
     </div>
     <div class="form-group">
