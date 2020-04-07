@@ -5,6 +5,8 @@
 
 <h2>@ViewBag.Title.</h2>
 
+
+
 @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     <hr />
@@ -43,7 +45,7 @@
     <div class="form-group">
         @Html.LabelFor(m => m.PublicationsBeforeRegister, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.PublicationsBeforeRegister, new { @class = "form-control", @Type="number" })
+            @Html.TextBoxFor(m => m.PublicationsBeforeRegister, new { @class = "form-control", @Type = "number" })
         </div>
     </div>
     @Html.ValidationSummary("", new { @class = "text-danger" })
@@ -89,10 +91,10 @@
             alert('button clicked');
         }
         );
-    } 
+    }
 
     updateSelect();
-    
+
     //notification();
 
 </script>
