@@ -1,7 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
-  <Import Project="..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -25,6 +23,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -45,9 +44,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
@@ -213,93 +209,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201903301042038_UpdateUser.cs" />
-    <Compile Include="Migrations\201903301042038_UpdateUser.Designer.cs">
-      <DependentUpon>201903301042038_UpdateUser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903301106441_ActiveUser.cs" />
-    <Compile Include="Migrations\201903301106441_ActiveUser.Designer.cs">
-      <DependentUpon>201903301106441_ActiveUser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903301737358_additionalInfoUser.cs" />
-    <Compile Include="Migrations\201903301737358_additionalInfoUser.Designer.cs">
-      <DependentUpon>201903301737358_additionalInfoUser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201904201451423_UpdatePublication.cs" />
-    <Compile Include="Migrations\201904201451423_UpdatePublication.Designer.cs">
-      <DependentUpon>201904201451423_UpdatePublication.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201904202109477_PublicationTypeEnum.cs" />
-    <Compile Include="Migrations\201904202109477_PublicationTypeEnum.Designer.cs">
-      <DependentUpon>201904202109477_PublicationTypeEnum.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906011056196_AddedScientificWorks.cs" />
-    <Compile Include="Migrations\201906011056196_AddedScientificWorks.Designer.cs">
-      <DependentUpon>201906011056196_AddedScientificWorks.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906021114538_AddedPublicationCounter.cs" />
-    <Compile Include="Migrations\201906021114538_AddedPublicationCounter.Designer.cs">
-      <DependentUpon>201906021114538_AddedPublicationCounter.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906030935569_AddedReports.cs" />
-    <Compile Include="Migrations\201906030935569_AddedReports.Designer.cs">
-      <DependentUpon>201906030935569_AddedReports.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906031157184_ChangedReports.cs" />
-    <Compile Include="Migrations\201906031157184_ChangedReports.Designer.cs">
-      <DependentUpon>201906031157184_ChangedReports.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906040748335_FormatScientificWork.cs" />
-    <Compile Include="Migrations\201906040748335_FormatScientificWork.Designer.cs">
-      <DependentUpon>201906040748335_FormatScientificWork.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906040808178_AddedCathedraToThemeScientificWork.cs" />
-    <Compile Include="Migrations\201906040808178_AddedCathedraToThemeScientificWork.Designer.cs">
-      <DependentUpon>201906040808178_AddedCathedraToThemeScientificWork.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906040820000_FixedReport.cs" />
-    <Compile Include="Migrations\201906040820000_FixedReport.Designer.cs">
-      <DependentUpon>201906040820000_FixedReport.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906040844384_AddedConfirmedReportField.cs" />
-    <Compile Include="Migrations\201906040844384_AddedConfirmedReportField.Designer.cs">
-      <DependentUpon>201906040844384_AddedConfirmedReportField.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906041317517_AddedConfirmedReportFieldNullable.cs" />
-    <Compile Include="Migrations\201906041317517_AddedConfirmedReportFieldNullable.Designer.cs">
-      <DependentUpon>201906041317517_AddedConfirmedReportFieldNullable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906070917560_AddedI18nUsersInitials.cs" />
-    <Compile Include="Migrations\201906070917560_AddedI18nUsersInitials.Designer.cs">
-      <DependentUpon>201906070917560_AddedI18nUsersInitials.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906090908527_ChangedUserName.cs" />
-    <Compile Include="Migrations\201906090908527_ChangedUserName.Designer.cs">
-      <DependentUpon>201906090908527_ChangedUserName.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906091122030_AddedThemeNumber.cs" />
-    <Compile Include="Migrations\201906091122030_AddedThemeNumber.Designer.cs">
-      <DependentUpon>201906091122030_AddedThemeNumber.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906091500239_AddedThemeFinancials.cs" />
-    <Compile Include="Migrations\201906091500239_AddedThemeFinancials.Designer.cs">
-      <DependentUpon>201906091500239_AddedThemeFinancials.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906101343051_ChangedPublicationFields.cs" />
-    <Compile Include="Migrations\201906101343051_ChangedPublicationFields.Designer.cs">
-      <DependentUpon>201906101343051_ChangedPublicationFields.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906121712353_AddedCathedraReport.cs" />
-    <Compile Include="Migrations\201906121712353_AddedCathedraReport.Designer.cs">
-      <DependentUpon>201906121712353_AddedCathedraReport.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906121759154_AddedConnectionWIthReports.cs" />
-    <Compile Include="Migrations\201906121759154_AddedConnectionWIthReports.Designer.cs">
-      <DependentUpon>201906121759154_AddedConnectionWIthReports.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906131901157_AddedPlaceFieldToPublication.cs" />
-    <Compile Include="Migrations\201906131901157_AddedPlaceFieldToPublication.Designer.cs">
-      <DependentUpon>201906131901157_AddedPlaceFieldToPublication.cs</DependentUpon>
+    <Compile Include="Migrations\202004062254325_test.cs" />
+    <Compile Include="Migrations\202004062254325_test.Designer.cs">
+      <DependentUpon>202004062254325_test.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\PublicationDB\Publication.cs" />
@@ -453,71 +365,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201903301042038_UpdateUser.resx">
-      <DependentUpon>201903301042038_UpdateUser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903301106441_ActiveUser.resx">
-      <DependentUpon>201903301106441_ActiveUser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903301737358_additionalInfoUser.resx">
-      <DependentUpon>201903301737358_additionalInfoUser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904201451423_UpdatePublication.resx">
-      <DependentUpon>201904201451423_UpdatePublication.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904202109477_PublicationTypeEnum.resx">
-      <DependentUpon>201904202109477_PublicationTypeEnum.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906011056196_AddedScientificWorks.resx">
-      <DependentUpon>201906011056196_AddedScientificWorks.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906021114538_AddedPublicationCounter.resx">
-      <DependentUpon>201906021114538_AddedPublicationCounter.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906030935569_AddedReports.resx">
-      <DependentUpon>201906030935569_AddedReports.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906031157184_ChangedReports.resx">
-      <DependentUpon>201906031157184_ChangedReports.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906040748335_FormatScientificWork.resx">
-      <DependentUpon>201906040748335_FormatScientificWork.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906040808178_AddedCathedraToThemeScientificWork.resx">
-      <DependentUpon>201906040808178_AddedCathedraToThemeScientificWork.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906040820000_FixedReport.resx">
-      <DependentUpon>201906040820000_FixedReport.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906040844384_AddedConfirmedReportField.resx">
-      <DependentUpon>201906040844384_AddedConfirmedReportField.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906041317517_AddedConfirmedReportFieldNullable.resx">
-      <DependentUpon>201906041317517_AddedConfirmedReportFieldNullable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906070917560_AddedI18nUsersInitials.resx">
-      <DependentUpon>201906070917560_AddedI18nUsersInitials.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906090908527_ChangedUserName.resx">
-      <DependentUpon>201906090908527_ChangedUserName.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906091122030_AddedThemeNumber.resx">
-      <DependentUpon>201906091122030_AddedThemeNumber.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906091500239_AddedThemeFinancials.resx">
-      <DependentUpon>201906091500239_AddedThemeFinancials.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906101343051_ChangedPublicationFields.resx">
-      <DependentUpon>201906101343051_ChangedPublicationFields.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906121712353_AddedCathedraReport.resx">
-      <DependentUpon>201906121712353_AddedCathedraReport.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906121759154_AddedConnectionWIthReports.resx">
-      <DependentUpon>201906121759154_AddedConnectionWIthReports.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906131901157_AddedPlaceFieldToPublication.resx">
-      <DependentUpon>201906131901157_AddedPlaceFieldToPublication.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202004062254325_test.resx">
+      <DependentUpon>202004062254325_test.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
@@ -548,13 +397,6 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
-  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
