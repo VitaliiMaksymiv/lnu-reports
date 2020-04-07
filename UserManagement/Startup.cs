@@ -30,7 +30,7 @@ namespace UserManagement
                 // first we create Admin rool   
                 var role = new IdentityRole();
                 role.Name = "Superadmin";
-                roleManager.Create(role);
+                roleManager.Create(role); 
 
                 //Here we create a Admin super user who will maintain the website                  
 

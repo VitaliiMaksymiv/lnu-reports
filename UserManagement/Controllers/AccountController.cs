@@ -58,6 +58,7 @@ namespace UserManagement.Controllers
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
+            ViewBag.Success = TempData["Success"];
             return View();
         }
 
@@ -101,6 +102,7 @@ namespace UserManagement.Controllers
         {
             ViewBag.AllCathedras = db.Cathedra.ToList().Select(x => x.Name);
             ViewBag.AllFaculties = db.Faculty.ToList().Select(x => x.Name);
+            
             return View();
         }
 
@@ -141,7 +143,8 @@ namespace UserManagement.Controllers
                         });
                     }
                     db.SaveChanges();
-                    return RedirectToAction("Login", "Account");
+                    TempData["Success"] = true;
+                    return  RedirectToAction("Login", "Account");
                 }
                 AddErrors(result);
             }
