@@ -297,8 +297,8 @@ namespace UserManagement.Services
             var initials = report.User.I18nUserInitials.Where(x => x.Language == Language.UA).First();
             return ReplaceStringWithParameters(GenerateTemplateForHeadOfReport(), new Dictionary<string, string>()
             {
-                [YEAR_CONST] = report.Date.Value.Year.ToString(),
-                [POSITION_CONST] = report.User.Position.Value,
+                [YEAR_CONST] = report.Date.HasValue ? report.Date.Value.Year.ToString() : "",
+                [POSITION_CONST] = report.User.Position.Value.Replace("кафедри",string.Empty),
                 [CATHEDRA_CONST] = report.User.Cathedra.Name.Replace("Кафедра ", ""),
                 [USER_NAME_CONST] = initials.LastName + " " + initials.FirstName + " " + initials.FathersName,
                 [BIRTHDAY_CONST] = report.User.BirthDate.ToString("dd.MM.yyyy"),
@@ -469,7 +469,7 @@ namespace UserManagement.Services
             return ReplaceStringWithParameters(GetFooterTemplate(), new Dictionary<string, string>()
             {
                 [PROTOCOL_CONST] = report.Protocol,
-                [DATE_CONST] = report.Date.Value.ToString("dd.MM.yyyy"),
+                [DATE_CONST] = report.Date.HasValue ? report.Date.Value.Year.ToString("dd.MM.yyyy") : "",
                 [CATHEDRA_CONST] = report.User.Cathedra.Name.Replace("Кафедра ", ""),
             });
         }
