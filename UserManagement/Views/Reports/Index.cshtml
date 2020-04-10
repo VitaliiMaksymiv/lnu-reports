@@ -33,7 +33,7 @@
     }
 
     .nextButton {
-        width: 100px;
+        width: auto;
     }
 
     .buttonsBlock {
@@ -419,4 +419,12 @@
 
     updateSteps();
     updateSelect();
+
+    function setWidth() {
+        var date = document.getElementById("Date");
+        var protocol = document.getElementById("Protocol");
+        var protocol_width = protocol.offsetWidth + 'px';
+        date.style.width = protocol_width;
+    }
+    setWidth();
 </script>
