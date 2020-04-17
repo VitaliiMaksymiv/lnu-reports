@@ -218,7 +218,7 @@ namespace UserManagement.Services
         {
             return "<div class=\"header\"><h2> Індивідуальний звіт про наукову роботу в "
                 + YEAR_CONST
-                + "</h2><p><i>"
+                + " році</h2><p><i>"
                 + POSITION_CONST
                 + " кафедри "
                 + CATHEDRA_CONST + " "
@@ -297,14 +297,14 @@ namespace UserManagement.Services
             var initials = report.User.I18nUserInitials.Where(x => x.Language == Language.UA).First();
             return ReplaceStringWithParameters(GenerateTemplateForHeadOfReport(), new Dictionary<string, string>()
             {
-                [YEAR_CONST] = report.Date.HasValue ? report.Date.Value.Year.ToString() : "",
-                [POSITION_CONST] = report.User.Position.Value.Replace("кафедри",string.Empty),
-                [CATHEDRA_CONST] = report.User.Cathedra.Name.Replace("Кафедра ", ""),
+                [YEAR_CONST] = report.Date == null ? "" : report.Date.Value.Year.ToString(),
+                [POSITION_CONST] = report.User.Position == null ? "" : report.User.Position.Value.Replace("кафедри",string.Empty),
+                [CATHEDRA_CONST] = report.User.Cathedra == null ? "" : report.User.Cathedra.Name.Replace("Кафедра ", ""),
                 [USER_NAME_CONST] = initials.LastName + " " + initials.FirstName + " " + initials.FathersName,
                 [BIRTHDAY_CONST] = report.User.BirthDate.ToString("dd.MM.yyyy"),
                 [GRADUATION_YEAR_CONST] = report.User.GraduationDate.Year.ToString(),
-                [ACADEMIC_STATUS_YEAR_CONST] = report.User.AcademicStatus.Value == "Без ступеня" ? report.User.AcademicStatus.Value : report.User.AcademicStatus.Value + ", " + report.User.DefenseYear.Year.ToString(),
-                [SCIENCE_DEGREE_YEAR_CONST] = report.User.ScienceDegree.Value == "Без звання" ? report.User.ScienceDegree.Value : report.User.ScienceDegree.Value + ", " + report.User.AwardingDate.Year.ToString(),
+                [ACADEMIC_STATUS_YEAR_CONST] = report.User.AcademicStatus == null ? "" : report.User.AcademicStatus.Value == "Без ступеня" ? report.User.AcademicStatus.Value : report.User.AcademicStatus.Value + ", " + report.User.DefenseYear.Year.ToString(),
+                [SCIENCE_DEGREE_YEAR_CONST] = report.User.ScienceDegree == null ? "" : report.User.ScienceDegree.Value == "Без звання" ? report.User.ScienceDegree.Value : report.User.ScienceDegree.Value + ", " + report.User.AwardingDate.Year.ToString(),
             });
         }
         private string GetPunktOne(Report report)
@@ -469,8 +469,8 @@ namespace UserManagement.Services
             return ReplaceStringWithParameters(GetFooterTemplate(), new Dictionary<string, string>()
             {
                 [PROTOCOL_CONST] = report.Protocol,
-                [DATE_CONST] = report.Date.HasValue ? report.Date.Value.Year.ToString("dd.MM.yyyy") : "",
-                [CATHEDRA_CONST] = report.User.Cathedra.Name.Replace("Кафедра ", ""),
+                [DATE_CONST] = report.Date == null ? "" : report.Date.Value.ToString("dd.MM.yyyy"),
+                [CATHEDRA_CONST] = report.User.Cathedra == null ? "" : report.User.Cathedra.Name.Replace("Кафедра ", ""),
             });
         }
 
