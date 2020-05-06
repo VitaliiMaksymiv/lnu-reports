@@ -13,48 +13,38 @@ namespace UserManagement.Services
 
         public String GenerateNameOfPublication(Publication publication)
         {
-            var user = publication.User.FirstOrDefault();
+            var user = publication.User.FirstOrDefault(x=>x.UserName == publication.MainAuthor);
             string toReturn = "";
             if (user != null)
             {
                 var initials = user.I18nUserInitials.Where(x => x.Language == publication.Language).First();
                 toReturn = initials.LastName + " " + initials.FirstName.Substring(0, 1).ToUpper() + ". " + initials.FathersName.Substring(0, 1).ToUpper() + ". ";
             }
-            toReturn = toReturn + publication.Name;
-            if (publication.User.Count !=1 || !string.IsNullOrEmpty(publication.OtherAuthors))
-                toReturn = toReturn + " / ";
+            if (publication.User.Count > 1)
+            {
+                toReturn = toReturn + publication.Name + " / ";
+            }
+            publication.User.Remove(user);
             for (var i = 0; i < publication.User.Count; i++)
             {
-                if (publication.User.ElementAt(i).Id != user.Id)
-                {
-                    var initials = publication.User.ElementAt(i).I18nUserInitials.Where(x => x.Language == publication.Language).First();
-                    toReturn = toReturn + initials.FirstName.Substring(0, 1).ToUpper()
-                        + ". " + initials.FathersName.Substring(0, 1).ToUpper()
-                        + ". " + initials.LastName;
-                }
-                else
-                {
-                    continue;
-                }
-                if (i == publication.User.Count - 1)
-                {
-                    if (publication.OtherAuthors == null || publication.OtherAuthors == "")
-                    {
-                        toReturn = toReturn + " – " + (publication.Place == null ? (publication.Date.Year + ".") :
-                            (": " + publication.Edition == null ? "" : ", " + publication.Date.Year + "."));
-                        toReturn += AddEndOfPublication(publication);
-                        break;
-                    } else
-                    {
-                        toReturn = toReturn + ", " + publication.OtherAuthors + ". – " + (publication.Place == null ? (publication.Date.Year + ".") :
-                            (": " + publication.Edition == null ? "" : ", " + publication.Date.Year + "."));
-                        toReturn += AddEndOfPublication(publication);
-                    }
-                }
-                else
-                {
+                var initials = publication.User.ElementAt(i).I18nUserInitials.Where(x => x.Language == publication.Language).First();
+                toReturn = toReturn + initials.FirstName.Substring(0, 1).ToUpper()
+                    + ". " + initials.FathersName.Substring(0, 1).ToUpper()
+                    + ". " + initials.LastName;
+                if (i != publication.User.Count - 1)
                     toReturn = toReturn + ", ";
-                }
+            }
+            if (publication.OtherAuthors == null || publication.OtherAuthors == "")
+            {
+                toReturn = toReturn + ". – " + (publication.Place == null ? (publication.Date.Year + ".") :
+                    (": " + publication.Edition == null ? "" : ", " + publication.Date.Year + "."));
+                toReturn += AddEndOfPublication(publication);
+            }
+            else
+            {
+                toReturn = toReturn + ", " + publication.OtherAuthors + ". – " + (publication.Place == null ? (publication.Date.Year + ".") :
+                    (": " + publication.Edition == null ? "" : ", " + publication.Date.Year + "."));
+                toReturn += AddEndOfPublication(publication);
             }
             return toReturn;
         }

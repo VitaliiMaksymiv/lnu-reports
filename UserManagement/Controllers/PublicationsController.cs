@@ -149,9 +149,6 @@ namespace UserManagement.Controllers
                          Value = x.Id
                      })
                     .ToList();
-            ViewBag.CurrentUser = users
-                .Where(x => x.UserName == User.Identity.Name)
-                .Select(x => x.Id).ToList();
             return View();
         }
 
@@ -160,7 +157,7 @@ namespace UserManagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name,OtherAuthors,Date,SizeOfPages,PublicationType," +
+        public ActionResult Create([Bind(Include = "ID,Name,OtherAuthors,Date,SizeOfPages,PublicationType,Place," +
             "MainAuthor,IsMainAuthorRegistered,Language,Link,Edition,Magazine,DOI,Tome")] Publication publication,
             [Bind(Include = "UserToAdd")]String[] userToAdd)
         {
@@ -180,28 +177,33 @@ namespace UserManagement.Controllers
                          Value = x.Id
                      })
                     .ToList();
-            if (ModelState.IsValid && userToAdd != null)
+            if (ModelState.IsValid)
             {
-                var publicationExists = db.Publication
-                    .Any(x =>
-                    x.Name == publication.Name
-                    && userToAdd.All(y => x.User.Select(z => z.Id).Contains(y))
-                    && x.PublicationType == publication.PublicationType
-                    );
-                if (publicationExists)
+                publication.User.Add(db.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault());
+                if (userToAdd != null)
                 {
-                    ModelState.AddModelError("", "Така публікація вже існує");
-                    return View(publication);
-                }
-                if (userToAdd.Length != 0)
-                {
-                    foreach (var current in userToAdd)
+                    var publicationExists = db.Publication
+                        .Any(x =>
+                        x.Name == publication.Name
+                        && userToAdd.All(y => x.User.Select(z => z.Id).Contains(y))
+                        && x.PublicationType == publication.PublicationType
+                        );
+                    if (publicationExists)
                     {
-                        var user = db.Users.Find(current);
-                        publication.User.Add(user);
-                        user.Publication.Add(publication);
+                        ModelState.AddModelError("", "Така публікація вже існує");
+                        return View(publication);
+                    }
+                    if (userToAdd.Length != 0)
+                    {
+                        foreach (var current in userToAdd)
+                        {
+                            var user = db.Users.Find(current);
+                            publication.User.Add(user);
+                            user.Publication.Add(publication);
+                        }
                     }
                 }
+                publication.MainAuthor = User.Identity.Name;
                 db.Publication.Add(publication);
                 db.SaveChanges();
                 return RedirectToAction("Index");
