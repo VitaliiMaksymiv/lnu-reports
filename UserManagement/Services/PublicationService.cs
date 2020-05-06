@@ -34,18 +34,17 @@ namespace UserManagement.Services
                 if (i != publication.User.Count - 1)
                     toReturn = toReturn + ", ";
             }
-            if (publication.OtherAuthors == null || publication.OtherAuthors == "")
-            {
-                toReturn = toReturn + ". – " + (publication.Place == null ? (publication.Date.Year + ".") :
-                    (": " + publication.Edition == null ? "" : ", " + publication.Date.Year + "."));
-                toReturn += AddEndOfPublication(publication);
-            }
-            else
-            {
-                toReturn = toReturn + ", " + publication.OtherAuthors + ". – " + (publication.Place == null ? (publication.Date.Year + ".") :
-                    (": " + publication.Edition == null ? "" : ", " + publication.Date.Year + "."));
-                toReturn += AddEndOfPublication(publication);
-            }
+
+            publication.User.Add(user);
+
+            toReturn = toReturn + ", " +
+                ((publication.OtherAuthors != null || publication.OtherAuthors != "") ? publication.OtherAuthors : "") + ". – " +
+                (publication.Place != null ? publication.Place + ", " : "") +
+                (publication.Edition != null ? publication.Edition + ", " : "") +
+                publication.Date + ".";
+
+            toReturn += AddEndOfPublication(publication);
+
             return toReturn;
         }
         private String AddEndOfPublication(Publication publication)
