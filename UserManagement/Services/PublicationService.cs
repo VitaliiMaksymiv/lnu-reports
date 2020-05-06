@@ -20,27 +20,18 @@ namespace UserManagement.Services
                 var initials = user.I18nUserInitials.Where(x => x.Language == publication.Language).First();
                 toReturn = initials.LastName + " " + initials.FirstName.Substring(0, 1).ToUpper() + ". " + initials.FathersName.Substring(0, 1).ToUpper() + ". ";
             }
-            toReturn = toReturn + publication.Name;
-            if (publication.User.Count !=1 || !string.IsNullOrEmpty(publication.OtherAuthors))
-                toReturn = toReturn + " / ";
+            toReturn = toReturn + publication.Name + " / ";
             for (var i = 0; i < publication.User.Count; i++)
             {
-                if (publication.User.ElementAt(i).Id != user.Id)
-                {
-                    var initials = publication.User.ElementAt(i).I18nUserInitials.Where(x => x.Language == publication.Language).First();
-                    toReturn = toReturn + initials.FirstName.Substring(0, 1).ToUpper()
-                        + ". " + initials.FathersName.Substring(0, 1).ToUpper()
-                        + ". " + initials.LastName;
-                }
-                else
-                {
-                    continue;
-                }
+                var initials = publication.User.ElementAt(i).I18nUserInitials.Where(x => x.Language == publication.Language).First();
+                toReturn = toReturn + initials.FirstName.Substring(0, 1).ToUpper()
+                    + ". " + initials.FathersName.Substring(0, 1).ToUpper()
+                    + ". " + initials.LastName;
                 if (i == publication.User.Count - 1)
                 {
                     if (publication.OtherAuthors == null || publication.OtherAuthors == "")
                     {
-                        toReturn = toReturn + " – " + (publication.Place == null ? (publication.Date.Year + ".") :
+                        toReturn = toReturn + ". – " + (publication.Place == null ? (publication.Date.Year + ".") :
                             (": " + publication.Edition == null ? "" : ", " + publication.Date.Year + "."));
                         toReturn += AddEndOfPublication(publication);
                         break;
