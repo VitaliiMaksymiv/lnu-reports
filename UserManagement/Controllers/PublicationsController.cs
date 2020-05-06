@@ -149,9 +149,6 @@ namespace UserManagement.Controllers
                          Value = x.Id
                      })
                     .ToList();
-            ViewBag.CurrentUser = users
-                .Where(x => x.UserName == User.Identity.Name)
-                .Select(x => x.Id).ToList();
             return View();
         }
 
