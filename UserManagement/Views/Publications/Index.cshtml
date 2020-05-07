@@ -7,55 +7,49 @@
 
 <h2>Публікації</h2>
 
-<p>
-    @Html.ActionLink("Створити", "Create")
-</p>
-<div style="display:flex">
-    <form asp-controller="Publications" asp-action="Index">
-        <p>
-            Назва: <input type="text" name="SearchString" value="@ViewBag.searchString">
-            <input name="dateFrom" hidden value="@ViewBag.dateFrom" />
-            <input name="dateTo" hidden value="@ViewBag.dateTo" />
-            <input type="submit" value="Пошук" class="btn btn-default find" />
-        </p>
-    </form>
-</div>
-<div style="
-    display: flex;
-    justify-content: space-between;">
-    <form asp-controller="Publications" asp-action="Index" id="cathedraForm">
-        <p>
-            @Html.DropDownList("cathedra",
-                           new SelectList(ViewBag.AllCathedras, "Value", "Text"),
-                           "Виберіть кафедру",
-                           new { @class = "form-control chosen-select", @Value = ViewBag.cathedra })
-            <input name="dateFrom" hidden value="@ViewBag.dateFrom" />
-            <input name="dateTo" hidden value="@ViewBag.dateTo" />
-        </p>
-    </form>
-
-    <form asp-controller="Publications" asp-action="Index" id="facultyForm">
-        <p>
-            @Html.DropDownList("faculty",
-                             new SelectList(ViewBag.AllFaculties, "Value", "Text"),
-                             "Виберіть факультет",
-                             new { @class = "form-control chosen-select-faculty", @Value = ViewBag.faculty })
-            <input name="dateFrom" hidden value="@ViewBag.dateFrom" />
-            <input name="dateTo" hidden value="@ViewBag.dateTo" />
-        </p>
-    </form>
-    <form asp-controller="Publications" asp-action="Index" id="dateForm">
-        <input hidden name="SearchString" value="@ViewBag.searchString">
-        <input hidden name="cathedra" value="@ViewBag.cathedra">
-        <input hidden name="faculty" value="@ViewBag.faculty">
-        <input hidden name="isMine" value="@ViewBag.isMine">
-        З: <input type="date" name="dateFrom" onchange="submitDate()" value="@ViewBag.dateFrom" />
-        До: <input type="date" name="dateTo" onchange="submitDate()" value="@ViewBag.dateTo" />
-    </form>
+<form asp-controller="Publications" asp-action="Index" id="mainFrom" style="display:flex; justify-content: space-between">
     <div>
-        @Html.ActionLink(!ViewBag.isMine ? "Мої публікації" : "Всі публікації", "Index", new { isMine = !ViewBag.isMine, page = ViewBag.page, dateFrom = ViewBag.dateFrom, dateTo = ViewBag.dateTo })
+        <label>Назва</label>
+        <input type="text" name="SearchString" value="@ViewBag.searchString">
     </div>
+    <div>
+        <label>Факультет</label>
+        @Html.DropDownList("faculty",
+                         new SelectList(ViewBag.AllFaculties, "Value", "Text",  ViewBag.facultyNumber),
+                         "Виберіть факультет",
+                         new { @class = "form-control chosen-select-faculty", @Value = ViewBag.faculty })
+    </div>
+    <div>
+        <label>Кафедра</label>
+        @Html.DropDownList("cathedra",
+                       new SelectList(ViewBag.AllCathedras, "Value", "Text", ViewBag.cathedraNumber),
+                       "Виберіть кафедру",
+                       new { @class = "form-control chosen-select", @Value = ViewBag.cathedra })
+    </div>
+    <div>
+        <label>З: </label>
+        <input type="date" name="dateFrom" value="@ViewBag.dateFrom" />
+    </div>
+    <div>
+        <label>До: </label>
+        <input type="date" name="dateTo" value="@ViewBag.dateTo" />
+    </div>
+    <div style="height:50%;padding-top:25px">
+        <input type="submit" value="Пошук" />
+    </div>
+</form>
+<div style="display: flex; justify-content: space-between">
+    @Html.ActionLink("Створити", "Create")
+    @Html.ActionLink(!ViewBag.isMine ? "Мої публікації" : "Всі публікації", "Index", 
+        new { 
+            searchString = ViewBag.searchString, 
+            isMine = !ViewBag.isMine, 
+            page = ViewBag.page, 
+            dateFrom = ViewBag.dateFrom, 
+            dateTo = ViewBag.dateTo })
 </div>
+<br />
+
 <table class="table">
     <tr>
         <th>

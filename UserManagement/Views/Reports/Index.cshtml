@@ -33,7 +33,7 @@
     }
 
     .nextButton {
-        width: 100px;
+        width: auto;
     }
 
     .buttonsBlock {
@@ -49,8 +49,9 @@
     <h3>Публікації</h3>
     <section class="sectionBody">
         <form asp-controller="Reports" asp-action="Index" id="dateForm">
-            З: <input type="date" name="dateFrom" onchange="submitDate()" value="@ViewBag.dateFrom" />
-            До: <input type="date" name="dateTo" onchange="submitDate()" value="@ViewBag.dateTo" />
+            З: <input type="date" name="dateFrom" value="@ViewBag.dateFrom" />
+            До: <input type="date" name="dateTo" value="@ViewBag.dateTo" />
+            <button type="submit">Пошук</button>
         </form>
         @using (@Html.BeginForm("Update", "Reports", FormMethod.Post, new { @id = "updatePublicationForm" }))
         {
@@ -419,4 +420,12 @@
 
     updateSteps();
     updateSelect();
+
+    function setWidth() {
+        var date = document.getElementById("Date");
+        var protocol = document.getElementById("Protocol");
+        var protocol_width = protocol.offsetWidth + 'px';
+        date.style.width = protocol_width;
+    }
+    setWidth();
 </script>

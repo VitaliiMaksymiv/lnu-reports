@@ -298,8 +298,8 @@ namespace UserManagement.Services
             return ReplaceStringWithParameters(GenerateTemplateForHeadOfReport(), new Dictionary<string, string>()
             {
                 [YEAR_CONST] = report.Date == null ? "" : report.Date.Value.Year.ToString(),
-                [POSITION_CONST] = report.User.Position == null ? "" : report.User.Position.Value,
-                [CATHEDRA_CONST] = report.User.Cathedra == null ? "" : report.User.Cathedra?.Name.Replace("Кафедра ", ""),
+                [POSITION_CONST] = report.User.Position == null ? "" : report.User.Position.Value.Replace("кафедри",string.Empty),
+                [CATHEDRA_CONST] = report.User.Cathedra == null ? "" : report.User.Cathedra.Name.Replace("Кафедра ", ""),
                 [USER_NAME_CONST] = initials.LastName + " " + initials.FirstName + " " + initials.FathersName,
                 [BIRTHDAY_CONST] = report.User.BirthDate.ToString("dd.MM.yyyy"),
                 [GRADUATION_YEAR_CONST] = report.User.GraduationDate.Year.ToString(),

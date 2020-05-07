@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -58,6 +60,8 @@ namespace UserManagement.Controllers
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
+            ViewBag.Success = TempData["Success"];
+           
             return View();
         }
 
@@ -78,7 +82,18 @@ namespace UserManagement.Controllers
                 ModelState.AddModelError("", "This user is not active.");
                 return View(model);
             }
+
+            HttpCookie cookie = new HttpCookie("UserName", model.Email);
+            HttpCookie cookie1 = HttpContext.Request.Cookies.Get("UserName");
+            if (model.RememberMe)
+            {
+                cookie.Expires = DateTime.Now.AddDays(10);
+            }
+            Response.Cookies.Add(cookie);
+
+
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+
             switch (result)
             {
                 case SignInStatus.Success:
@@ -101,6 +116,7 @@ namespace UserManagement.Controllers
         {
             ViewBag.AllCathedras = db.Cathedra.ToList().Select(x => x.Name);
             ViewBag.AllFaculties = db.Faculty.ToList().Select(x => x.Name);
+            
             return View();
         }
 
@@ -141,7 +157,8 @@ namespace UserManagement.Controllers
                         });
                     }
                     db.SaveChanges();
-                    return RedirectToAction("Login", "Account");
+                    TempData["Success"] = true;
+                    return  RedirectToAction("Login", "Account");
                 }
                 AddErrors(result);
             }

@@ -19,7 +19,7 @@
     <div class="form-group">
         @Html.LabelFor(m => m.BirthDate, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            <input name="BirthDate" type="date" class="form-control" value="@ViewBag.BirthDate" />
+            <input name="BirthDate" type="date" class="form-control" value="@ViewBag.BirthDate" id="BirthDate" />
         </div>
     </div>
     <div class="form-group">
@@ -96,7 +96,11 @@
             }
         );
     }
-
+    $(function () {
+        $('[type="date"][id="BirthDate"]').prop('max', function () {
+            return new Date().toJSON().split('T')[0];
+        })
+    });
     updateSelect();
 </script>
 @section Scripts {
