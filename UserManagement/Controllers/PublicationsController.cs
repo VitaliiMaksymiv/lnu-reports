@@ -204,6 +204,7 @@ namespace UserManagement.Controllers
                     }
                 }
                 publication.MainAuthor = User.Identity.Name;
+                publication.DOI = publication.DOI ?? "_";
                 db.Publication.Add(publication);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -293,6 +294,7 @@ namespace UserManagement.Controllers
                 publicationFromDB.SizeOfPages = publication.SizeOfPages;
                 publicationFromDB.Language = publication.Language;
                 publicationFromDB.Date = publication.Date;
+                publicationFromDB.DOI = publication.DOI ?? "_";
                 if (userToAdd != null && userToAdd.Length != 0)
                 {
                     foreach (var current in userToAdd)
