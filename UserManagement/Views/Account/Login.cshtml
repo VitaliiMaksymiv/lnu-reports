@@ -62,8 +62,11 @@
     </div>
 </div>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js></script>
+<script type="text/javascript" src="jquery.cookie.js"></script>
 <script type="text/javascript">
     $(function () {
+        const a = getCookie(".AspNet.ApplicationCookie");
         $("#chkShowPassword").bind("click", function () {
             var txtPassword = $("#Password");
             if ($(this).is(":checked")) {
@@ -75,9 +78,33 @@
                 txtPassword.show();
             }
         });
+
+        console.log('aaaaaaa', a)
+        if (a !== null) {
+            console.log('a', a)
+            //window.location.replace('/');
+        } else {
+            console.log('eeeeeeeeeeeeeeeeeee')
+        }
     });
     function PasswordChanged(txt) {
         $(txt).prev().val($(txt).val());
+    }
+
+    function getCookie(cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
     }
 </script>
 
