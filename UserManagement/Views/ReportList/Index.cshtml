@@ -11,10 +11,20 @@
 {
     @Html.ActionLink("Звіти кафедри", "Index", "ReportCathedraList")
 }
-<form asp-controller="ReportList" asp-action="Index" id="dateForm" style="margin-bottom:10px;">
-    З: <input type="date" name="dateFrom" onchange="submitDate()" value="@ViewBag.dateFrom" />
-    До: <input type="date" name="dateTo" onchange="submitDate()" value="@ViewBag.dateTo" />
+<form asp-controller="ReportList" asp-action="Index" id="dateForm" style="display:flex">
+    <div style="margin: 10px">
+        <label style="display:block">З: </label>
+        <input type="date" name="dateFrom" value="@ViewBag.dateFrom" />
+    </div>
+    <div style="margin: 10px">
+        <label style="display:block">До: </label>
+        <input type="date" name="dateTo" value="@ViewBag.dateTo" />
+    </div>
+    <div style="height:50%; margin: 10px; padding-top:25px">
+        <input type="submit" value="Пошук" />
+    </div>
 </form>
+
 <table class="table">
     <tr>
         <th>
