@@ -46,7 +46,7 @@ namespace UserManagement.Controllers
                 oldReport = db.Reports.Find(reportVerifiedId);
             }
             var allPublications = db.Publication.Where(x => x.User.Any(y => y.UserName == User.Identity.Name)).ToList();
-            allPublications = allPublications.Where(x => !x.AcceptedToPrintPublicationReport.Union(x.RecomendedPublicationReport).Union(x.PrintedPublicationReport).Any(y => y.IsSigned || y.IsConfirmed)).ToList();
+            allPublications = allPublications.Where(x => !x.AcceptedToPrintPublicationReport.Union(x.RecomendedPublicationReport).Union(x.PrintedPublicationReport).Any(y => y.IsSigned || y.IsConfirmed)).ToList();            
             if (oldReport != null && dateFromVerified == "" && dateToVerified == "")
             {
                 return ChooseOldReport(oldReport, allPublications);
@@ -82,6 +82,15 @@ namespace UserManagement.Controllers
         public ActionResult Update(ReportViewModel reportViewModel, int? stepIndex, int? oldIndex)
         {
             CreateOrUpdateReport(reportViewModel, oldIndex ?? 0);
+            if (stepIndex == 4)
+            {
+                //checks if protocol or date values is empty. If it is, we will redirect user to page where he can set these values.
+                if (reportViewModel.Protocol is null || reportViewModel.Date is null)
+                {
+                    int indexOfDateAProtocol = 3;
+                    return RedirectToAction("Index", new { stepIndex = indexOfDateAProtocol, reportId = reportViewModel.ID });
+                }
+            }
             return RedirectToAction("Index", new { stepIndex = stepIndex, reportId = reportViewModel.ID });
         }
 

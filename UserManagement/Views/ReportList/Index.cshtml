@@ -57,11 +57,18 @@
             <td>
                 @if (!item.IsSigned)
                 {
-                    using (Html.BeginForm("Sign", "ReportList", FormMethod.Get, new { @id = "signCheckboxForm_" + item.ID }))
+                    if (item.Date == null || item.Protocol == null)
                     {
-                        @Html.Hidden("reportId", item.ID)
+                        @Html.DisplayFor(modelItem => item.IsSigned)
                     }
-                    @Html.CheckBoxFor(modelItem => item.IsSigned, new { @id = "signCheckbox_" + item.ID })
+                    else
+                    {
+                        using (Html.BeginForm("Sign", "ReportList", FormMethod.Get, new { @id = "signCheckboxForm_" + item.ID }))
+                        {
+                            @Html.Hidden("reportId", item.ID)
+                        }
+                        @Html.CheckBoxFor(modelItem => item.IsSigned, new { @id = "signCheckbox_" + item.ID })
+                    }
                 }
                 else
                 {
