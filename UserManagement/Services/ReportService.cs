@@ -32,6 +32,7 @@ namespace UserManagement.Services
         private static String PUNKT_6_1_ARTICLES_OTHER_INTERNATIONAL = "{PUNKT_6_1_ARTICLES_OTHER_INTERNATIONAL}";
         private static String PUNKT_6_1_ARTICLES_NATIONAL = "{PUNKT_6_1_ARTICLES_NATIONAL}";
         private static String PUNKT_6_1_ARTICLES_NATIONAL_FAH = "{PUNKT_6_1_ARTICLES_NATIONAL_FAH}";
+        private static String PUNKT_6_1_ARTICLES_INTERNATIONAL_METRICALS = "{PUNKT_6_1_ARTICLES_INTERNATIONAL_METRICALS}";
         private static String PUNKT_6_1_CONFERENCES = "{PUNKT_6_1_CONFERENCES}";
         private static String PUNKT_6_1_CONFERENCES_INTERNATIONAL = "{PUNKT_6_1_CONFERENCES_INTERNATIONAL}";
         private static String PUNKT_6_1_CONFERENCES_NATIONAL = "{PUNKT_6_1_CONFERENCES_NATIONAL}";
@@ -155,6 +156,7 @@ namespace UserManagement.Services
             //     + PUNKT_6_1_ARTICLES_FACTOR
             //     + PUNKT_6_1_ARTICLES_INTERNATIONAL
             var readyPunktSixOneArticlesInternationals = publicationService.GetPunktSixOneArticlesInterantional(report);
+            var readyPunktSixOneArticlesInternationalsMetricals = publicationService.GetPunktSixOneArticlesInterantionalMetricals(report);
             var readyPunktSixOneArticlesNationalFah = publicationService.GetPunktSixOneArticlesNationalFah(report);
             var readyPunktSixOneArticlesNational = publicationService.GetPunktSixOneArticlesNational(report);
             var readyPunktSixOneConferences = publicationService.GetPunktSixOneConferences(report);
@@ -191,6 +193,7 @@ namespace UserManagement.Services
                 [PUNKT_6_1_OTHER] = readyPunktSixOneOther,
                 [PUNKT_6_1_ARTICLES] = readyPunktSixOneArticles,
                 [PUNKT_6_1_ARTICLES_OTHER_INTERNATIONAL] = readyPunktSixOneArticlesInternationals,
+                [PUNKT_6_1_ARTICLES_INTERNATIONAL_METRICALS] = readyPunktSixOneArticlesInternationalsMetricals,
                 [PUNKT_6_1_ARTICLES_NATIONAL_FAH] = readyPunktSixOneArticlesNationalFah,
                 [PUNKT_6_1_ARTICLES_NATIONAL] = readyPunktSixOneArticlesNational,
                 [PUNKT_6_1_CONFERENCES] = readyPunktSixOneConferences,

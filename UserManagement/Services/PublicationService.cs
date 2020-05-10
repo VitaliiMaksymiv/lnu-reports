@@ -113,6 +113,11 @@ namespace UserManagement.Services
             var collection = report.PrintedPublication.Where(x => x.PublicationType == PublicationType.Стаття_В_Закордонних_Виданнях).ToList();
             return PopulatePunkt(collection, GenerateTemplateForGenericPunkt(GetTitleForPunktSixOneArticlesInternationalOther()));
         }
+        public string GetPunktSixOneArticlesInterantionalMetricals(Report report)
+        {
+            var collection = report.PrintedPublication.Where(x => x.PublicationType == PublicationType.Стаття_В_Інших_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних).ToList();
+            return PopulatePunkt(collection, GenerateTemplateForGenericPunkt(GetTitleForPunktSixOneArticlesInternational()));
+        }
         public string GetPunktSixOneArticlesNationalFah(Report report)
         {
             var collection = report.PrintedPublication.Where(x => x.PublicationType == PublicationType.Стаття_В_Фахових_Виданнях_України).ToList();
