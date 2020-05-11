@@ -30,6 +30,7 @@ namespace UserManagement.Models.db
     public enum Financial
     {
         БЮДЖЕТ,
-        ГОСПДОГОВІР
+        ГОСПДОГОВІР,
+        В_МЕЖАХ_РОБОЧОГО_ЧАСУ
     }
 }

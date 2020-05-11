@@ -122,14 +122,33 @@
         $('#dateForm').submit();
     }
     function events() {
-        $('[id^="signCheckbox"]').on('change', function (ev) {
-            console.log(this.id.split("_")[1]);
-            $('#signCheckboxForm_' + this.id.split("_")[1]).submit();
+
+        $('[id^="signCheckbox"]').on('click', function (ev) {
+            if (this.checked == true) {
+                if (confirm('Після підписання ви не будете мати право редагувати звіт.\n' +
+                    'Лише завідувач кафедри може зняти підпис.\n' +
+                    'Ви впевнені, що бажаєте підписати звіт?') == false) {
+
+                    return false;
+                }
+            }
+            else {
+                console.log(this.id.split("_")[1]);
+                $('#signCheckboxForm_' + this.id.split("_")[1]).submit();
+            }
         });
 
-        $('[id^="confirmCheckbox"]').on('change', function (ev) {
-            $('#confirmCheckboxForm_' + this.id.split("_")[1]).submit();
-        })
+        $('[id^="confirmCheckbox"]').on('click', function (ev) {
+            if (this.checked == true) {
+                if (confirm('Після затвердження підпис зможе зняти лише адміністратор деканату.\n' +
+                    'Ви впевнені, що бажаєте затвердити звіт?') == false) {
+                    return false;
+                }
+            }
+            else {
+                $('#confirmCheckboxForm_' + this.id.split("_")[1]).submit();
+            }
+        });
     }
     events();
 </script>

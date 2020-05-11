@@ -54,6 +54,10 @@
                         {
                             <li>@Html.ActionLink("Звіти", "Index", "ReportList")</li>
                         }
+                        if (User.IsInRole("Superadmin"))
+                        {
+                            <li>@Html.ActionLink("Академічні статуси", "Index", "AcademicStatus")</li>
+                        }
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")

@@ -46,7 +46,7 @@ namespace UserManagement.Controllers
         public ActionResult Create()
         {
             ViewBag.AllFinancials = Enum.GetNames(typeof(Financial))
-                .Select(x => new SelectListItem { Selected = false, Text = x.ToLower(), Value = x }).ToList();
+                .Select(x => new SelectListItem { Selected = false, Text = x.ToLower().Replace('_', ' '), Value = x }).ToList();
             return View();
         }
 
