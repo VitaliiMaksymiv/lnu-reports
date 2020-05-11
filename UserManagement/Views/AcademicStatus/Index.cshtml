@@ -1,0 +1,32 @@
+﻿@model IEnumerable<UserManagement.Models.db.AcademicStatus>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Академічні звання</h2>
+
+<p>
+    @Html.ActionLink("Cтворити", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Досутпні звання
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Value)
+        </td>
+        <td>
+            @Html.ActionLink("Редагувати", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Видалити", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
