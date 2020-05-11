@@ -13,18 +13,13 @@ namespace UserManagement.Services
 
         public String GenerateNameOfPublication(Publication publication)
         {
-            var user = publication.User.FirstOrDefault(x=>x.UserName == publication.MainAuthor);
             string toReturn = "";
-            if (user != null)
-            {
-                var initials = user.I18nUserInitials.Where(x => x.Language == publication.Language).First();
-                toReturn = initials.LastName + " " + initials.FirstName.Substring(0, 1).ToUpper() + ". " + initials.FathersName.Substring(0, 1).ToUpper() + ". ";
-            }
+
+            toReturn += publication.MainAuthor;
             if (publication.User.Count > 1)
             {
                 toReturn = toReturn + publication.Name + " / ";
             }
-            publication.User.Remove(user);
             for (var i = 0; i < publication.User.Count; i++)
             {
                 var initials = publication.User.ElementAt(i).I18nUserInitials.Where(x => x.Language == publication.Language).First();
@@ -35,13 +30,11 @@ namespace UserManagement.Services
                     toReturn = toReturn + ", ";
             }
 
-            publication.User.Add(user);
-
             toReturn = toReturn + ", " +
                 ((publication.OtherAuthors != null || publication.OtherAuthors != "") ? publication.OtherAuthors : "") + ". – " +
                 (publication.Place != null ? publication.Place + ", " : "") +
                 (publication.Edition != null ? publication.Edition + ", " : "") +
-                publication.Date + ".";
+                publication.Date.Year + ".";
 
             toReturn += AddEndOfPublication(publication);
 
