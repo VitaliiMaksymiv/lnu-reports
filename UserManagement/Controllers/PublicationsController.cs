@@ -217,6 +217,7 @@ namespace UserManagement.Controllers
                     var initials = user.I18nUserInitials.Where(x => x.Language == publication.Language).First();
                     publication.MainAuthor = initials.LastName + " " + initials.FirstName.Substring(0, 1).ToUpper() + ". " + initials.FathersName.Substring(0, 1).ToUpper() + ". ";
                 }
+                publication.DOI = publication.DOI ?? "_";
                 db.Publication.Add(publication);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -308,6 +309,7 @@ namespace UserManagement.Controllers
                 publicationFromDB.PublicationType = publication.PublicationType;
                 publicationFromDB.SizeOfPages = publication.SizeOfPages;
                 publicationFromDB.Language = publication.Language;
+                publicationFromDB.DOI = publication.DOI ?? "_";
                 if (year.HasValue)
                     publicationFromDB.Date = new DateTime(year.Value, 1, 1);
                 if (userToAdd != null && userToAdd.Length != 0)
