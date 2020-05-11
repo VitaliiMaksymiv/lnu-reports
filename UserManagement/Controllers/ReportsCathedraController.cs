@@ -153,9 +153,9 @@ namespace UserManagement.Controllers
                 {
                     case 0:
                         report.BudgetTheme = db.ThemeOfScientificWork.Where(x => x.ID == reportViewModel.BudgetThemeId).FirstOrDefault();
-                        if(reportViewModel.PrintedPublicationBudgetTheme != null)
+                        if (reportViewModel.PrintedPublicationBudgetTheme != null)
                             report.PrintedPublicationBudgetTheme = allPublications
-                                .Where(x => reportViewModel.PrintedPublicationBudgetTheme.Any(y => y.Id == x.ID && y.Checked)).ToList();
+                            .Where(x => reportViewModel.PrintedPublicationBudgetTheme.Any(y => y.Id == x.ID && y.Checked)).ToList();
                         report.AllDescriptionBudgetTheme = reportViewModel.AllDescriptionBudgetTheme;
                         report.CVBudgetTheme = reportViewModel.CVBudgetTheme;
                         report.ApplicationAndPatentsOnInventionBudgetTheme = reportViewModel.ApplicationAndPatentsOnInventionBudgetTheme;
@@ -164,9 +164,9 @@ namespace UserManagement.Controllers
                         break;
                     case 1:
                         report.ThemeInWorkTime = db.ThemeOfScientificWork.Where(x => x.ID == reportViewModel.ThemeInWorkTimeId).FirstOrDefault();
-                        if(reportViewModel.PrintedPublicationThemeInWorkTime != null)
+                        if (reportViewModel.PrintedPublicationBudgetTheme != null)
                             report.PrintedPublicationThemeInWorkTime = allPublications
-                                .Where(x => reportViewModel.PrintedPublicationThemeInWorkTime.Any(y => y.Id == x.ID && y.Checked)).ToList();
+                            .Where(x => reportViewModel.PrintedPublicationThemeInWorkTime.Any(y => y.Id == x.ID && y.Checked)).ToList();
                         report.AllDescriptionThemeInWorkTime = reportViewModel.AllDescriptionThemeInWorkTime;
                         report.CVThemeInWorkTime = reportViewModel.CVThemeInWorkTime;
                         report.ApplicationAndPatentsOnInventionThemeInWorkTime = reportViewModel.ApplicationAndPatentsOnInventionThemeInWorkTime;
@@ -175,9 +175,9 @@ namespace UserManagement.Controllers
                         break;
                     case 2:
                         report.HospDohovirTheme = db.ThemeOfScientificWork.Where(x => x.ID == reportViewModel.HospDohovirThemeId).FirstOrDefault();
-                        if (reportViewModel.PrintedPublicationHospDohovirTheme != null)
+                        if (reportViewModel.PrintedPublicationBudgetTheme != null)
                             report.PrintedPublicationHospDohovirTheme = allPublications
-                                .Where(x => reportViewModel.PrintedPublicationHospDohovirTheme.Any(y => y.Id == x.ID && y.Checked)).ToList();
+                            .Where(x => reportViewModel.PrintedPublicationHospDohovirTheme.Any(y => y.Id == x.ID && y.Checked)).ToList();
                         report.AllDescriptionHospDohovirTheme = reportViewModel.AllDescriptionHospDohovirTheme;
                         report.CVHospDohovirTheme = reportViewModel.CVHospDohovirTheme;
                         report.ApplicationAndPatentsOnInventionHospDohovirTheme = reportViewModel.ApplicationAndPatentsOnInventionHospDohovirTheme;

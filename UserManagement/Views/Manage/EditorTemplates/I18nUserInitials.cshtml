@@ -5,19 +5,19 @@
 <div class="form-group">
     <label class="col-md-2 control-label">Ім’я (@Model.Language)</label>
     <div class="col-md-10">
-        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @Value = Model.FirstName })
+        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @Value = Model.FirstName,autocomplete = "on" })
     </div>
 </div>
 <div class="form-group">
     <label class="col-md-2 control-label">Прізвище (@Model.Language)</label>
     <div class="col-md-10">
-        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @Value = Model.LastName })
+        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @Value = Model.LastName, autocomplete = "off"})
     </div>
 </div>
 <div class="form-group">
     <label class="col-md-2 control-label">По-батькові (@Model.Language)</label>
     <div class="col-md-10">
-        @Html.TextBoxFor(m => m.FathersName, new { @class = "form-control", @Value = Model.FathersName })
+        @Html.TextBoxFor(m => m.FathersName, new { @class = "form-control", @Value = Model.FathersName,autocomplete = "on" })
     </div>
 </div>
 
