@@ -317,7 +317,7 @@
             <div style="padding-top: 50px;
                         display: flex;
                         justify-content: space-evenly;">
-                @Html.ActionLink("Підписати", "Sign", "ReportList", new { reportId = Model.ID }, new { @class = "btn btn-default" })
+                @Html.ActionLink("Підписати", "Sign", "ReportList", new { reportId = Model.ID }, new { @class = "btn btn-default", @id = "signButton"})
                 @Html.ActionLink("Експорт у PDF", "PreviewPdf", "Reports", new { reportId = Model.ID }, new { @class = "btn btn-default", @target = "_blank" })
                 @Html.ActionLink("Експорт у LaTex", "GetLatex", "Reports", new { reportId = Model.ID }, new { @class = "btn btn-default" })
                 <a href="@Url.Action("Preview", "Reports", new { reportId = Model.ID })"
@@ -428,4 +428,20 @@
         date.style.width = protocol_width;
     }
     setWidth();
+
+    function events() {
+
+        $('[id^="signButton"]').on('click', function (ev) {
+            if (confirm('Після підписання ви не будете мати право редагувати звіт.\n' +
+                'Лише завідувач кафедри може зняти підпис.\n' +
+                'Ви впевнені, що бажаєте підписати звіт?') == false) {
+
+                return false;
+            }
+            else {
+                return true;
+            }
+        });
+    }
+    events();
 </script>

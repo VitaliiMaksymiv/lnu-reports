@@ -149,6 +149,9 @@ namespace UserManagement.Controllers
                          Value = x.Id
                      })
                     .ToList();
+            ViewBag.CurrentUser = users
+                .Where(x => x.UserName == User.Identity.Name)
+                .Select(x => x.Id).ToList();
             return View();
         }
 
@@ -157,9 +160,9 @@ namespace UserManagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name,OtherAuthors,Date,SizeOfPages,PublicationType,Place," +
-            "MainAuthor,IsMainAuthorRegistered,Language,Link,Edition,Magazine,DOI,Tome")] Publication publication,
-            [Bind(Include = "UserToAdd")]String[] userToAdd)
+        public ActionResult Create([Bind(Include = "ID,Name,OtherAuthors,SizeOfPages,PublicationType,Place," +
+            "MainAuthor,IsMainAuthorRegistered,Language,Link,Edition,Magazine,DOI,Tome")] Publication publication, int? year,
+            [Bind(Include = "UserToAdd")]String[] userToAdd, bool? mainAuthorFromOthers)
         {
             var users = db.Users.Where(x => x.Roles.Count == 1 && x.Roles.Any(y => y.RoleId != db.Roles.Where(z => z.Name == "Superadmin").FirstOrDefault().Id)).ToList();
             ViewBag.AllPublicationTypes = Enum.GetNames(typeof(PublicationType))
@@ -179,7 +182,6 @@ namespace UserManagement.Controllers
                     .ToList();
             if (ModelState.IsValid)
             {
-                publication.User.Add(db.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault());
                 if (userToAdd != null)
                 {
                     var publicationExists = db.Publication
@@ -203,7 +205,18 @@ namespace UserManagement.Controllers
                         }
                     }
                 }
-                publication.MainAuthor = User.Identity.Name;
+                publication.Date = new DateTime(year.Value, 1, 1);
+                if (mainAuthorFromOthers.Value)
+                {
+                    var value = publication.OtherAuthors.Split();
+                    publication.MainAuthor = value[0] + " " + value[1];
+                }
+                else
+                {
+                    var user = db.Users.Find(userToAdd[0]);
+                    var initials = user.I18nUserInitials.Where(x => x.Language == publication.Language).First();
+                    publication.MainAuthor = initials.LastName + " " + initials.FirstName.Substring(0, 1).ToUpper() + ". " + initials.FathersName.Substring(0, 1).ToUpper() + ". ";
+                }
                 publication.DOI = publication.DOI ?? "_";
                 db.Publication.Add(publication);
                 db.SaveChanges();
@@ -254,7 +267,7 @@ namespace UserManagement.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Name,OtherAuthors,Date,SizeOfPages,PublicationType,Language," +
             "Link,Edition,Magazine,DOI,Tome")] Publication publication,
-            [Bind(Include = "UserToAdd")]String[] userToAdd)
+            [Bind(Include = "UserToAdd")]String[] userToAdd,int? year)
         {
             ViewBag.AllPublicationTypes = Enum.GetNames(typeof(PublicationType))
                 .Select(x => new SelectListItem { Selected = false, Text = x, Value = x }).ToList();
@@ -273,19 +286,22 @@ namespace UserManagement.Controllers
                          Value = x.Id
                      })
                     .ToList();
-            if (ModelState.IsValid && userToAdd != null)
+            if (ModelState.IsValid)
             {
-                var publicationExists = db.Publication
-                    .Any(x =>
-                    x.ID != publication.ID
-                    && x.Name == publication.Name
-                    && userToAdd.All(y => x.User.Select(z => z.Id).Contains(y))
-                    && x.PublicationType == publication.PublicationType
-                    );
-                if (publicationExists)
+                if(userToAdd != null)
                 {
-                    ModelState.AddModelError("", "Така публікація вже існує");
-                    return View(publication);
+                    var publicationExists = db.Publication
+                        .Any(x =>
+                        x.ID != publication.ID
+                        && x.Name == publication.Name
+                        && userToAdd.All(y => x.User.Select(z => z.Id).Contains(y))
+                        && x.PublicationType == publication.PublicationType
+                        );
+                    if (publicationExists)
+                    {
+                        ModelState.AddModelError("", "Така публікація вже існує");
+                        return View(publication);
+                    }
                 }
                 var publicationFromDB = db.Publication.Find(publication.ID);
                 publicationFromDB.Name = publication.Name;
@@ -293,8 +309,9 @@ namespace UserManagement.Controllers
                 publicationFromDB.PublicationType = publication.PublicationType;
                 publicationFromDB.SizeOfPages = publication.SizeOfPages;
                 publicationFromDB.Language = publication.Language;
-                publicationFromDB.Date = publication.Date;
                 publicationFromDB.DOI = publication.DOI ?? "_";
+                if (year.HasValue)
+                    publicationFromDB.Date = new DateTime(year.Value, 1, 1);
                 if (userToAdd != null && userToAdd.Length != 0)
                 {
                     foreach (var current in userToAdd)

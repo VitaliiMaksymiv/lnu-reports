@@ -7,46 +7,50 @@
 
 <h2>Публікації</h2>
 
-<form asp-controller="Publications" asp-action="Index" id="mainFrom" style="display:flex; justify-content: space-between">
-    <div>
-        <label>Назва</label>
-        <input type="text" name="SearchString" value="@ViewBag.searchString">
+<form asp-controller="Publications" asp-action="Index" id="mainFrom" style="width: 100%; text-align: center;">
+    <div style="display: flex; justify-content: space-between">
+        <div>
+            <label>Назва</label>
+            <input type="text" name="SearchString" value="@ViewBag.searchString">
+        </div>
+        <div>
+            <label>Факультет</label>
+            @Html.DropDownList("faculty",
+                new SelectList(ViewBag.AllFaculties, "Value", "Text", ViewBag.facultyNumber),
+                "Виберіть факультет",
+                new { @class = "form-control chosen-select-faculty", @Value = ViewBag.faculty })
+        </div>
+        <div>
+            <label>Кафедра</label>
+            @Html.DropDownList("cathedra",
+                new SelectList(ViewBag.AllCathedras, "Value", "Text", ViewBag.cathedraNumber),
+                "Виберіть кафедру",
+                new { @class = "form-control chosen-select", @Value = ViewBag.cathedra })
+        </div>
+        <div>
+            <label>З: </label>
+            <input type="date" name="dateFrom" value="@ViewBag.dateFrom" />
+        </div>
+        <div>
+            <label>До: </label>
+            <input type="date" name="dateTo" value="@ViewBag.dateTo">
+        </div>
     </div>
-    <div>
-        <label>Факультет</label>
-        @Html.DropDownList("faculty",
-                         new SelectList(ViewBag.AllFaculties, "Value", "Text",  ViewBag.facultyNumber),
-                         "Виберіть факультет",
-                         new { @class = "form-control chosen-select-faculty", @Value = ViewBag.faculty })
-    </div>
-    <div>
-        <label>Кафедра</label>
-        @Html.DropDownList("cathedra",
-                       new SelectList(ViewBag.AllCathedras, "Value", "Text", ViewBag.cathedraNumber),
-                       "Виберіть кафедру",
-                       new { @class = "form-control chosen-select", @Value = ViewBag.cathedra })
-    </div>
-    <div>
-        <label>З: </label>
-        <input type="date" name="dateFrom" value="@ViewBag.dateFrom" />
-    </div>
-    <div>
-        <label>До: </label>
-        <input type="date" name="dateTo" value="@ViewBag.dateTo" />
-    </div>
-    <div style="height:50%;padding-top:25px">
-        <input type="submit" value="Пошук" />
+    <div style="height: 50%;padding-top: 15px; display: inline-block;">
+        <input type="submit" value="Пошук" style="width: 100%"/>
     </div>
 </form>
 <div style="display: flex; justify-content: space-between">
     @Html.ActionLink("Створити", "Create")
-    @Html.ActionLink(!ViewBag.isMine ? "Мої публікації" : "Всі публікації", "Index", 
-        new { 
-            searchString = ViewBag.searchString, 
-            isMine = !ViewBag.isMine, 
-            page = ViewBag.page, 
-            dateFrom = ViewBag.dateFrom, 
-            dateTo = ViewBag.dateTo })
+    @Html.ActionLink(!ViewBag.isMine ? "Мої публікації" : "Всі публікації", "Index",
+        new
+            {
+                searchString = ViewBag.searchString,
+            isMine = !ViewBag.isMine,
+            page = ViewBag.page,
+            dateFrom = ViewBag.dateFrom,
+            dateTo = ViewBag.dateTo
+            })
 </div>
 <br />
 
