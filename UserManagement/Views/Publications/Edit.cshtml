@@ -26,14 +26,6 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2">Інші автори</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.OtherAuthors, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.OtherAuthors, "", new { @class = "text-danger", @id = "OtherAuthors" })
-            </div>
-        </div>
-
-        <div class="form-group">
             <label class="control-label col-md-2">Дата</label>
             <div class="col-md-10">
                 <input class="form-control text-box single-line" id="year" name="year" type="number" value="@Model.Date.Year">
@@ -123,6 +115,26 @@
                     }
                     @Html.ActionLink("Видалити", "DeleteUser", new { publicationId = Model.ID, userId = i.Id })
                 }
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Змінити головного автора:</label>
+            <input type="checkbox" style="margin:40px 15px" name="changeMainAuthor" id="changeMainAuthor" value="true"/>
+            <input name="changeMainAuthor" type="hidden" value="false">
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Головний автор не зареєстрований викладач:</label>
+            <input type="checkbox" style="margin:40px 15px" name="mainAuthorFromOthers" id="mainAuthorFromOthers" value="true"/>
+            <input name="mainAuthorFromOthers" type="hidden" value="false">
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Інші автори</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.OtherAuthors, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.OtherAuthors, "", new { @class = "text-danger", @id = "OtherAuthors" })
             </div>
         </div>
 

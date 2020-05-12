@@ -267,7 +267,7 @@ namespace UserManagement.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Name,OtherAuthors,Date,SizeOfPages,PublicationType,Language," +
             "Link,Edition,Magazine,DOI,Tome")] Publication publication,
-            [Bind(Include = "UserToAdd")]String[] userToAdd,int? year)
+            [Bind(Include = "UserToAdd")]String[] userToAdd,int? year, bool? mainAuthorFromOthers,bool? changeMainAuthor)
         {
             ViewBag.AllPublicationTypes = Enum.GetNames(typeof(PublicationType))
                 .Select(x => new SelectListItem { Selected = false, Text = x, Value = x }).ToList();
@@ -310,16 +310,32 @@ namespace UserManagement.Controllers
                 publicationFromDB.SizeOfPages = publication.SizeOfPages;
                 publicationFromDB.Language = publication.Language;
                 publicationFromDB.DOI = publication.DOI ?? "_";
+                publicationFromDB.Magazine = publication.Magazine;
+                publicationFromDB.Link = publication.Link;
+                publicationFromDB.Edition = publication.Edition;
                 if (year.HasValue)
                     publicationFromDB.Date = new DateTime(year.Value, 1, 1);
                 if (userToAdd != null && userToAdd.Length != 0)
                 {
                     foreach (var current in userToAdd)
                     {
-                        var publicationFormDb = db.Publication.Find(publication.ID);
                         var user = db.Users.Find(current);
-                        publicationFormDb.User.Add(user);
-                        user.Publication.Add(publicationFormDb);
+                        publicationFromDB.User.Add(user);
+                        user.Publication.Add(publicationFromDB);
+                    }
+                }
+                if(changeMainAuthor.Value)
+                {
+                    if (mainAuthorFromOthers.Value)
+                    {
+                        var value = publication.OtherAuthors.Split();
+                        publication.MainAuthor = value[0] + " " + value[1];
+                    }
+                    else
+                    {
+                        var user = db.Users.Find(userToAdd[0]);
+                        var initials = user.I18nUserInitials.Where(x => x.Language == publication.Language).First();
+                        publication.MainAuthor = initials.LastName + " " + initials.FirstName.Substring(0, 1).ToUpper() + ". " + initials.FathersName.Substring(0, 1).ToUpper() + ". ";
                     }
                 }
                 db.SaveChanges();
