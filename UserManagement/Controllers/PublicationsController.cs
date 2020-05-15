@@ -330,13 +330,13 @@ namespace UserManagement.Controllers
                     if (mainAuthorFromOthers.Value)
                     {
                         var value = publication.OtherAuthors.Split();
-                        publication.MainAuthor = value[0] + " " + value[1];
+                        publicationFromDB.MainAuthor = value[0] + " " + value[1];
                     }
                     else
                     {
                         var user = db.Users.Find(userToAdd[0]);
                         var initials = user.I18nUserInitials.Where(x => x.Language == publication.Language).First();
-                        publication.MainAuthor = initials.LastName + " " + initials.FirstName.Substring(0, 1).ToUpper() + ". " + initials.FathersName.Substring(0, 1).ToUpper() + ". ";
+                        publicationFromDB.MainAuthor = initials.LastName + " " + initials.FirstName.Substring(0, 1).ToUpper() + ". " + initials.FathersName.Substring(0, 1).ToUpper() + ". ";
                     }
                 }
                 db.SaveChanges();
