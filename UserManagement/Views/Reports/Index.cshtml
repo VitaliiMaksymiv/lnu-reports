@@ -1,5 +1,4 @@
 ﻿@model UserManagement.Models.Reports.ReportViewModel
-
 @{
     ViewBag.Title = "Звітність";
 }
@@ -317,7 +316,7 @@
             <div style="padding-top: 50px;
                         display: flex;
                         justify-content: space-evenly;">
-                @Html.ActionLink("Підписати", "Sign", "ReportList", new { reportId = Model.ID }, new { @class = "btn btn-default", @id = "signButton"})
+                @Html.ActionLink("Підписати", "Sign", "ReportList", new { reportId = Model.ID }, new { @class = "btn btn-default", @id = "signButton" })
                 @Html.ActionLink("Експорт у PDF", "PreviewPdf", "Reports", new { reportId = Model.ID }, new { @class = "btn btn-default", @target = "_blank" })
                 @Html.ActionLink("Експорт у LaTex", "GetLatex", "Reports", new { reportId = Model.ID }, new { @class = "btn btn-default" })
                 <a href="@Url.Action("Preview", "Reports", new { reportId = Model.ID })"
