@@ -45,16 +45,7 @@ namespace UserManagement.Services
                             || publication.PublicationType == PublicationType.Навчальний_Посібник
                             || publication.PublicationType == PublicationType.Інше_Наукове_Видання)
             {
-                toReturn = toReturn + " – " + (publication.Tome == null ? "" : (publication.Tome + ", ")) + Math.Round(publication.SizeOfPages/16.0,1);
-                switch (publication.Language)
-                {
-                    case Language.UA:
-                        toReturn += " друк. арк.";
-                        break;
-                    case Language.EN:
-                        toReturn += " p.";
-                        break;
-                }
+                toReturn = toReturn + " – " + (publication.Tome == null ? "" : (publication.Tome + ", ")) + publication.Pages;
             }
             return toReturn;
         }

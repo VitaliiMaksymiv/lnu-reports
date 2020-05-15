@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using Microsoft.Ajax.Utilities;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using PagedList;
 using System;
@@ -160,7 +161,7 @@ namespace UserManagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name,OtherAuthors,SizeOfPages,PublicationType,Place," +
+        public ActionResult Create([Bind(Include = "ID,Name,OtherAuthors,Pages,PublicationType,Place," +
             "MainAuthor,IsMainAuthorRegistered,Language,Link,Edition,Magazine,DOI,Tome")] Publication publication, int? year,
             [Bind(Include = "UserToAdd")]String[] userToAdd, bool? mainAuthorFromOthers)
         {
@@ -217,6 +218,17 @@ namespace UserManagement.Controllers
                     var initials = user.I18nUserInitials.Where(x => x.Language == publication.Language).First();
                     publication.MainAuthor = initials.LastName + " " + initials.FirstName.Substring(0, 1).ToUpper() + ". " + initials.FathersName.Substring(0, 1).ToUpper() + ". ";
                 }
+                var valuesForPages = publication.Pages.Split();
+                if (valuesForPages.Length == 2)
+                {
+                    var values = valuesForPages[1].Split('-');
+                    if (values.Length == 2)
+                    {
+                        int.TryParse(values[1], out int to);
+                        int.TryParse(values[0], out int from);
+                        publication.SizeOfPages = Math.Round((to - from + 1) / 16.0, 1);
+                    }
+                }
                 publication.DOI = publication.DOI ?? "_";
                 db.Publication.Add(publication);
                 db.SaveChanges();
@@ -265,7 +277,7 @@ namespace UserManagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Name,OtherAuthors,Date,SizeOfPages,PublicationType,Language," +
+        public ActionResult Edit([Bind(Include = "ID,Name,OtherAuthors,Date,Pages,PublicationType,Language," +
             "Link,Edition,Place,Magazine,DOI,Tome")] Publication publication,
             [Bind(Include = "UserToAdd")]String[] userToAdd,int? year, bool? mainAuthorFromOthers,bool? changeMainAuthor)
         {
@@ -307,7 +319,18 @@ namespace UserManagement.Controllers
                 publicationFromDB.Name = publication.Name;
                 publicationFromDB.OtherAuthors = publication.OtherAuthors;
                 publicationFromDB.PublicationType = publication.PublicationType;
-                publicationFromDB.SizeOfPages = publication.SizeOfPages;
+                publicationFromDB.Pages = publication.Pages;
+                var valuesForPages = publication.Pages.Split();
+                if(valuesForPages.Length == 2)
+                {
+                    var values = valuesForPages[1].Split('-');
+                    if (values.Length == 2)
+                    {
+                        int.TryParse(values[1], out int to);
+                        int.TryParse(values[0], out int from);
+                        publicationFromDB.SizeOfPages = Math.Round((to - from + 1) / 16.0, 1);
+                    }
+                }
                 publicationFromDB.Language = publication.Language;
                 publicationFromDB.DOI = publication.DOI ?? "_";
                 publicationFromDB.Place = publication.Place;
