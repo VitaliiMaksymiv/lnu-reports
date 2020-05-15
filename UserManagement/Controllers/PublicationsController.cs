@@ -266,7 +266,7 @@ namespace UserManagement.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Name,OtherAuthors,Date,SizeOfPages,PublicationType,Language," +
-            "Link,Edition,Magazine,DOI,Tome")] Publication publication,
+            "Link,Edition,Place,Magazine,DOI,Tome")] Publication publication,
             [Bind(Include = "UserToAdd")]String[] userToAdd,int? year, bool? mainAuthorFromOthers,bool? changeMainAuthor)
         {
             ViewBag.AllPublicationTypes = Enum.GetNames(typeof(PublicationType))
@@ -310,6 +310,7 @@ namespace UserManagement.Controllers
                 publicationFromDB.SizeOfPages = publication.SizeOfPages;
                 publicationFromDB.Language = publication.Language;
                 publicationFromDB.DOI = publication.DOI ?? "_";
+                publicationFromDB.Place = publication.Place;
                 publicationFromDB.Magazine = publication.Magazine;
                 publicationFromDB.Link = publication.Link;
                 publicationFromDB.Edition = publication.Edition;
