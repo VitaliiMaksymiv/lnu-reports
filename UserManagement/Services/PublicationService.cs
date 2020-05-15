@@ -129,18 +129,18 @@ namespace UserManagement.Services
         public string GetPunktSixOneConferences(Report report)
         {
             var count = report.PrintedPublication
-                .Where(x => x.PublicationType == PublicationType.Теза_Доповіді_На_Вітчизняній_Конференції
-                         || x.PublicationType == PublicationType.Теза_Доповіді_На_Міжнародній_Конференції).Count();
+                .Where(x => x.PublicationType == PublicationType.Тези_Доповіді_На_Вітчизняній_Конференції
+                         || x.PublicationType == PublicationType.Тези_Доповіді_На_Міжнародній_Конференції).Count();
             return count == 0 ? "" : GenerateTemplateForGenericPunktHeader(GetTitleForPunktSixOneConferences());
         }
         public string GetPunktSixOneInternationalConferences(Report report)
         {
-            var collection = report.PrintedPublication.Where(x => x.PublicationType == PublicationType.Теза_Доповіді_На_Міжнародній_Конференції).ToList();
+            var collection = report.PrintedPublication.Where(x => x.PublicationType == PublicationType.Тези_Доповіді_На_Міжнародній_Конференції).ToList();
             return PopulatePunkt(collection, GenerateTemplateForGenericPunkt(GetTitleForPunktSixOneConferencesInternational()));
         }
         public string GetPunktSixOneNationalConferences(Report report)
         {
-            var collection = report.PrintedPublication.Where(x => x.PublicationType == PublicationType.Теза_Доповіді_На_Вітчизняній_Конференції).ToList();
+            var collection = report.PrintedPublication.Where(x => x.PublicationType == PublicationType.Тези_Доповіді_На_Вітчизняній_Конференції).ToList();
             return PopulatePunkt(collection, GenerateTemplateForGenericPunkt(GetTitleForPunktSixOneConferencesNational()));
         }
         public string GetPunktSixTwo(Report report)

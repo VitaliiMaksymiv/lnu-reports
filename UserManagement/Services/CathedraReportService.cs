@@ -210,9 +210,9 @@ namespace UserManagement.Services
                 PublicationType.Стаття_В_Фахових_Виданнях_України, distinctPublications);
             var punktNineConferencesHeader = GetConferencesHeader(distinctPublications);
             var punktNineConferencesInternational = GetPublicationArticlesOrConferencesTemplate(GetTitleForConferencesInternational(),
-                PublicationType.Теза_Доповіді_На_Міжнародній_Конференції, distinctPublications);
+                PublicationType.Тези_Доповіді_На_Міжнародній_Конференції, distinctPublications);
             var punktNineConferencesNational= GetPublicationArticlesOrConferencesTemplate(GetTitleForConferencesNational(),
-                PublicationType.Теза_Доповіді_На_Вітчизняній_Конференції, distinctPublications);
+                PublicationType.Тези_Доповіді_На_Вітчизняній_Конференції, distinctPublications);
 
             var punktTen = GetPunktTen(report);
             var punktEleven = GetPunktEleven(report);
@@ -405,8 +405,8 @@ namespace UserManagement.Services
         }
         private string GetConferencesHeader(List<Publication> publications)
         {
-            if (publications == null || !publications.Any(x => x.PublicationType == PublicationType.Теза_Доповіді_На_Вітчизняній_Конференції ||
-                                                                x.PublicationType == PublicationType.Теза_Доповіді_На_Міжнародній_Конференції ))
+            if (publications == null || !publications.Any(x => x.PublicationType == PublicationType.Тези_Доповіді_На_Вітчизняній_Конференції ||
+                                                                x.PublicationType == PublicationType.Тези_Доповіді_На_Міжнародній_Конференції ))
             {
                 return "";
             }
