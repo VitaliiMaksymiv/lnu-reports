@@ -470,7 +470,7 @@ namespace UserManagement.Services
 
         private string GetFooter(Report report)
         {
-            var cathedraLeadInitials = db.Users.FirstOrDefault(x => x.Position.ID == 2 && x.Cathedra.ID == report.User.Cathedra.ID).I18nUserInitials.FirstOrDefault();
+            var cathedraLeadInitials = db.Users.FirstOrDefault(x => x.Position.ID == 2 && x.Cathedra.ID == report.User.Cathedra.ID)?.I18nUserInitials.FirstOrDefault();
             var initials = string.Empty;
             if (cathedraLeadInitials != null)
                 initials = cathedraLeadInitials.FirstName?.Substring(0, 1).ToUpper()

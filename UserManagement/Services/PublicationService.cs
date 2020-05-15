@@ -28,9 +28,12 @@ namespace UserManagement.Services
             }
 
             toReturn = toReturn + ", " +
-                ((publication.OtherAuthors != null || publication.OtherAuthors != "") ? publication.OtherAuthors : "") + ". – " +
-                (publication.Place != null ? publication.Place + ", " : "") +
+                ((publication.OtherAuthors != null || publication.OtherAuthors != "") ? publication.OtherAuthors : "") +
+                " // " +
+                (publication.Magazine != null ? publication.Magazine + ", " : "") +
                 (publication.Edition != null ? publication.Edition + ", " : "") +
+                (publication.Place != null ? publication.Place : "") +
+                ". – " +
                 publication.Date.Year + ".";
 
             toReturn += AddEndOfPublication(publication);
