@@ -16,10 +16,7 @@ namespace UserManagement.Services
             string toReturn = "";
 
             toReturn += publication.MainAuthor;
-            if (publication.User.Count > 1)
-            {
-                toReturn = toReturn + publication.Name + " / ";
-            }
+            toReturn += publication.Name + " / ";
             for (var i = 0; i < publication.User.Count; i++)
             {
                 var initials = publication.User.ElementAt(i).I18nUserInitials.Where(x => x.Language == publication.Language).First();
@@ -48,7 +45,7 @@ namespace UserManagement.Services
                             || publication.PublicationType == PublicationType.Навчальний_Посібник
                             || publication.PublicationType == PublicationType.Інше_Наукове_Видання)
             {
-                toReturn = toReturn + " – " + (publication.Tome == null ? "" : (publication.Tome + ", ")) + publication.SizeOfPages;
+                toReturn = toReturn + " – " + (publication.Tome == null ? "" : (publication.Tome + ", ")) + Math.Round(publication.SizeOfPages/16.0,1);
                 switch (publication.Language)
                 {
                     case Language.UA:
