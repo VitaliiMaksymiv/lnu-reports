@@ -95,6 +95,8 @@ namespace UserManagement.Controllers
             }
             Response.Cookies.Add(cookie);
 
+            
+
 
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
 
@@ -111,6 +113,7 @@ namespace UserManagement.Controllers
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return View(model);
             }
+          
         }
 
         //
