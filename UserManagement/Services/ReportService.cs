@@ -27,7 +27,7 @@ namespace UserManagement.Services
         private static String PUNKT_6_1_TRAINING = "{PUNKT_6_1_TRAINING}";
         private static String PUNKT_6_1_OTHER = "{PUNKT_6_1_OTHER}";
         private static String PUNKT_6_1_ARTICLES = "{PUNKT_6_1_ARTICLES}";
-        //private static String PUNKT_6_1_ARTICLES_FACTOR = "{PUNKT_6_1_ARTICLES_FACTOR}";
+        private static String PUNKT_6_1_ARTICLES_FACTOR = "{PUNKT_6_1_ARTICLES_FACTOR}";
         //private static String PUNKT_6_1_ARTICLES_INTERNATIONAL = "{PUNKT_6_1_ARTICLES_INTERNATIONAL}";
         private static String PUNKT_6_1_ARTICLES_OTHER_INTERNATIONAL = "{PUNKT_6_1_ARTICLES_OTHER_INTERNATIONAL}";
         private static String PUNKT_6_1_ARTICLES_NATIONAL = "{PUNKT_6_1_ARTICLES_NATIONAL}";
@@ -118,7 +118,7 @@ namespace UserManagement.Services
                 + PUNKT_6_1_TRAINING
                 + PUNKT_6_1_OTHER
                 + PUNKT_6_1_ARTICLES
-                //+ PUNKT_6_1_ARTICLES_FACTOR
+                + PUNKT_6_1_ARTICLES_FACTOR
                 //+ PUNKT_6_1_ARTICLES_INTERNATIONAL
                 + PUNKT_6_1_ARTICLES_OTHER_INTERNATIONAL
                 + PUNKT_6_1_ARTICLES_NATIONAL_FAH
@@ -154,9 +154,8 @@ namespace UserManagement.Services
             var readyPunktSixOneTrainingBook = publicationService.GetPunktSixOneTrainingBook(report);
             var readyPunktSixOneOther = publicationService.GetPunktSixOneOther(report);
             var readyPunktSixOneArticles = publicationService.GetPunktSixOneArticles(report);
-            //     + PUNKT_6_1_ARTICLES_FACTOR
-            //     + PUNKT_6_1_ARTICLES_INTERNATIONAL
-            var readyPunktSixOneArticlesInternationals = publicationService.GetPunktSixOneArticlesInterantional(report);
+            var readyPunktSixOneArticlesFactor = publicationService.GetPunktSixOneArticlesFactor(report);
+            var readyPunktSixOneArticlesInternationals = publicationService.GetPunktSixOneArticlesOtherInterantional(report);
             var readyPunktSixOneArticlesInternationalsMetricals = publicationService.GetPunktSixOneArticlesInterantionalMetricals(report);
             var readyPunktSixOneArticlesNationalFah = publicationService.GetPunktSixOneArticlesNationalFah(report);
             var readyPunktSixOneArticlesNational = publicationService.GetPunktSixOneArticlesNational(report);
@@ -194,6 +193,7 @@ namespace UserManagement.Services
                 [PUNKT_6_1_OTHER] = readyPunktSixOneOther,
                 [PUNKT_6_1_ARTICLES] = readyPunktSixOneArticles,
                 [PUNKT_6_1_ARTICLES_INTERNATIONAL_METRICALS] = readyPunktSixOneArticlesInternationalsMetricals,
+                [PUNKT_6_1_ARTICLES_FACTOR] = readyPunktSixOneArticlesFactor,
                 [PUNKT_6_1_ARTICLES_OTHER_INTERNATIONAL] = readyPunktSixOneArticlesInternationals,              
                 [PUNKT_6_1_ARTICLES_NATIONAL_FAH] = readyPunktSixOneArticlesNationalFah,
                 [PUNKT_6_1_ARTICLES_NATIONAL] = readyPunktSixOneArticlesNational,

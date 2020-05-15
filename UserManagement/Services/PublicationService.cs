@@ -96,14 +96,19 @@ namespace UserManagement.Services
             var collection = report.PrintedPublication.Where(x => x.PublicationType == PublicationType.Навчальний_Посібник).ToList();
             return PopulatePunkt(collection, GenerateTemplateForGenericPunkt(GetTitleForPunktSixOneTrainingBook()));
         }
+        public string GetPunktSixOneArticlesFactor(Report report)
+        {
+            var collection = report.PrintedPublication.Where(x => x.PublicationType == PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор).ToList();
+            return PopulatePunkt(collection, GenerateTemplateForGenericPunkt(GetTitleForPunktSixOneArticlesFactor()));
+        }
         public string GetPunktSixOneOther(Report report)
         {
             var collection = report.PrintedPublication.Where(x => x.PublicationType == PublicationType.Інше_Наукове_Видання).ToList();
             return PopulatePunkt(collection, GenerateTemplateForGenericPunkt(GetTitleForPunktSixOneOther()));
         }
-        public string GetPunktSixOneArticlesInterantional(Report report)
+        public string GetPunktSixOneArticlesOtherInterantional(Report report)
         {
-            var collection = report.PrintedPublication.Where(x => x.PublicationType == PublicationType.Стаття_В_Закордонних_Виданнях).ToList();
+            var collection = report.PrintedPublication.Where(x => x.PublicationType == PublicationType.Стаття_В_Інших_Закордонних_Виданнях).ToList();
             return PopulatePunkt(collection, GenerateTemplateForGenericPunkt(GetTitleForPunktSixOneArticlesInternationalOther()));
         }
         public string GetPunktSixOneArticlesInterantionalMetricals(Report report)
@@ -181,7 +186,9 @@ namespace UserManagement.Services
             var count = report.PrintedPublication.Where(x => x.PublicationType == PublicationType.Стаття
             || x.PublicationType == PublicationType.Стаття_В_Інших_Виданнях_України
             || x.PublicationType == PublicationType.Стаття_В_Закордонних_Виданнях
-            || x.PublicationType == PublicationType.Стаття_В_Фахових_Виданнях_України).Count();
+            || x.PublicationType == PublicationType.Стаття_В_Фахових_Виданнях_України
+            || x.PublicationType == PublicationType.Стаття_В_Інших_Закордонних_Виданнях
+            || x.PublicationType == PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор).Count();
             return count == 0 ? "" : GenerateTemplateForGenericPunktHeader(GetTitleForPunktSixOneArticles());
         }
 
