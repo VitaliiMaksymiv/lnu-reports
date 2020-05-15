@@ -394,10 +394,10 @@ namespace UserManagement.Services
                                         + (dictionaryInReport.ContainsKey(PublicationType.Стаття_В_Фахових_Виданнях_України) ? dictionaryInReport[PublicationType.Стаття_В_Фахових_Виданнях_України] : 0)).ToString(),
                 [OTHER_WRITINGS_ALL_CONST] = dictionary.ContainsKey(PublicationType.Інше_Наукове_Видання) ? dictionary[PublicationType.Інше_Наукове_Видання].ToString() : "0",
                 [OTHER_WRITINGS_PERIOD_CONST] = dictionaryInReport.ContainsKey(PublicationType.Інше_Наукове_Видання) ? dictionaryInReport[PublicationType.Інше_Наукове_Видання].ToString() : "0",
-                [CONFERENCES_ALL_CONST] = ((dictionary.ContainsKey(PublicationType.Теза_Доповіді_На_Вітчизняній_Конференції) ? dictionary[PublicationType.Теза_Доповіді_На_Вітчизняній_Конференції] : 0)
-                                        + (dictionary.ContainsKey(PublicationType.Теза_Доповіді_На_Міжнародній_Конференції) ? dictionary[PublicationType.Теза_Доповіді_На_Міжнародній_Конференції] : 0)).ToString(),
-                [CONFERENCES_PERIOD_CONST] = ((dictionaryInReport.ContainsKey(PublicationType.Теза_Доповіді_На_Вітчизняній_Конференції) ? dictionaryInReport[PublicationType.Теза_Доповіді_На_Вітчизняній_Конференції] : 0)
-                                        + (dictionaryInReport.ContainsKey(PublicationType.Теза_Доповіді_На_Міжнародній_Конференції) ? dictionaryInReport[PublicationType.Теза_Доповіді_На_Міжнародній_Конференції] : 0)).ToString(),
+                [CONFERENCES_ALL_CONST] = ((dictionary.ContainsKey(PublicationType.Тези_Доповіді_На_Вітчизняній_Конференції) ? dictionary[PublicationType.Тези_Доповіді_На_Вітчизняній_Конференції] : 0)
+                                        + (dictionary.ContainsKey(PublicationType.Тези_Доповіді_На_Міжнародній_Конференції) ? dictionary[PublicationType.Тези_Доповіді_На_Міжнародній_Конференції] : 0)).ToString(),
+                [CONFERENCES_PERIOD_CONST] = ((dictionaryInReport.ContainsKey(PublicationType.Тези_Доповіді_На_Вітчизняній_Конференції) ? dictionaryInReport[PublicationType.Тези_Доповіді_На_Вітчизняній_Конференції] : 0)
+                                        + (dictionaryInReport.ContainsKey(PublicationType.Тези_Доповіді_На_Міжнародній_Конференції) ? dictionaryInReport[PublicationType.Тези_Доповіді_На_Міжнародній_Конференції] : 0)).ToString(),
                 [PATENTS_ALL_CONST] = dictionary.ContainsKey(PublicationType.Патент) ? dictionary[PublicationType.Патент].ToString() : "0",
                 [PATENTS_PERIOD_CONST] = dictionaryInReport.ContainsKey(PublicationType.Патент) ? dictionaryInReport[PublicationType.Патент].ToString() : "0",
             });
