@@ -55,6 +55,7 @@ namespace UserManagement.Services
         private static String YEAR_CONST = "{YEAR}";
         private static String POSITION_CONST = "{POSITION}";
         private static String CATHEDRA_CONST = "{CATHEDRA}";
+        private static String CATHEDRA_LEAD = "{CATHEDRA_LEAD}";
         private static String USER_NAME_CONST = "{USER_NAME}";
         private static String BIRTHDAY_CONST = "{BIRTHDAY}";
         private static String GRADUATION_YEAR_CONST = "{GRADUATION_YEAR}";
@@ -469,11 +470,18 @@ namespace UserManagement.Services
 
         private string GetFooter(Report report)
         {
+            var cathedraLeadInitials = db.Users.FirstOrDefault(x => x.Position.ID == 2 && x.Cathedra.ID == report.User.Cathedra.ID).I18nUserInitials.FirstOrDefault();
+            var initials = string.Empty;
+            if (cathedraLeadInitials != null)
+                initials = cathedraLeadInitials.FirstName?.Substring(0, 1).ToUpper()
+                    + ". " + cathedraLeadInitials.FathersName?.Substring(0, 1).ToUpper()
+                    + ". " + cathedraLeadInitials.LastName;
             return ReplaceStringWithParameters(GetFooterTemplate(), new Dictionary<string, string>()
             {
                 [PROTOCOL_CONST] = report.Protocol,
                 [DATE_CONST] = report.Date == null ? "" : report.Date.Value.ToString("dd.MM.yyyy"),
                 [CATHEDRA_CONST] = report.User.Cathedra == null ? "" : report.User.Cathedra.Name.Replace("Кафедра ", ""),
+                [CATHEDRA_LEAD] = initials
             });
         }
 
@@ -542,9 +550,11 @@ namespace UserManagement.Services
                 + PROTOCOL_CONST 
                 + ", дата: "
                 + DATE_CONST 
-                + "</p><p class=\"footer-text\">Завідувач кафедри(керівник підрозділу) "
+                + "</p><p class=\"footer-text\">Завідувач кафедри"
                 + CATHEDRA_CONST 
-                + "__________________</p></div>";
+                + "__________________"
+                + CATHEDRA_LEAD
+                + "</p></div>";
                 }
 
         private String ReplaceStringWithParameters(String str, Dictionary<String, String> parameters)
