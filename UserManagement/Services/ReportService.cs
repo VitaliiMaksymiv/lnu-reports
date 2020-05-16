@@ -386,11 +386,13 @@ namespace UserManagement.Services
                 [TRAINING_BOOK_PERIOD_CONST] = dictionaryInReport.ContainsKey(PublicationType.Навчальний_Посібник) ? dictionaryInReport[PublicationType.Навчальний_Посібник].ToString() : "0",
                 [ARTICLES_ALL_CONST] = ((dictionary.ContainsKey(PublicationType.Стаття) ? dictionary[PublicationType.Стаття] : 0)
                                         + (dictionary.ContainsKey(PublicationType.Стаття_В_Інших_Виданнях_України) ? dictionary[PublicationType.Стаття_В_Інших_Виданнях_України] : 0)
-                                        + (dictionary.ContainsKey(PublicationType.Стаття_В_Закордонних_Виданнях) ? dictionary[PublicationType.Стаття_В_Закордонних_Виданнях] : 0)
+                                        + (dictionary.ContainsKey(PublicationType.Стаття_В_Інших_Закордонних_Виданнях) ? dictionary[PublicationType.Стаття_В_Інших_Закордонних_Виданнях] : 0)
+                                        + (dictionary.ContainsKey(PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор) ? dictionary[PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор] : 0)
                                         + (dictionary.ContainsKey(PublicationType.Стаття_В_Фахових_Виданнях_України) ? dictionary[PublicationType.Стаття_В_Фахових_Виданнях_України] : 0)).ToString(),
                 [ARTICLES_PERIOD_CONST] = ((dictionaryInReport.ContainsKey(PublicationType.Стаття) ? dictionaryInReport[PublicationType.Стаття] : 0)
                                         + (dictionaryInReport.ContainsKey(PublicationType.Стаття_В_Інших_Виданнях_України) ? dictionaryInReport[PublicationType.Стаття_В_Інших_Виданнях_України] : 0)
-                                        + (dictionaryInReport.ContainsKey(PublicationType.Стаття_В_Закордонних_Виданнях) ? dictionaryInReport[PublicationType.Стаття_В_Закордонних_Виданнях] : 0)
+                                        + (dictionaryInReport.ContainsKey(PublicationType.Стаття_В_Інших_Закордонних_Виданнях) ? dictionaryInReport[PublicationType.Стаття_В_Інших_Закордонних_Виданнях] : 0)
+                                        + (dictionaryInReport.ContainsKey(PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор) ? dictionaryInReport[PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор] : 0)
                                         + (dictionaryInReport.ContainsKey(PublicationType.Стаття_В_Фахових_Виданнях_України) ? dictionaryInReport[PublicationType.Стаття_В_Фахових_Виданнях_України] : 0)).ToString(),
                 [OTHER_WRITINGS_ALL_CONST] = dictionary.ContainsKey(PublicationType.Інше_Наукове_Видання) ? dictionary[PublicationType.Інше_Наукове_Видання].ToString() : "0",
                 [OTHER_WRITINGS_PERIOD_CONST] = dictionaryInReport.ContainsKey(PublicationType.Інше_Наукове_Видання) ? dictionaryInReport[PublicationType.Інше_Наукове_Видання].ToString() : "0",
