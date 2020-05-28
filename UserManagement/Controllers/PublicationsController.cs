@@ -268,12 +268,17 @@ namespace UserManagement.Controllers
                          Value = x.Id
                      })
                     .ToList();
-            var pages = publication.Pages.Split('-');
-            ViewBag.PagesFrom = pages[0];
-            if (pages.Length == 2)
-                ViewBag.PagesTo = pages[1];
-            else if (pages.Length == 1)
-                ViewBag.PagesTo = pages[0];
+            ViewBag.PagesFrom = 0;
+            ViewBag.PagesTo = 0;
+            if(publication.Pages != null)
+            {
+                var pages = publication.Pages.Split('-');
+                ViewBag.PagesFrom = pages[0];
+                if (pages.Length == 2)
+                    ViewBag.PagesTo = pages[1];
+                else if (pages.Length == 1)
+                    ViewBag.PagesTo = pages[0];
+            }
             return View(publication);
         }
 
