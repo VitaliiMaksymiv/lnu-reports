@@ -135,7 +135,7 @@ namespace UserManagement.Controllers
             var languageVerified = language == null || language == "" ? "UA" : language;
             var users = db.Users.Where(x => x.IsActive == true).ToList();
             ViewBag.AllPublicationTypes = Enum.GetNames(typeof(PublicationType))
-                .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
+                .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' ').Replace(" які",", які"), Value = x }).ToList();
             ViewBag.AllLanguages = Enum.GetNames(typeof(Language))
                 .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
             ViewBag.AllUsers = users
@@ -235,7 +235,7 @@ namespace UserManagement.Controllers
             }
 
             return View(publication);
-        }
+        }        
 
         // GET: Publications/Edit/5
         public ActionResult Edit(int? id)
@@ -248,9 +248,9 @@ namespace UserManagement.Controllers
             if (publication == null)
             {
                 return HttpNotFound();
-            }
+            }            
             ViewBag.AllPublicationTypes = Enum.GetNames(typeof(PublicationType))
-                .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
+                .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' ').Replace(" які", ", які"), Value = x }).ToList();            
             ViewBag.AllLanguages = Enum.GetNames(typeof(Language))
                 .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
             var users = db.Users.ToList();
