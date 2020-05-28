@@ -344,6 +344,7 @@ namespace UserManagement.Controllers
                 publicationFromDB.Magazine = publication.Magazine;
                 publicationFromDB.Link = publication.Link;
                 publicationFromDB.Edition = publication.Edition;
+                publicationFromDB.Tome = publication.Tome;
                 if (year.HasValue)
                     publicationFromDB.Date = new DateTime(year.Value, 1, 1);
                 if (userToAdd != null && userToAdd.Length != 0)
