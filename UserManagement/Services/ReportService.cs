@@ -66,6 +66,7 @@ namespace UserManagement.Services
         private static String THEME_NUMBER_SCIENTIFIC_WORK_CONST = "{THEME_NUMBER_SCIENTIFIC_WORK_CONST}";
         private static String PERIOD_SCIENTIFIC_WORK_CONST = "{PERIOD_SCIENTIFIC_WORK_CONST}";
         private static String HEAD_SCIENTIFIC_WORK_CONST = "{HEAD_SCIENTIFIC_WORK_CONST}";
+        private static String FINANCIAL = "{FINANCIAL}";
         private static String PROTOCOL_CONST = "{PROTOCOL_CONST}";
         private static String DATE_CONST = "{DATE_CONST}";
         private static String GENERIC_TEXT_CONST = "{GENERIC_TEXT}";
@@ -246,7 +247,7 @@ namespace UserManagement.Services
         private string GenerateTemplateForPunktOne()
         {
             return "<div class=\"block\"><p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp1.Участь у науково-дослідній тематиці підрозділу − шифр теми, категорія (держбюджетна,госпдоговірна, в межах робочого часу), назва, стисло зміст виконаної роботи(до семи рядків).</p><p class=\"input-text\"><i>"
-                + THEME_SCIENTIFIC_WORK_CONST + ". " 
+                +  FINANCIAL + " " + THEME_SCIENTIFIC_WORK_CONST + ". " //
                 + THEME_NUMBER_SCIENTIFIC_WORK_CONST 
                 + "; " + HEAD_SCIENTIFIC_WORK_CONST + " "
                 + PERIOD_SCIENTIFIC_WORK_CONST
@@ -257,8 +258,8 @@ namespace UserManagement.Services
         private string GenerateTemplateForGenericPunkt(String title)
         {
             return "<div class=\"block\"><p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
-                + title
-                + "</p><p class=\"input-text\">"
+                + title +
+                "</p><p class=\"input-text\">"
                 + GENERIC_TEXT_CONST
                 + "</p></div>";
         }
@@ -324,6 +325,7 @@ namespace UserManagement.Services
                 [PERIOD_SCIENTIFIC_WORK_CONST] = report.ThemeOfScientificWork.PeriodFrom.Year.ToString() + " - " + report.ThemeOfScientificWork.PeriodTo.Year.ToString(),
                 [DESCR_SCIENTIFIC_WORK_CONST] = report.ThemeOfScientificWorkDescription,
                 [HEAD_SCIENTIFIC_WORK_CONST] = report.ThemeOfScientificWork.ScientificHead,
+                [FINANCIAL] = report.ThemeOfScientificWork.Financial.ToString().ToLower(),
             });
         }
         private string GetPunktTwo(Report report)
