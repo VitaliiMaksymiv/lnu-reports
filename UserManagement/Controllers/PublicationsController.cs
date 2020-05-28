@@ -10,6 +10,7 @@ using System.Net;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using UserManagement.Models;
 using UserManagement.Models.db;
 using UserManagement.Models.PublicationDB;
@@ -161,9 +162,9 @@ namespace UserManagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name,OtherAuthors,Pages,PublicationType,Place," +
+        public ActionResult Create([Bind(Include = "ID,Name,OtherAuthors,PagesFrom,PagesTo,PublicationType,Place," +
             "MainAuthor,IsMainAuthorRegistered,Language,Link,Edition,Magazine,DOI,Tome")] Publication publication, int? year,
-            [Bind(Include = "UserToAdd")]String[] userToAdd, bool? mainAuthorFromOthers)
+            [Bind(Include = "UserToAdd")]String[] userToAdd, bool? mainAuthorFromOthers,[Bind(Include = "PagesFrom")] int pagesFrom = -1, [Bind(Include = "PagesTo")] int pagesTo = -1)
         {
             var users = db.Users.Where(x => x.Roles.Count == 1 && x.Roles.Any(y => y.RoleId != db.Roles.Where(z => z.Name == "Superadmin").FirstOrDefault().Id)).ToList();
             ViewBag.AllPublicationTypes = Enum.GetNames(typeof(PublicationType))
@@ -218,16 +219,14 @@ namespace UserManagement.Controllers
                     var initials = user.I18nUserInitials.Where(x => x.Language == publication.Language).First();
                     publication.MainAuthor = initials.LastName + " " + initials.FirstName.Substring(0, 1).ToUpper() + ". " + initials.FathersName.Substring(0, 1).ToUpper() + ". ";
                 }
-                var valuesForPages = publication.Pages.Split();
-                if (valuesForPages.Length == 2)
+                if(pagesFrom != -1 & pagesTo != -1)
                 {
-                    var values = valuesForPages[1].Split('-');
-                    if (values.Length == 2)
-                    {
-                        int.TryParse(values[1], out int to);
-                        int.TryParse(values[0], out int from);
-                        publication.SizeOfPages = Math.Round((to - from + 1) / 16.0, 1);
-                    }
+                    var pages = "";
+                    pages += pagesFrom;
+                    if (pagesFrom != pagesTo)
+                        pages += "-" + pagesTo;
+                    publication.Pages = pages;
+                    publication.SizeOfPages = Math.Round((pagesTo - pagesFrom + 1) / 16.0, 1);
                 }
                 publication.DOI = publication.DOI ?? "_";
                 db.Publication.Add(publication);
@@ -269,6 +268,12 @@ namespace UserManagement.Controllers
                          Value = x.Id
                      })
                     .ToList();
+            var pages = publication.Pages.Split('-');
+            ViewBag.PagesFrom = pages[0];
+            if (pages.Length == 2)
+                ViewBag.PagesTo = pages[1];
+            else if (pages.Length == 1)
+                ViewBag.PagesTo = pages[0];
             return View(publication);
         }
 
@@ -277,9 +282,9 @@ namespace UserManagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Name,OtherAuthors,Date,Pages,PublicationType,Language," +
+        public ActionResult Edit([Bind(Include = "ID,Name,OtherAuthors,Date,PagesFrom,PagesTo,PublicationType,Language," +
             "Link,Edition,Place,Magazine,DOI,Tome")] Publication publication,
-            [Bind(Include = "UserToAdd")]String[] userToAdd,int? year, bool? mainAuthorFromOthers,bool? changeMainAuthor)
+            [Bind(Include = "UserToAdd")]String[] userToAdd,int? year, bool? mainAuthorFromOthers,bool? changeMainAuthor, [Bind(Include = "PagesFrom")] int pagesFrom = -1, [Bind(Include = "PagesTo")] int pagesTo = -1)
         {
             ViewBag.AllPublicationTypes = Enum.GetNames(typeof(PublicationType))
                 .Select(x => new SelectListItem { Selected = false, Text = x, Value = x }).ToList();
@@ -319,17 +324,14 @@ namespace UserManagement.Controllers
                 publicationFromDB.Name = publication.Name;
                 publicationFromDB.OtherAuthors = publication.OtherAuthors;
                 publicationFromDB.PublicationType = publication.PublicationType;
-                publicationFromDB.Pages = publication.Pages;
-                var valuesForPages = publication.Pages.Split();
-                if(valuesForPages.Length == 2)
+                if (pagesFrom != -1 & pagesTo != -1)
                 {
-                    var values = valuesForPages[1].Split('-');
-                    if (values.Length == 2)
-                    {
-                        int.TryParse(values[1], out int to);
-                        int.TryParse(values[0], out int from);
-                        publicationFromDB.SizeOfPages = Math.Round((to - from + 1) / 16.0, 1);
-                    }
+                    var pages = "";
+                    pages += pagesFrom;
+                    if (pagesFrom != pagesTo)
+                        pages += "-" + pagesTo;
+                    publicationFromDB.Pages = pages;
+                    publicationFromDB.SizeOfPages = Math.Round((pagesTo - pagesFrom + 1) / 16.0, 1);
                 }
                 publicationFromDB.Language = publication.Language;
                 publicationFromDB.DOI = publication.DOI ?? "_";
