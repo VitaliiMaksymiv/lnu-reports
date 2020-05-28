@@ -186,7 +186,7 @@ namespace UserManagement.Controllers
 
                 ViewBag.BirthDate = user.BirthDate.ToString("yyyy-MM-dd");
                 ViewBag.AwardingDate = user.AwardingDate.ToString("yyyy-MM-dd");
-                ViewBag.GraduationDate = "200009";//user.GraduationDate.ToString("yyyy-MM-dd");
+                ViewBag.GraduationDate = user.GraduationDate.ToString("yyyy-MM-dd");
                 ViewBag.DefenseYear = user.DefenseYear;
                 return RedirectToAction("Index", "Manage");
             }
