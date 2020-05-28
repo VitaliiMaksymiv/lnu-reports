@@ -27,7 +27,7 @@ namespace UserManagement.Services
         private static String PUNKT_6_1_TRAINING = "{PUNKT_6_1_TRAINING}";
         private static String PUNKT_6_1_OTHER = "{PUNKT_6_1_OTHER}";
         private static String PUNKT_6_1_ARTICLES = "{PUNKT_6_1_ARTICLES}";
-        //private static String PUNKT_6_1_ARTICLES_FACTOR = "{PUNKT_6_1_ARTICLES_FACTOR}";
+        private static String PUNKT_6_1_ARTICLES_FACTOR = "{PUNKT_6_1_ARTICLES_FACTOR}";
         //private static String PUNKT_6_1_ARTICLES_INTERNATIONAL = "{PUNKT_6_1_ARTICLES_INTERNATIONAL}";
         private static String PUNKT_6_1_ARTICLES_OTHER_INTERNATIONAL = "{PUNKT_6_1_ARTICLES_OTHER_INTERNATIONAL}";
         private static String PUNKT_6_1_ARTICLES_NATIONAL = "{PUNKT_6_1_ARTICLES_NATIONAL}";
@@ -118,7 +118,7 @@ namespace UserManagement.Services
                 + PUNKT_6_1_TRAINING
                 + PUNKT_6_1_OTHER
                 + PUNKT_6_1_ARTICLES
-                //+ PUNKT_6_1_ARTICLES_FACTOR
+                + PUNKT_6_1_ARTICLES_FACTOR
                 //+ PUNKT_6_1_ARTICLES_INTERNATIONAL
                 + PUNKT_6_1_ARTICLES_OTHER_INTERNATIONAL
                 + PUNKT_6_1_ARTICLES_NATIONAL_FAH
@@ -154,9 +154,8 @@ namespace UserManagement.Services
             var readyPunktSixOneTrainingBook = publicationService.GetPunktSixOneTrainingBook(report);
             var readyPunktSixOneOther = publicationService.GetPunktSixOneOther(report);
             var readyPunktSixOneArticles = publicationService.GetPunktSixOneArticles(report);
-            //     + PUNKT_6_1_ARTICLES_FACTOR
-            //     + PUNKT_6_1_ARTICLES_INTERNATIONAL
-            var readyPunktSixOneArticlesInternationals = publicationService.GetPunktSixOneArticlesInterantional(report);
+            var readyPunktSixOneArticlesFactor = publicationService.GetPunktSixOneArticlesFactor(report);
+            var readyPunktSixOneArticlesInternationals = publicationService.GetPunktSixOneArticlesOtherInterantional(report);
             var readyPunktSixOneArticlesInternationalsMetricals = publicationService.GetPunktSixOneArticlesInterantionalMetricals(report);
             var readyPunktSixOneArticlesNationalFah = publicationService.GetPunktSixOneArticlesNationalFah(report);
             var readyPunktSixOneArticlesNational = publicationService.GetPunktSixOneArticlesNational(report);
@@ -194,6 +193,7 @@ namespace UserManagement.Services
                 [PUNKT_6_1_OTHER] = readyPunktSixOneOther,
                 [PUNKT_6_1_ARTICLES] = readyPunktSixOneArticles,
                 [PUNKT_6_1_ARTICLES_INTERNATIONAL_METRICALS] = readyPunktSixOneArticlesInternationalsMetricals,
+                [PUNKT_6_1_ARTICLES_FACTOR] = readyPunktSixOneArticlesFactor,
                 [PUNKT_6_1_ARTICLES_OTHER_INTERNATIONAL] = readyPunktSixOneArticlesInternationals,              
                 [PUNKT_6_1_ARTICLES_NATIONAL_FAH] = readyPunktSixOneArticlesNationalFah,
                 [PUNKT_6_1_ARTICLES_NATIONAL] = readyPunktSixOneArticlesNational,
@@ -305,7 +305,7 @@ namespace UserManagement.Services
                 [POSITION_CONST] = report.User.Position == null ? "" : report.User.Position.Value.Replace("кафедри",string.Empty),
                 [CATHEDRA_CONST] = report.User.Cathedra == null ? "" : report.User.Cathedra.Name.Replace("Кафедра ", ""),
                 [USER_NAME_CONST] = initials.LastName + " " + initials.FirstName + " " + initials.FathersName,
-                [BIRTHDAY_CONST] = report.User.BirthDate.ToString("dd.MM.yyyy"),
+                [BIRTHDAY_CONST] = report.User.BirthDate.Year.ToString(),
                 [GRADUATION_YEAR_CONST] = report.User.GraduationDate.Year.ToString(),
                 [ACADEMIC_STATUS_YEAR_CONST] = report.User.AcademicStatus == null ? "" : report.User.AcademicStatus.Value == "Без ступеня" ? report.User.AcademicStatus.Value : report.User.AcademicStatus.Value + ", " + report.User.DefenseYear.Year.ToString(),
                 [SCIENCE_DEGREE_YEAR_CONST] = report.User.ScienceDegree == null ? "" : report.User.ScienceDegree.Value == "Без звання" ? report.User.ScienceDegree.Value : report.User.ScienceDegree.Value + ", " + report.User.AwardingDate.Year.ToString(),
@@ -386,11 +386,13 @@ namespace UserManagement.Services
                 [TRAINING_BOOK_PERIOD_CONST] = dictionaryInReport.ContainsKey(PublicationType.Навчальний_Посібник) ? dictionaryInReport[PublicationType.Навчальний_Посібник].ToString() : "0",
                 [ARTICLES_ALL_CONST] = ((dictionary.ContainsKey(PublicationType.Стаття) ? dictionary[PublicationType.Стаття] : 0)
                                         + (dictionary.ContainsKey(PublicationType.Стаття_В_Інших_Виданнях_України) ? dictionary[PublicationType.Стаття_В_Інших_Виданнях_України] : 0)
-                                        + (dictionary.ContainsKey(PublicationType.Стаття_В_Закордонних_Виданнях) ? dictionary[PublicationType.Стаття_В_Закордонних_Виданнях] : 0)
+                                        + (dictionary.ContainsKey(PublicationType.Стаття_В_Інших_Закордонних_Виданнях) ? dictionary[PublicationType.Стаття_В_Інших_Закордонних_Виданнях] : 0)
+                                        + (dictionary.ContainsKey(PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор) ? dictionary[PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор] : 0)
                                         + (dictionary.ContainsKey(PublicationType.Стаття_В_Фахових_Виданнях_України) ? dictionary[PublicationType.Стаття_В_Фахових_Виданнях_України] : 0)).ToString(),
                 [ARTICLES_PERIOD_CONST] = ((dictionaryInReport.ContainsKey(PublicationType.Стаття) ? dictionaryInReport[PublicationType.Стаття] : 0)
                                         + (dictionaryInReport.ContainsKey(PublicationType.Стаття_В_Інших_Виданнях_України) ? dictionaryInReport[PublicationType.Стаття_В_Інших_Виданнях_України] : 0)
-                                        + (dictionaryInReport.ContainsKey(PublicationType.Стаття_В_Закордонних_Виданнях) ? dictionaryInReport[PublicationType.Стаття_В_Закордонних_Виданнях] : 0)
+                                        + (dictionaryInReport.ContainsKey(PublicationType.Стаття_В_Інших_Закордонних_Виданнях) ? dictionaryInReport[PublicationType.Стаття_В_Інших_Закордонних_Виданнях] : 0)
+                                        + (dictionaryInReport.ContainsKey(PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор) ? dictionaryInReport[PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор] : 0)
                                         + (dictionaryInReport.ContainsKey(PublicationType.Стаття_В_Фахових_Виданнях_України) ? dictionaryInReport[PublicationType.Стаття_В_Фахових_Виданнях_України] : 0)).ToString(),
                 [OTHER_WRITINGS_ALL_CONST] = dictionary.ContainsKey(PublicationType.Інше_Наукове_Видання) ? dictionary[PublicationType.Інше_Наукове_Видання].ToString() : "0",
                 [OTHER_WRITINGS_PERIOD_CONST] = dictionaryInReport.ContainsKey(PublicationType.Інше_Наукове_Видання) ? dictionaryInReport[PublicationType.Інше_Наукове_Видання].ToString() : "0",
@@ -470,7 +472,7 @@ namespace UserManagement.Services
 
         private string GetFooter(Report report)
         {
-            var cathedraLeadInitials = db.Users.FirstOrDefault(x => x.Position.ID == 2 && x.Cathedra.ID == report.User.Cathedra.ID).I18nUserInitials.FirstOrDefault();
+            var cathedraLeadInitials = db.Users.FirstOrDefault(x => x.Position.ID == 2 && x.Cathedra.ID == report.User.Cathedra.ID)?.I18nUserInitials.FirstOrDefault();
             var initials = string.Empty;
             if (cathedraLeadInitials != null)
                 initials = cathedraLeadInitials.FirstName?.Substring(0, 1).ToUpper()
