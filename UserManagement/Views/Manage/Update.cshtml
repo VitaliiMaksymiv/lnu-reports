@@ -25,19 +25,23 @@
     <div class="form-group">
         @Html.LabelFor(m => m.GraduationDate, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            <input name="GraduationDate" type="date" class="form-control" value="@ViewBag.GraduationDate" />
+            <input class="form-control text-box single-line" id="year" name="year" type="number" value="">
+
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.DefenseYear, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            <input name="DefenseYear" type="date" class="form-control" value="@ViewBag.DefenseYear" />
+            @*<input name="DefenseYear" type="date" class="form-control" value="@ViewBag.DefenseYear" />*@
+            <input class="form-control text-box single-line" id="year" name="year" type="number" value="@ViewBag.DeffenseYear">
+
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.AwardingDate, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            <input name="AwardingDate" type="date" class="form-control" value="@ViewBag.AwardingDate" />
+            @*<input name="AwardingDate" type="date" class="form-control" value="@ViewBag.AwardingDate" />*@
+            <input class="form-control text-box single-line" id="year" name="year" type="number"  value="">
         </div>
     </div>
     <div class="form-group">
