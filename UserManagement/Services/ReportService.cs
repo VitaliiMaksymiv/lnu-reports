@@ -244,10 +244,22 @@ namespace UserManagement.Services
             return "<!DOCTYPE html><html><head><meta charset = \"utf-8\"/><title>Звіт</title><style>p, h2 {margin: 0;}.body {line-height: 23px;padding: 5mm 10mm;margin: auto;}.header {text-align: center;}.block {margin-top: 25px;}.input-text {margin-left: 34px;}table, th, td {border: 1px solid black;border-collapse: collapse;}th, td {padding: 7px;}.table-report {margin: auto;}.footer-text{margin-top:10px;}</style></head> {BODY}</html>";
         }
 
+        //private string generateFinance(string finance)
+        //{
+        //    if(finance == Financial.В_МЕЖАХ_РОБОЧОГО_ЧАСУ)
+        //    {
+        //        return "в межах робочого часу";
+        //    }
+        //    else
+        //    {
+        //        return finance;
+        //    }
+        //}
+     
         private string GenerateTemplateForPunktOne()
         {
             return "<div class=\"block\"><p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp1.Участь у науково-дослідній тематиці підрозділу − шифр теми, категорія (держбюджетна,госпдоговірна, в межах робочого часу), назва, стисло зміст виконаної роботи(до семи рядків).</p><p class=\"input-text\"><i>"
-                +  FINANCIAL + " " + THEME_SCIENTIFIC_WORK_CONST + ". " //
+                +  FINANCIAL  + " " + THEME_SCIENTIFIC_WORK_CONST + ". " //
                 + THEME_NUMBER_SCIENTIFIC_WORK_CONST 
                 + "; " + HEAD_SCIENTIFIC_WORK_CONST + " "
                 + PERIOD_SCIENTIFIC_WORK_CONST
@@ -297,6 +309,13 @@ namespace UserManagement.Services
                 + "</table></div>";
         }
 
+        //private string GetFinancial(string financ)
+        //{
+        //    if(financ = Financial.В_МЕЖАХ_РОБОЧОГО_ЧАСУ.ToString())
+        //    {
+        //        financ = ''
+        //    }
+        //}
         private string GetHeaderOfReport(Report report)
         {
             var initials = report.User.I18nUserInitials.Where(x => x.Language == Language.UA).First();
@@ -325,7 +344,7 @@ namespace UserManagement.Services
                 [PERIOD_SCIENTIFIC_WORK_CONST] = report.ThemeOfScientificWork.PeriodFrom.Year.ToString() + " - " + report.ThemeOfScientificWork.PeriodTo.Year.ToString(),
                 [DESCR_SCIENTIFIC_WORK_CONST] = report.ThemeOfScientificWorkDescription,
                 [HEAD_SCIENTIFIC_WORK_CONST] = report.ThemeOfScientificWork.ScientificHead,
-                [FINANCIAL] = report.ThemeOfScientificWork.Financial.ToString().ToLower(),
+                [FINANCIAL] = report.ThemeOfScientificWork.Financial.ToString().ToLower().Replace("_", " "),
             });
         }
         private string GetPunktTwo(Report report)
