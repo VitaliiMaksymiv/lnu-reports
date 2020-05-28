@@ -23,21 +23,29 @@ namespace UserManagement.Models
         public Int32 PublicationCounterBeforeRegistration { get; set; } = 0;
         public Boolean IsActive { get; set; } = false;
         [DataType(DataType.Date)]
+        [Display(Name ="Дата народження")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime BirthDate { get; set; }
         [DataType(DataType.Date)]
+        [Display(Name = "Дата випуску")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime GraduationDate { get; set; }
         [DataType(DataType.Date)]
+        [Display(Name = "Дата присвоєння")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime AwardingDate { get; set; }
         [DataType(DataType.Date)]
+        [Display(Name = "Дата захисту")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime DefenseYear { get; set; }
 
+        [Display(Name = "Кафедра")]
         public virtual Cathedra Cathedra { get; set; }
+        [Display(Name = "Академічний статус")]
         public virtual AcademicStatus AcademicStatus { get; set; }
+        [Display(Name = "Науковий ступінь")]
         public virtual ScienceDegree ScienceDegree { get; set; }
+        [Display(Name = "Позиція")]
         public virtual Position Position { get; set; }
         public virtual ICollection<Publication> Publication { get; set; }
         public virtual ICollection<I18nUserInitials> I18nUserInitials { get; set; }
@@ -54,10 +62,15 @@ namespace UserManagement.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        [Display(Name = "Академічний статус")]
         public DbSet<AcademicStatus> AcademicStatus { get; set; }
+        [Display(Name = "Науковий ступінь")]
         public DbSet<ScienceDegree> ScienceDegree { get; set; }
+        [Display(Name = "Кафедра")]
         public DbSet<Cathedra> Cathedra { get; set; }
+        [Display(Name = "Позиція")]
         public DbSet<Position> Position { get; set; }
+        [Display(Name = "Факультет")]
         public DbSet<Faculty> Faculty { get; set; }
         public DbSet<Publication> Publication { get; set; }
         public DbSet<ThemeOfScientificWork> ThemeOfScientificWork { get; set; }
