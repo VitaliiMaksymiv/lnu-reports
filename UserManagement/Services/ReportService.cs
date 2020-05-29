@@ -330,8 +330,8 @@ namespace UserManagement.Services
                 [USER_NAME_CONST] = initials.LastName + " " + initials.FirstName + " " + initials.FathersName,
                 [BIRTHDAY_CONST] = report.User.BirthDate.Year.ToString(),
                 [GRADUATION_YEAR_CONST] = report.User.GraduationDate.Year.ToString(),
-                [ASPIRANTURA] = (!string.IsNullOrEmpty(AspStart) || !string.IsNullOrEmpty(AspFinish)) ? $"</p><p> Перебування в аспірантурі (роки {AspStart} - {AspFinish})" : string.Empty,
-                [DOCTORANTURA] = (!string.IsNullOrEmpty(DocStart) || !string.IsNullOrEmpty(DocFinish)) ? $"</p><p> Перебування в докторантурі (роки {DocStart} - {DocFinish})" : string.Empty,
+                [ASPIRANTURA] = (!string.IsNullOrEmpty(AspStart) || !string.IsNullOrEmpty(AspFinish)) ? $"</p><p> Перебування в аспірантурі ({AspStart} - {AspFinish})" : string.Empty,
+                [DOCTORANTURA] = (!string.IsNullOrEmpty(DocStart) || !string.IsNullOrEmpty(DocFinish)) ? $"</p><p> Перебування в докторантурі ({DocStart} - {DocFinish})" : string.Empty,
                 [ACADEMIC_STATUS_YEAR_CONST] = report.User.AcademicStatus == null ? "" : report.User.AcademicStatus.Value == "Без ступеня" ? report.User.AcademicStatus.Value : report.User.AcademicStatus.Value + ", " + report.User.DefenseYear.Year.ToString(),
                 [SCIENCE_DEGREE_YEAR_CONST] = report.User.ScienceDegree == null ? "" : report.User.ScienceDegree.Value == "Без звання" ? report.User.ScienceDegree.Value : report.User.ScienceDegree.Value + ", " + report.User.AwardingDate.Year.ToString(),
             });
