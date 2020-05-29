@@ -59,6 +59,8 @@ namespace UserManagement.Services
         private static String USER_NAME_CONST = "{USER_NAME}";
         private static String BIRTHDAY_CONST = "{BIRTHDAY}";
         private static String GRADUATION_YEAR_CONST = "{GRADUATION_YEAR}";
+        private static String ASPIRANTURA = "{ASPIRANTURA}";
+        private static String DOCTORANTURA = "{DOCTORANTURA}";
         private static String ACADEMIC_STATUS_YEAR_CONST = "{ACADEMIC_STATUS_YEAR}";
         private static String SCIENCE_DEGREE_YEAR_CONST = "{SCIENCE_DEGREE_YEAR}";
         private static String THEME_SCIENTIFIC_WORK_CONST = "{THEME_SCIENTIFIC_WORK}";
@@ -195,7 +197,7 @@ namespace UserManagement.Services
                 [PUNKT_6_1_ARTICLES] = readyPunktSixOneArticles,
                 [PUNKT_6_1_ARTICLES_INTERNATIONAL_METRICALS] = readyPunktSixOneArticlesInternationalsMetricals,
                 [PUNKT_6_1_ARTICLES_FACTOR] = readyPunktSixOneArticlesFactor,
-                [PUNKT_6_1_ARTICLES_OTHER_INTERNATIONAL] = readyPunktSixOneArticlesInternationals,              
+                [PUNKT_6_1_ARTICLES_OTHER_INTERNATIONAL] = readyPunktSixOneArticlesInternationals,
                 [PUNKT_6_1_ARTICLES_NATIONAL_FAH] = readyPunktSixOneArticlesNationalFah,
                 [PUNKT_6_1_ARTICLES_NATIONAL] = readyPunktSixOneArticlesNational,
                 [PUNKT_6_1_CONFERENCES] = readyPunktSixOneConferences,
@@ -221,7 +223,7 @@ namespace UserManagement.Services
 
         private String GenerateTemplateForHeadOfReport()
         {
-            return "<div class=\"header\"><h2> Індивідуальний звіт про наукову роботу в "
+            var header = "<div class=\"header\"><h2> Індивідуальний звіт про наукову роботу в "
                 + YEAR_CONST
                 + " році</h2><p><i>"
                 + POSITION_CONST
@@ -229,14 +231,18 @@ namespace UserManagement.Services
                 + CATHEDRA_CONST + " "
                 + USER_NAME_CONST
                 + "</i></p></div><div class=\"input-text\"><p><b>Відомості про вченого:</b></p><p>Рік народження: "
-                  + BIRTHDAY_CONST
+                + BIRTHDAY_CONST
                 + "</p><p> Рік закінчення ВНЗ: "
                 + GRADUATION_YEAR_CONST
-                + "</p><p> Науковий ступінь, рік захисту: "
-                + ACADEMIC_STATUS_YEAR_CONST
-                + "</p><p> Вчене звання, рік присвоєння: "
-                + SCIENCE_DEGREE_YEAR_CONST
-                + "</p></div> ";
+                + ASPIRANTURA
+                + DOCTORANTURA
+                +"</p><p> Науковий ступінь, рік захисту: "
+                          + ACADEMIC_STATUS_YEAR_CONST
+                          + "</p><p> Вчене звання, рік присвоєння: "
+                          + SCIENCE_DEGREE_YEAR_CONST
+                          + "</p></div> ";
+
+            return header;
         }
 
         private String GenerateHtmlTemplateWithoutBody()
@@ -244,10 +250,22 @@ namespace UserManagement.Services
             return "<!DOCTYPE html><html><head><meta charset = \"utf-8\"/><title>Звіт</title><style>p, h2 {margin: 0;}.body {line-height: 23px;padding: 5mm 10mm;margin: auto;}.header {text-align: center;}.block {margin-top: 25px;}.input-text {margin-left: 34px;}table, th, td {border: 1px solid black;border-collapse: collapse;}th, td {padding: 7px;}.table-report {margin: auto;}.footer-text{margin-top:10px;}</style></head> {BODY}</html>";
         }
 
+        //private string generateFinance(string finance)
+        //{
+        //    if(finance == Financial.В_МЕЖАХ_РОБОЧОГО_ЧАСУ)
+        //    {
+        //        return "в межах робочого часу";
+        //    }
+        //    else
+        //    {
+        //        return finance;
+        //    }
+        //}
+
         private string GenerateTemplateForPunktOne()
         {
             return "<div class=\"block\"><p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp1.Участь у науково-дослідній тематиці підрозділу − шифр теми, категорія (держбюджетна,госпдоговірна, в межах робочого часу), назва, стисло зміст виконаної роботи(до семи рядків).</p><p class=\"input-text\"><i>"
-                +  FINANCIAL + " " + THEME_SCIENTIFIC_WORK_CONST + ". " //
+                + "Тема " +  FINANCIAL  + " " + THEME_SCIENTIFIC_WORK_CONST + ". " //
                 + THEME_NUMBER_SCIENTIFIC_WORK_CONST 
                 + "; " + HEAD_SCIENTIFIC_WORK_CONST + " "
                 + PERIOD_SCIENTIFIC_WORK_CONST
@@ -299,15 +317,21 @@ namespace UserManagement.Services
 
         private string GetHeaderOfReport(Report report)
         {
+            var AspStart = report.User?.AspirantStartYear?.Year.ToString() ?? "";
+            var AspFinish = report.User?.AspirantFinishYear?.Year.ToString() ?? "";
+            var DocStart = report.User?.DoctorStartYear?.Year.ToString() ?? "";
+            var DocFinish = report.User?.DoctorFinishYear?.Year.ToString() ?? "";
             var initials = report.User.I18nUserInitials.Where(x => x.Language == Language.UA).First();
             return ReplaceStringWithParameters(GenerateTemplateForHeadOfReport(), new Dictionary<string, string>()
             {
                 [YEAR_CONST] = report.Date == null ? "" : report.Date.Value.Year.ToString(),
-                [POSITION_CONST] = report.User.Position == null ? "" : report.User.Position.Value.Replace("кафедри",string.Empty),
+                [POSITION_CONST] = report.User.Position == null ? "" : report.User.Position.Value.Replace("кафедри", string.Empty),
                 [CATHEDRA_CONST] = report.User.Cathedra == null ? "" : report.User.Cathedra.Name.Replace("Кафедра ", ""),
                 [USER_NAME_CONST] = initials.LastName + " " + initials.FirstName + " " + initials.FathersName,
                 [BIRTHDAY_CONST] = report.User.BirthDate.Year.ToString(),
                 [GRADUATION_YEAR_CONST] = report.User.GraduationDate.Year.ToString(),
+                [ASPIRANTURA] = (!string.IsNullOrEmpty(AspStart) || !string.IsNullOrEmpty(AspFinish)) ? $"</p><p> Перебування в аспірантурі ({AspStart} - {AspFinish})" : string.Empty,
+                [DOCTORANTURA] = (!string.IsNullOrEmpty(DocStart) || !string.IsNullOrEmpty(DocFinish)) ? $"</p><p> Перебування в докторантурі ({DocStart} - {DocFinish})" : string.Empty,
                 [ACADEMIC_STATUS_YEAR_CONST] = report.User.AcademicStatus == null ? "" : report.User.AcademicStatus.Value == "Без ступеня" ? report.User.AcademicStatus.Value : report.User.AcademicStatus.Value + ", " + report.User.DefenseYear.Year.ToString(),
                 [SCIENCE_DEGREE_YEAR_CONST] = report.User.ScienceDegree == null ? "" : report.User.ScienceDegree.Value == "Без звання" ? report.User.ScienceDegree.Value : report.User.ScienceDegree.Value + ", " + report.User.AwardingDate.Year.ToString(),
             });
@@ -325,7 +349,7 @@ namespace UserManagement.Services
                 [PERIOD_SCIENTIFIC_WORK_CONST] = report.ThemeOfScientificWork.PeriodFrom.Year.ToString() + " - " + report.ThemeOfScientificWork.PeriodTo.Year.ToString(),
                 [DESCR_SCIENTIFIC_WORK_CONST] = report.ThemeOfScientificWorkDescription,
                 [HEAD_SCIENTIFIC_WORK_CONST] = report.ThemeOfScientificWork.ScientificHead,
-                [FINANCIAL] = report.ThemeOfScientificWork.Financial.ToString().ToLower(),
+                [FINANCIAL] = report.ThemeOfScientificWork.Financial.ToString().ToLower().Replace("_", " "),
             });
         }
         private string GetPunktTwo(Report report)
@@ -548,18 +572,18 @@ namespace UserManagement.Services
 
         private string GetFooterTemplate()
         {
-            return "<div class=\"block input-text\"><p>Звіт заслухано і затверджено на засіданні кафедри(підрозділу)</p><p class=\"footer-text\">" 
-                + CATHEDRA_CONST 
+            return "<div class=\"block input-text\"><p>Звіт заслухано і затверджено на засіданні кафедри(підрозділу)</p><p class=\"footer-text\">"
+                + CATHEDRA_CONST
                 + ", протокол: "
-                + PROTOCOL_CONST 
+                + PROTOCOL_CONST
                 + ", дата: "
-                + DATE_CONST 
+                + DATE_CONST
                 + "</p><p class=\"footer-text\">Завідувач кафедри"
-                + CATHEDRA_CONST 
+                + CATHEDRA_CONST
                 + "__________________"
                 + CATHEDRA_LEAD
                 + "</p></div>";
-                }
+        }
 
         private String ReplaceStringWithParameters(String str, Dictionary<String, String> parameters)
         {

@@ -41,7 +41,31 @@
         @Html.LabelFor(m => m.AwardingDate, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @*<input name="AwardingDate" type="date" class="form-control" value="@ViewBag.AwardingDate" />*@
-            <input class="form-control text-box single-line" id="AwardingYear" name="AwardingYear" type="number"  value="@ViewBag.AwardingDate">
+            <input class="form-control text-box single-line" id="AwardingYear" name="AwardingYear" type="number" value="@ViewBag.AwardingDate">
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.AspirantStartYear, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <input class="form-control text-box single-line" id="AspirantStartYear" name="AspirantStartYear" type="number" value="@ViewBag.AspirantStartYear" min="1900" max="3000">
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.AspirantFinishYear, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <input class="form-control text-box single-line" id="AspirantFinishYear" name="AspirantFinishYear" type="number" value="@ViewBag.AspirantFinishYear" min="1900" max="3000">
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.DoctorStartYear, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <input class="form-control text-box single-line" id="DoctorStartYear" name="DoctorStartYear" type="number" value="@ViewBag.DoctorStartYear" min="1900" max="3000">
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.DoctorFinishYear, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <input class="form-control text-box single-line" id="DoctorFinishYear" name="DoctorFinishYear" type="number" value="@ViewBag.DoctorFinishYear" min="1900" max="3000">
         </div>
     </div>
     <div class="form-group">

@@ -99,7 +99,19 @@ namespace UserManagement.Models
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy}")]
         public DateTime DefenseYear { get; set; }
-        
+
+        [Display(Name = "Рік початку перебування в аспірантурі")]
+        public int? AspirantStartYear { get; set; }
+
+        [Display(Name = "Рік закінчення перебування в аспірантурі")]
+        public int? AspirantFinishYear { get; set; }
+
+        [Display(Name = "Рік початку перебування в докторатурі")]
+        public int? DoctorStartYear { get; set; }
+
+        [Display(Name = "Рік закінчення перебування в докторантурі")]
+        public int? DoctorFinishYear { get; set; }
+
         [Required]
         [Display(Name = "Академічний статус")]
         public string AcademicStatus { get; set; }
