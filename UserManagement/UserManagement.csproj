@@ -219,9 +219,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202004062254325_test.cs" />
-    <Compile Include="Migrations\202004062254325_test.Designer.cs">
-      <DependentUpon>202004062254325_test.cs</DependentUpon>
+    <Compile Include="Migrations\202005152142311_pages changes.cs" />
+    <Compile Include="Migrations\202005152142311_pages changes.Designer.cs">
+      <DependentUpon>202005152142311_pages changes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005290011364_AspirantDoctorDates.cs" />
+    <Compile Include="Migrations\202005290011364_AspirantDoctorDates.Designer.cs">
+      <DependentUpon>202005290011364_AspirantDoctorDates.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\PublicationDB\Publication.cs" />
@@ -380,8 +384,11 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202004062254325_test.resx">
-      <DependentUpon>202004062254325_test.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202005152142311_pages changes.resx">
+      <DependentUpon>202005152142311_pages changes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005290011364_AspirantDoctorDates.resx">
+      <DependentUpon>202005290011364_AspirantDoctorDates.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

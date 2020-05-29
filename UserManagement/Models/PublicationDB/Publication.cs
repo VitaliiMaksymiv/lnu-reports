@@ -23,6 +23,7 @@ namespace UserManagement.Models.db
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy}")]
         public DateTime Date { get; set; }
+        public string Pages { get; set; }
         public Double SizeOfPages { get; set; }
         public PublicationType PublicationType { get; set; }
         public Language Language { get; set; }

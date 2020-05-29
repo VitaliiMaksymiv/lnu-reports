@@ -649,8 +649,8 @@ namespace UserManagement.Services
         {
             return ReplaceStringWithParameters(GetFooterTemplate(), new Dictionary<string, string>()
             {
-                [PROTOCOL_CONST] = report.Protocol,
-                [DATE_CONST] = report.Date.Value.ToString("dd.MM.yyyy"),
+                [PROTOCOL_CONST] = report.Protocol != null ? report.Protocol : "",
+                [DATE_CONST] = report.Date != null ? report.Date.Value.ToString("dd.MM.yyyy") : "",
                 [FACULTY_CONST] = report.User.Cathedra.Faculty.Name.Replace("Факультет ", "").ToLower(),
             });
         }

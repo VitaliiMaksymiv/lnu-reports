@@ -43,22 +43,26 @@ namespace UserManagement.Services
         private String AddEndOfPublication(Publication publication)
         {
             string toReturn = "";
-            if (publication.PublicationType == PublicationType.Монографія
-                            || publication.PublicationType == PublicationType.Підручник
-                            || publication.PublicationType == PublicationType.Навчальний_Посібник
-                            || publication.PublicationType == PublicationType.Інше_Наукове_Видання)
+            toReturn = toReturn + " – " + (publication.Tome == null ? "" : (publication.Tome + ", "));
+            if(publication.PublicationType == PublicationType.Монографія
+                        || publication.PublicationType == PublicationType.Підручник
+                        || publication.PublicationType == PublicationType.Навчальний_Посібник)
             {
-                toReturn = toReturn + " – " + (publication.Tome == null ? "" : (publication.Tome + ", ")) + Math.Round(publication.SizeOfPages/16.0,1);
-                switch (publication.Language)
-                {
-                    case Language.UA:
-                        toReturn += " друк. арк.";
-                        break;
-                    case Language.EN:
-                        toReturn += " p.";
-                        break;
-                }
+                toReturn = toReturn + publication.Pages;
+                if (publication.Language == Language.UA)
+                    toReturn = toReturn + " c";
+                if (publication.Language == Language.EN)
+                    toReturn = toReturn + " p";
             }
+            else
+            {
+                if (publication.Language == Language.UA)
+                    toReturn = toReturn + "C. ";
+                if (publication.Language == Language.EN)
+                    toReturn = toReturn + "P. ";
+                toReturn = toReturn + publication.Pages;
+            }
+            toReturn = toReturn + ".";
             return toReturn;
         }
 
