@@ -259,7 +259,7 @@ namespace UserManagement.Services
         private string GenerateTemplateForPunktOne()
         {
             return "<div class=\"block\"><p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp1.Участь у науково-дослідній тематиці підрозділу − шифр теми, категорія (держбюджетна,госпдоговірна, в межах робочого часу), назва, стисло зміст виконаної роботи(до семи рядків).</p><p class=\"input-text\"><i>"
-                +  FINANCIAL  + " " + THEME_SCIENTIFIC_WORK_CONST + ". " //
+                + "Тема " +  FINANCIAL  + " " + THEME_SCIENTIFIC_WORK_CONST + ". " //
                 + THEME_NUMBER_SCIENTIFIC_WORK_CONST 
                 + "; " + HEAD_SCIENTIFIC_WORK_CONST + " "
                 + PERIOD_SCIENTIFIC_WORK_CONST
@@ -309,13 +309,6 @@ namespace UserManagement.Services
                 + "</table></div>";
         }
 
-        //private string GetFinancial(string financ)
-        //{
-        //    if(financ = Financial.В_МЕЖАХ_РОБОЧОГО_ЧАСУ.ToString())
-        //    {
-        //        financ = ''
-        //    }
-        //}
         private string GetHeaderOfReport(Report report)
         {
             var initials = report.User.I18nUserInitials.Where(x => x.Language == Language.UA).First();
