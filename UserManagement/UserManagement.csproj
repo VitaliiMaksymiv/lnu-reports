@@ -223,6 +223,10 @@
     <Compile Include="Migrations\202005152142311_pages changes.Designer.cs">
       <DependentUpon>202005152142311_pages changes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202005290011364_AspirantDoctorDates.cs" />
+    <Compile Include="Migrations\202005290011364_AspirantDoctorDates.Designer.cs">
+      <DependentUpon>202005290011364_AspirantDoctorDates.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\PublicationDB\Publication.cs" />
     <Compile Include="Models\PublicationDB\PublicationType.cs" />
@@ -382,6 +386,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202005152142311_pages changes.resx">
       <DependentUpon>202005152142311_pages changes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005290011364_AspirantDoctorDates.resx">
+      <DependentUpon>202005290011364_AspirantDoctorDates.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
