@@ -123,6 +123,7 @@ namespace UserManagement.Services
                 + PUNKT_6_1_ARTICLES
                 + PUNKT_6_1_ARTICLES_FACTOR
                 //+ PUNKT_6_1_ARTICLES_INTERNATIONAL
+                + PUNKT_6_1_ARTICLES_INTERNATIONAL_METRICALS
                 + PUNKT_6_1_ARTICLES_OTHER_INTERNATIONAL
                 + PUNKT_6_1_ARTICLES_NATIONAL_FAH
                 + PUNKT_6_1_ARTICLES_NATIONAL
