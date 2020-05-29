@@ -39,6 +39,23 @@ namespace UserManagement.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime DefenseYear { get; set; }
 
+        [DataType(DataType.Date)]
+        [Display(Name = "Рік початку перебування в аспірантурі")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        public DateTime? AspirantStartYear { get; set; }
+        [DataType(DataType.Date)]
+        [Display(Name = "Рік закінчення перебування в аспірантурі")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        public DateTime? AspirantFinishYear { get; set; }
+        [DataType(DataType.Date)]
+        [Display(Name = "Рік початку перебування в докторатурі")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        public DateTime? DoctorStartYear { get; set; }
+        [DataType(DataType.Date)]
+        [Display(Name = "Рік закінчення перебування в докторантурі")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        public DateTime? DoctorFinishYear { get; set; }
+
         [Display(Name = "Кафедра")]
         public virtual Cathedra Cathedra { get; set; }
         [Display(Name = "Академічний статус")]

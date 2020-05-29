@@ -165,7 +165,7 @@ namespace UserManagement.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Update(UpdateViewModel model, int? year)
+        public ActionResult Update(UpdateViewModel model, int? year, int? GraduationYear, int? DefenseDate, int? AwardingYear, int? AspirantStartYear, int? AspirantFinishYear, int? DoctorStartYear, int? DoctorFinishYear)
         {
             if (ModelState.IsValid)
             {
@@ -173,9 +173,13 @@ namespace UserManagement.Controllers
                 var user = db.Users.First(x => x.Id == currentUserId);
                 user.I18nUserInitials.Clear();
                 user.BirthDate = model.BirthDate;
-                user.AwardingDate = new DateTime(year.Value, 1, 1);
-                user.GraduationDate = new DateTime(year.Value, 1, 1);
-                user.DefenseYear = new DateTime(year.Value, 1, 1) ;
+                if (AwardingYear != null) user.AwardingDate = new DateTime(AwardingYear.Value, 1, 1);
+                if (GraduationYear != null) user.GraduationDate = new DateTime(GraduationYear.Value, 1, 1);
+                if (DefenseDate != null) user.DefenseYear = new DateTime(DefenseDate.Value, 1, 1);
+                user.AspirantStartYear = AspirantStartYear != null ? new DateTime(AspirantStartYear.Value, 1, 1) : (DateTime?)null;
+                user.AspirantFinishYear = AspirantFinishYear != null ? new DateTime(AspirantFinishYear.Value, 1, 1) : (DateTime?)null;
+                user.DoctorStartYear = DoctorStartYear != null ? new DateTime(DoctorStartYear.Value, 1, 1) : (DateTime?)null;
+                user.DoctorFinishYear = DoctorFinishYear != null ? new DateTime(DoctorFinishYear.Value, 1, 1) : (DateTime?)null;
                 user.PublicationCounterBeforeRegistration = model.PublicationsBeforeRegister;
                 user.AcademicStatus = db.AcademicStatus.First(x => x.Value == model.AcademicStatus);
                 user.ScienceDegree = db.ScienceDegree.First(x => x.Value == model.ScienceDegree);
@@ -204,9 +208,13 @@ namespace UserManagement.Controllers
             ViewBag.AllScienceDegrees = db.ScienceDegree.ToList().Select(x => x.Value);
             ViewBag.AllPositions = db.Position.ToList().Select(x => x.Value);
             ViewBag.BirthDate = user.BirthDate.ToString("yyyy-MM-dd");
-            ViewBag.AwardingDate = user.AwardingDate.ToString("yyyy-MM-dd");
-            ViewBag.GraduationDate = user.GraduationDate.ToString("yyyy-MM-dd");
-            ViewBag.DefenseYear = user.DefenseYear.ToString("yyyy-MM-dd");
+            ViewBag.AwardingDate = user.AwardingDate.ToString("yyyy");
+            ViewBag.GraduationDate = user.GraduationDate.ToString("yyyy");
+            ViewBag.DefenseYear = user.DefenseYear.ToString("yyyy");
+            ViewBag.AspirantStartYear = user.AspirantStartYear?.ToString("yyyy");
+            ViewBag.AspirantFinishYear = user.AspirantFinishYear?.ToString("yyyy");
+            ViewBag.DoctorStartYear = user.DoctorStartYear?.ToString("yyyy");
+            ViewBag.DoctorFinishYear = user.DoctorFinishYear?.ToString("yyyy");
             ViewBag.PublicationsBeforeRegister = user.PublicationCounterBeforeRegistration;
             if (user.AcademicStatus != null)
                 ViewBag.AcademicStatus = user.AcademicStatus.Value.ToString();
