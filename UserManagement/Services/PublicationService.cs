@@ -21,12 +21,15 @@ namespace UserManagement.Services
             for (var i = 0; i < authorsOrder.Length; i++)
             {
                 var user = publication.User.FirstOrDefault(x => x.Id == authorsOrder[i]);
-                var initials = user?.I18nUserInitials.Where(x => x.Language == publication.Language).First();
-                toReturn = toReturn + initials.FirstName.Substring(0, 1).ToUpper()
-                    + ". " + initials.FathersName.Substring(0, 1).ToUpper()
-                    + ". " + initials.LastName;
-                if (i != publication.User.Count - 1)
-                    toReturn = toReturn + ", ";
+                if(user != null)
+                {
+                    var initials = user?.I18nUserInitials.Where(x => x.Language == publication.Language).First();
+                    toReturn = toReturn + initials.FirstName.Substring(0, 1).ToUpper()
+                        + ". " + initials.FathersName.Substring(0, 1).ToUpper()
+                        + ". " + initials.LastName;
+                    if (i != publication.User.Count - 1)
+                        toReturn = toReturn + ", ";
+                }
             }
 
             toReturn = toReturn + ", " +
