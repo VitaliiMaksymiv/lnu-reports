@@ -17,9 +17,11 @@ namespace UserManagement.Services
 
             toReturn += publication.MainAuthor;
             toReturn += publication.Name + " / ";
-            for (var i = 0; i < publication.User.Count; i++)
+            var authorsOrder = publication.AuthorsOrder.Split(',');
+            for (var i = 0; i < authorsOrder.Length; i++)
             {
-                var initials = publication.User.ElementAt(i).I18nUserInitials.Where(x => x.Language == publication.Language).First();
+                var user = publication.User.FirstOrDefault(x => x.Id == authorsOrder[i]);
+                var initials = user?.I18nUserInitials.Where(x => x.Language == publication.Language).First();
                 toReturn = toReturn + initials.FirstName.Substring(0, 1).ToUpper()
                     + ". " + initials.FathersName.Substring(0, 1).ToUpper()
                     + ". " + initials.LastName;

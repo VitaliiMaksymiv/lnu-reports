@@ -162,9 +162,10 @@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Зберегти" class="btn btn-default" />
+            <input type="submit" value="Зберегти" class="btn btn-default" id="submit_btn"/>
         </div>
     </div>
+    <input style="display:none" id="authorsOrder" name="authorsOrder" value="" />
 </div>
 }
 
@@ -215,6 +216,14 @@
     }
 
     updateSelect();
+    $("#submit_btn").click(() => {
+        let foo = document.getElementById("ddlMultiSelect_chosen").children[0].children
+        let arrayAuthorsId = []
+        for (let i = 0; i < foo.length - 1; i++) {
+            arrayAuthorsId.push(foo[i].lastChild.dataset.optionArrayIndex)
+        }
+        document.getElementById("authorsOrder").value = arrayAuthorsId
+    })
 </script>
 
 @section Scripts {

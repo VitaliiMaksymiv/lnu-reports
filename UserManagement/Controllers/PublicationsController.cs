@@ -164,7 +164,8 @@ namespace UserManagement.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Name,OtherAuthors,PagesFrom,PagesTo,PublicationType,Place," +
             "MainAuthor,IsMainAuthorRegistered,Language,Link,Edition,Magazine,DOI,Tome")] Publication publication, int? year,
-            [Bind(Include = "UserToAdd")]String[] userToAdd, bool? mainAuthorFromOthers,[Bind(Include = "PagesFrom")] int pagesFrom = -1, [Bind(Include = "PagesTo")] int pagesTo = -1)
+            [Bind(Include = "IsMainAuthorRegistered")] bool? mainAuthorFromOthers, [Bind(Include ="authorsOrder")] string[] authorsOrder, [Bind(Include = "PagesFrom")] int pagesFrom = -1,
+            [Bind(Include = "PagesTo")] int pagesTo = -1)
         {
             var users = db.Users.Where(x => x.Roles.Count == 1 && x.Roles.Any(y => y.RoleId != db.Roles.Where(z => z.Name == "Superadmin").FirstOrDefault().Id)).ToList();
             ViewBag.AllPublicationTypes = Enum.GetNames(typeof(PublicationType))
@@ -182,6 +183,14 @@ namespace UserManagement.Controllers
                          Value = x.Id
                      })
                     .ToList();
+            users = db.Users.Where(x => x.IsActive == true).ToList();
+            users = users.Where(x=>(UserManager.IsInRole(x.Id, "Викладач") || UserManager.IsInRole(x.Id, "Керівник кафедри")
+                || UserManager.IsInRole(x.Id, "Адміністрація ректорату") || UserManager.IsInRole(x.Id, "Адміністрація деканату"))).ToList();
+            var userToAdd = new List<string>();
+            foreach(var i in authorsOrder[0].Split(','))
+            {
+                userToAdd.Add(users[Convert.ToInt32(i)].Id);
+            }
             if (ModelState.IsValid)
             {
                 if (userToAdd != null)
@@ -197,7 +206,8 @@ namespace UserManagement.Controllers
                         ModelState.AddModelError("", "Така публікація вже існує");
                         return View(publication);
                     }
-                    if (userToAdd.Length != 0)
+                    //var authorsOrder = string.Empty;
+                    if (userToAdd.Count != 0)
                     {
                         foreach (var current in userToAdd)
                         {
@@ -206,8 +216,10 @@ namespace UserManagement.Controllers
                             user.Publication.Add(publication);
                         }
                     }
+                    publication.AuthorsOrder = String.Join(",", userToAdd);
                 }
-                publication.Date = new DateTime(year.Value, 1, 1);
+                if(year.HasValue)
+                    publication.Date = new DateTime(year.Value, 1, 1);
                 if (mainAuthorFromOthers.Value)
                 {
                     var value = publication.OtherAuthors.Split();
@@ -288,8 +300,7 @@ namespace UserManagement.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Name,OtherAuthors,Date,PagesFrom,PagesTo,PublicationType,Language," +
-            "Link,Edition,Place,Magazine,DOI,Tome")] Publication publication,
-            [Bind(Include = "UserToAdd")]String[] userToAdd,int? year, bool? mainAuthorFromOthers,bool? changeMainAuthor, [Bind(Include = "PagesFrom")] int pagesFrom = -1, [Bind(Include = "PagesTo")] int pagesTo = -1)
+            "Link,Edition,Place,Magazine,DOI,Tome")] Publication publication, [Bind(Include = "authorsOrder")] string[] authorsOrder,int? year, bool? mainAuthorFromOthers,bool? changeMainAuthor, [Bind(Include = "PagesFrom")] int pagesFrom = -1, [Bind(Include = "PagesTo")] int pagesTo = -1)
         {
             ViewBag.AllPublicationTypes = Enum.GetNames(typeof(PublicationType))
                 .Select(x => new SelectListItem { Selected = false, Text = x, Value = x }).ToList();
@@ -308,6 +319,14 @@ namespace UserManagement.Controllers
                          Value = x.Id
                      })
                     .ToList();
+            users = db.Users.Where(x => x.IsActive == true && !publication.User.Contains(x)).ToList();
+            users = users.Where(x => (UserManager.IsInRole(x.Id, "Викладач") || UserManager.IsInRole(x.Id, "Керівник кафедри")
+                || UserManager.IsInRole(x.Id, "Адміністрація ректорату") || UserManager.IsInRole(x.Id, "Адміністрація деканату"))).ToList();
+            var userToAdd = new List<string>();
+            foreach (var i in authorsOrder[0].Split(','))
+            {
+                userToAdd.Add(users[Convert.ToInt32(i)].Id);
+            }
             if (ModelState.IsValid)
             {
                 if(userToAdd != null)
@@ -347,7 +366,11 @@ namespace UserManagement.Controllers
                 publicationFromDB.Tome = publication.Tome;
                 if (year.HasValue)
                     publicationFromDB.Date = new DateTime(year.Value, 1, 1);
-                if (userToAdd != null && userToAdd.Length != 0)
+                if(publicationFromDB.User.Count != 0)
+                    publicationFromDB.AuthorsOrder += "," + String.Join(",", userToAdd);
+                else 
+                    publicationFromDB.AuthorsOrder = String.Join(",", userToAdd);
+                if (userToAdd != null && userToAdd.Count != 0)
                 {
                     foreach (var current in userToAdd)
                     {
@@ -356,7 +379,7 @@ namespace UserManagement.Controllers
                         user.Publication.Add(publicationFromDB);
                     }
                 }
-                if(changeMainAuthor.Value)
+                if (changeMainAuthor.Value)
                 {
                     if (mainAuthorFromOthers.Value)
                     {
