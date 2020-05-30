@@ -372,10 +372,7 @@ namespace UserManagement.Controllers
                 publicationFromDB.Tome = publication.Tome;
                 if (year.HasValue)
                     publicationFromDB.Date = new DateTime(year.Value, 1, 1);
-                if(publicationFromDB.User.Count != 0)
-                    publicationFromDB.AuthorsOrder += "," + String.Join(",", userToAdd);
-                else 
-                    publicationFromDB.AuthorsOrder = String.Join(",", userToAdd);
+                publicationFromDB.AuthorsOrder = String.Join(",", userToAdd);
                 if (userToAdd != null && userToAdd.Count != 0)
                 {
                     foreach (var current in userToAdd)
