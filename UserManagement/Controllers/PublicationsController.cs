@@ -164,7 +164,7 @@ namespace UserManagement.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Name,OtherAuthors,PagesFrom,PagesTo,PublicationType,Place," +
             "MainAuthor,IsMainAuthorRegistered,Language,Link,Edition,Magazine,DOI,Tome")] Publication publication, int? year,
-            [Bind(Include = "IsMainAuthorRegistered")] bool? mainAuthorFromOthers, [Bind(Include ="authorsOrder")] string[] authorsOrder, [Bind(Include = "PagesFrom")] int pagesFrom = -1,
+            [Bind(Include = "IsMainAuthorRegistered")] bool? mainAuthorFromOthers, [Bind(Include = "authorsOrder")] string[] authorsOrder, [Bind(Include = "PagesFrom")] int pagesFrom = -1,
             [Bind(Include = "PagesTo")] int pagesTo = -1)
         {
             var users = db.Users.Where(x => x.Roles.Count == 1 && x.Roles.Any(y => y.RoleId != db.Roles.Where(z => z.Name == "Superadmin").FirstOrDefault().Id)).ToList();
@@ -184,12 +184,15 @@ namespace UserManagement.Controllers
                      })
                     .ToList();
             users = db.Users.Where(x => x.IsActive == true).ToList();
-            users = users.Where(x=>(UserManager.IsInRole(x.Id, "Викладач") || UserManager.IsInRole(x.Id, "Керівник кафедри")
+            users = users.Where(x => (UserManager.IsInRole(x.Id, "Викладач") || UserManager.IsInRole(x.Id, "Керівник кафедри")
                 || UserManager.IsInRole(x.Id, "Адміністрація ректорату") || UserManager.IsInRole(x.Id, "Адміністрація деканату"))).ToList();
             var userToAdd = new List<string>();
-            foreach(var i in authorsOrder[0].Split(','))
+            if (authorsOrder != null & !String.IsNullOrEmpty(authorsOrder[0]) & authorsOrder[0].Split(',').Length!=0)
             {
-                userToAdd.Add(users[Convert.ToInt32(i)].Id);
+                foreach (var i in authorsOrder[0].Split(','))
+                {
+                    userToAdd.Add(users[Convert.ToInt32(i)].Id);
+                }
             }
             if (ModelState.IsValid)
             {
@@ -323,9 +326,12 @@ namespace UserManagement.Controllers
             users = users.Where(x => (UserManager.IsInRole(x.Id, "Викладач") || UserManager.IsInRole(x.Id, "Керівник кафедри")
                 || UserManager.IsInRole(x.Id, "Адміністрація ректорату") || UserManager.IsInRole(x.Id, "Адміністрація деканату"))).ToList();
             var userToAdd = new List<string>();
-            foreach (var i in authorsOrder[0].Split(','))
+            if (authorsOrder != null & !String.IsNullOrEmpty(authorsOrder[0]) & authorsOrder[0].Split(',').Length != 0)
             {
-                userToAdd.Add(users[Convert.ToInt32(i)].Id);
+                foreach (var i in authorsOrder[0].Split(','))
+                {
+                    userToAdd.Add(users[Convert.ToInt32(i)].Id);
+                }
             }
             if (ModelState.IsValid)
             {
