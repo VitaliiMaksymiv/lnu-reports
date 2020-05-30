@@ -420,6 +420,7 @@ namespace UserManagement.Services
                                         + (dictionaryInReport.ContainsKey(PublicationType.Стаття_В_Інших_Виданнях_України) ? dictionaryInReport[PublicationType.Стаття_В_Інших_Виданнях_України] : 0)
                                         + (dictionaryInReport.ContainsKey(PublicationType.Стаття_В_Інших_Закордонних_Виданнях) ? dictionaryInReport[PublicationType.Стаття_В_Інших_Закордонних_Виданнях] : 0)
                                         + (dictionaryInReport.ContainsKey(PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор) ? dictionaryInReport[PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор] : 0)
+                                        + (dictionaryInReport.ContainsKey(PublicationType.Стаття_В_Інших_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних) ? dictionaryInReport[PublicationType.Стаття_В_Інших_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних] : 0)
                                         + (dictionaryInReport.ContainsKey(PublicationType.Стаття_В_Фахових_Виданнях_України) ? dictionaryInReport[PublicationType.Стаття_В_Фахових_Виданнях_України] : 0)).ToString(),
                 [OTHER_WRITINGS_ALL_CONST] = dictionary.ContainsKey(PublicationType.Інше_Наукове_Видання) ? dictionary[PublicationType.Інше_Наукове_Видання].ToString() : "0",
                 [OTHER_WRITINGS_PERIOD_CONST] = dictionaryInReport.ContainsKey(PublicationType.Інше_Наукове_Видання) ? dictionaryInReport[PublicationType.Інше_Наукове_Видання].ToString() : "0",
