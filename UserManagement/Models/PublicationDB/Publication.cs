@@ -35,6 +35,8 @@ namespace UserManagement.Models.db
         public String Place { get; set; }
         
         public String MainAuthor { get; set; }
+
+        public String AuthorsOrder { get; set; }
         public Boolean IsMainAuthorRegistered { get; set; } = false;
         public virtual ICollection<ApplicationUser> User { get; set; }
 
