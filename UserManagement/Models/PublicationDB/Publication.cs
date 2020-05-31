@@ -33,17 +33,13 @@ namespace UserManagement.Models.db
         public String DOI { get; set; }
         public String Tome { get; set; }
         public String Place { get; set; }
-        
         public String MainAuthor { get; set; }
-
         public String AuthorsOrder { get; set; }
         public Boolean IsMainAuthorRegistered { get; set; } = false;
         public virtual ICollection<ApplicationUser> User { get; set; }
-
         public virtual ICollection<Report> PrintedPublicationReport { get; set; }
         public virtual ICollection<Report> RecomendedPublicationReport { get; set; }
         public virtual ICollection<Report> AcceptedToPrintPublicationReport { get; set; }
-
         public virtual ICollection<CathedraReport> PrintedPublicationBudgetCathedraReport { get; set; }
         public virtual ICollection<CathedraReport> PrintedPublicationInWorkCathedraReport { get; set; }
         public virtual ICollection<CathedraReport> PrintedPublicationHospDohovirCathedraReport { get; set; }

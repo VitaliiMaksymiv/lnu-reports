@@ -16,25 +16,8 @@ namespace UserManagement.Services
             string toReturn = "";
 
             toReturn += publication.MainAuthor;
-            toReturn += publication.Name + " / ";
-            var authorsOrder = publication.AuthorsOrder.Split(',');
-            for (var i = 0; i < authorsOrder.Length; i++)
-            {
-                var user = publication.User.FirstOrDefault(x => x.Id == authorsOrder[i]);
-                if(user != null)
-                {
-                    var initials = user?.I18nUserInitials.Where(x => x.Language == publication.Language).First();
-                    toReturn = toReturn + initials.FirstName.Substring(0, 1).ToUpper()
-                        + ". " + initials.FathersName.Substring(0, 1).ToUpper()
-                        + ". " + initials.LastName;
-                    if (i != publication.User.Count - 1)
-                        toReturn = toReturn + ", ";
-                }
-            }
+            toReturn += publication.Name + " / " + publication.AuthorsOrder + " // " +
 
-            toReturn = toReturn + ", " +
-                ((publication.OtherAuthors != null || publication.OtherAuthors != "") ? publication.OtherAuthors : "") +
-                " // " +
                 (publication.Magazine != null ? publication.Magazine + ", " : "") +
                 (publication.Edition != null ? publication.Edition + ", " : "") +
                 (publication.Place != null ? publication.Place : "") +
