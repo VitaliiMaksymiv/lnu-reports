@@ -17,6 +17,7 @@ namespace UserManagement.Services
 
             toReturn += publication.MainAuthor;
             toReturn += publication.Name + " / " + publication.AuthorsOrder + " // " +
+
                 (publication.Magazine != null ? publication.Magazine + ", " : "") +
                 (publication.Edition != null ? publication.Edition + ", " : "") +
                 (publication.Place != null ? publication.Place : "") +
