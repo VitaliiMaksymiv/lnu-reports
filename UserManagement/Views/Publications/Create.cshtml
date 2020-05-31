@@ -11,143 +11,147 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>Публікації</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            <label class="control-label col-md-2">Мова публікації</label>
-            @Html.DropDownList("Language",
-             new SelectList(ViewBag.AllLanguages, "Value", "Text"),
-             "Виберіть мову",
-             new { @class = "form-control col-md-2", @style = "margin-left: 15px;", @id = "languageSelect" })
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">Тип публікації</label>
-            @Html.DropDownList("PublicationType",
-             new SelectList(ViewBag.AllPublicationTypes, "Value", "Text"),
-             "Виберіть тип публікації",
-             new
-             {
-                 @class = "form-control col-md-2",
-                 @style = "margin-left: 15px;",
-                 @onchange = "publicationTypeChange(this)"
-             })
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">Назва</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">Додати авторів</label>
-            @Html.DropDownList("UserToAdd",
-                new MultiSelectList(ViewBag.AllUsers, "Value", "Text", ViewBag.CurrentUser),
-                new
-                {
-                    @class = "form-control col-md-2 chosen-select",
-                    @Multiple = "multiple",
-                    @id = "ddlMultiSelect",
-                })
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">Головний автор не зареєстрований викладач:</label>
-            <input type="checkbox" style="margin:40px 15px" name="mainAuthorFromOthers" id="mainAuthorFromOthers" value="true" />
-            <input name="mainAuthorFromOthers" type="hidden" value="false">
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">Інші автори</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.OtherAuthors, new { htmlAttributes = new { @class = "form-control", @id = "OtherAuthors" } })
-                @Html.ValidationMessageFor(model => model.OtherAuthors, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">Місце видання</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Place, new { htmlAttributes = new { @class = "form-control", @id = "OtherAuthors" } })
-                @Html.ValidationMessageFor(model => model.Place, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">Дата</label>
-            <div class="col-md-10">
-                <input class="form-control text-box single-line" id="year" name="year" type="number" value="">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">Видавництво</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Edition, new { htmlAttributes = new { @class = "form-control", @id = "OtherAuthors" } })
-                @Html.ValidationMessageFor(model => model.Edition, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">Назва журналу</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Magazine, new { htmlAttributes = new { @class = "form-control", @id = "OtherAuthors" } })
-                @Html.ValidationMessageFor(model => model.Magazine, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">Посилання на публікацію в інтернеті</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Link, new { htmlAttributes = new { @class = "form-control", @id = "OtherAuthors" } })
-                @Html.ValidationMessageFor(model => model.Link, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">ДОІ</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DOI, new { htmlAttributes = new { @class = "form-control", @id = "OtherAuthors" } })
-                @Html.ValidationMessageFor(model => model.DOI, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2">Частина видання</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Tome, new { htmlAttributes = new { @class = "form-control", @id = "OtherAuthors" } })
-                @Html.ValidationMessageFor(model => model.Tome, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group PagesFrom">
-            <label class="control-label col-md-2">Сторінки від.</label>
-            <div class="col-md-10">
-                <input class="form-control text-box single-line" id="pagesFrom" name="pagesFrom" type="number" value="0">
-            </div>
-        </div>
-
-        <div class="form-group PagesTo">
-            <label class="control-label col-md-2">Сторінки до.</label>
-            <div class="col-md-10">
-                <input class="form-control text-box single-line" id="pagesTo" name="pagesTo" type="number" value="0">
-            </div>
-        </div>
-
-        <input hidden id="isMainAuthorRegistered" name="IsMainAuthorRegistered" value="false" />
-        <input hidden id="MainAuthor" name="MainAuthor" />
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Створити" class="btn btn-default" id="submit_btn"/>
-            </div>
-        </div>
-        <input style="display:none" id="authorsOrder" name="authorsOrder" value=""/>
+<div class="form-horizontal">
+    <h4>Публікації</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        <label class="control-label col-md-2">Мова публікації</label>
+        @Html.DropDownList("Language",
+         new SelectList(ViewBag.AllLanguages, "Value", "Text"),
+         "Виберіть мову",
+         new { @class = "form-control col-md-2", @style = "margin-left: 15px;", @id = "languageSelect" })
     </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Тип публікації</label>
+        @Html.DropDownList("PublicationType",
+         new SelectList(ViewBag.AllPublicationTypes, "Value", "Text"),
+         "Виберіть тип публікації",
+         new
+         {
+             @class = "form-control col-md-2",
+             @style = "margin-left: 15px;",
+             @onchange = "publicationTypeChange(this)"
+         })
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Назва</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-10">Увага! Порядок авторів у звіті буде сформовано автоматично, змінити порядок можна під час редагування публікації </label>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Додати авторів</label>
+        @Html.DropDownList("UserToAdd",
+            new MultiSelectList(ViewBag.AllUsers, "Value", "Text", ViewBag.CurrentUser),
+            new
+            {
+                @class = "form-control col-md-2 chosen-select",
+                @Multiple = "multiple",
+                @id = "ddlMultiSelect",
+            })
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Головний автор не зареєстрований викладач:</label>
+        <input type="checkbox" style="margin:40px 15px" name="mainAuthorFromOthers" id="mainAuthorFromOthers" value="true" />
+        <input name="mainAuthorFromOthers" type="hidden" value="false">
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Інші автори</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.OtherAuthors, new { htmlAttributes = new { @class = "form-control", @id = "OtherAuthors" } })
+            @Html.ValidationMessageFor(model => model.OtherAuthors, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Місце видання</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Place, new { htmlAttributes = new { @class = "form-control", @id = "OtherAuthors" } })
+            @Html.ValidationMessageFor(model => model.Place, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Дата</label>
+        <div class="col-md-10">
+            <input class="form-control text-box single-line" id="year" name="year" type="number" value="">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Видавництво</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Edition, new { htmlAttributes = new { @class = "form-control", @id = "OtherAuthors" } })
+            @Html.ValidationMessageFor(model => model.Edition, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Назва журналу</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Magazine, new { htmlAttributes = new { @class = "form-control", @id = "OtherAuthors" } })
+            @Html.ValidationMessageFor(model => model.Magazine, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Посилання на публікацію в інтернеті</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Link, new { htmlAttributes = new { @class = "form-control", @id = "OtherAuthors" } })
+            @Html.ValidationMessageFor(model => model.Link, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">ДОІ</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.DOI, new { htmlAttributes = new { @class = "form-control", @id = "OtherAuthors" } })
+            @Html.ValidationMessageFor(model => model.DOI, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Частина видання</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Tome, new { htmlAttributes = new { @class = "form-control", @id = "OtherAuthors" } })
+            @Html.ValidationMessageFor(model => model.Tome, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group PagesFrom">
+        <label class="control-label col-md-2">Сторінки від.</label>
+        <div class="col-md-10">
+            <input class="form-control text-box single-line" id="pagesFrom" name="pagesFrom" type="number" value="0">
+        </div>
+    </div>
+
+    <div class="form-group PagesTo">
+        <label class="control-label col-md-2">Сторінки до.</label>
+        <div class="col-md-10">
+            <input class="form-control text-box single-line" id="pagesTo" name="pagesTo" type="number" value="0">
+        </div>
+    </div>
+
+    <input hidden id="isMainAuthorRegistered" name="IsMainAuthorRegistered" value="false" />
+    <input hidden id="MainAuthor" name="MainAuthor" />
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Створити" class="btn btn-default" id="submit_btn" />
+        </div>
+    </div>
+    <input style="display:none" id="authorsOrder" name="authorsOrder" value="" />
+</div>
 }
 
 <div>
