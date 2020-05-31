@@ -209,7 +209,6 @@ namespace UserManagement.Controllers
                         ModelState.AddModelError("", "Така публікація вже існує");
                         return View(publication);
                     }
-                    //var authorsOrder = string.Empty;
                     if (userToAdd.Count != 0)
                     {
                         foreach (var current in userToAdd)
