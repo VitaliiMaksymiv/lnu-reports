@@ -18,8 +18,8 @@ namespace UserManagement.Services
             toReturn += publication.MainAuthor + " ";
             toReturn += publication.Name + " / " + publication.AuthorsOrder + " // " +
 
-                (publication.Magazine != null ? publication.Magazine + ", " : "") +
-                (publication.Edition != null ? publication.Edition + ", " : "") +
+                (publication.Magazine != null ? publication.Magazine + ". " : "") +
+                (publication.Edition != null ? publication.Edition + ". " : "") +
                 (publication.Place != null ? publication.Place : "") +
                 ". – " +
                 publication.Date.Year + ".";
@@ -31,7 +31,7 @@ namespace UserManagement.Services
         private String AddEndOfPublication(Publication publication)
         {
             string toReturn = "";
-            toReturn = toReturn + " – " + (publication.Tome == null ? "" : (publication.Tome + ", "));
+            toReturn = toReturn + " – " + (publication.Tome == null ? "" : (publication.Tome + ". "));
             if(publication.PublicationType == PublicationType.Монографія
                         || publication.PublicationType == PublicationType.Підручник
                         || publication.PublicationType == PublicationType.Навчальний_Посібник)
