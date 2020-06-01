@@ -56,6 +56,7 @@ namespace UserManagement.Services
         private static String POSITION_CONST = "{POSITION}";
         private static String CATHEDRA_CONST = "{CATHEDRA}";
         private static String CATHEDRA_LEAD = "{CATHEDRA_LEAD}";
+        private static String CATHEDRA_LEAD_STATUS = "{CATHEDRA_LEAD_STATUS}";
         private static String USER_NAME_CONST = "{USER_NAME}";
         private static String BIRTHDAY_CONST = "{BIRTHDAY}";
         private static String GRADUATION_YEAR_CONST = "{GRADUATION_YEAR}";
@@ -123,6 +124,7 @@ namespace UserManagement.Services
                 + PUNKT_6_1_ARTICLES
                 + PUNKT_6_1_ARTICLES_FACTOR
                 //+ PUNKT_6_1_ARTICLES_INTERNATIONAL
+                + PUNKT_6_1_ARTICLES_INTERNATIONAL_METRICALS
                 + PUNKT_6_1_ARTICLES_OTHER_INTERNATIONAL
                 + PUNKT_6_1_ARTICLES_NATIONAL_FAH
                 + PUNKT_6_1_ARTICLES_NATIONAL
@@ -419,6 +421,7 @@ namespace UserManagement.Services
                                         + (dictionaryInReport.ContainsKey(PublicationType.Стаття_В_Інших_Виданнях_України) ? dictionaryInReport[PublicationType.Стаття_В_Інших_Виданнях_України] : 0)
                                         + (dictionaryInReport.ContainsKey(PublicationType.Стаття_В_Інших_Закордонних_Виданнях) ? dictionaryInReport[PublicationType.Стаття_В_Інших_Закордонних_Виданнях] : 0)
                                         + (dictionaryInReport.ContainsKey(PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор) ? dictionaryInReport[PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор] : 0)
+                                        + (dictionaryInReport.ContainsKey(PublicationType.Стаття_В_Інших_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних) ? dictionaryInReport[PublicationType.Стаття_В_Інших_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних] : 0)
                                         + (dictionaryInReport.ContainsKey(PublicationType.Стаття_В_Фахових_Виданнях_України) ? dictionaryInReport[PublicationType.Стаття_В_Фахових_Виданнях_України] : 0)).ToString(),
                 [OTHER_WRITINGS_ALL_CONST] = dictionary.ContainsKey(PublicationType.Інше_Наукове_Видання) ? dictionary[PublicationType.Інше_Наукове_Видання].ToString() : "0",
                 [OTHER_WRITINGS_PERIOD_CONST] = dictionaryInReport.ContainsKey(PublicationType.Інше_Наукове_Видання) ? dictionaryInReport[PublicationType.Інше_Наукове_Видання].ToString() : "0",
@@ -498,18 +501,21 @@ namespace UserManagement.Services
 
         private string GetFooter(Report report)
         {
-            var cathedraLeadInitials = db.Users.FirstOrDefault(x => x.Position.ID == 2 && x.Cathedra.ID == report.User.Cathedra.ID)?.I18nUserInitials.FirstOrDefault();
+            var lead = db.Users.FirstOrDefault(x => x.Position.ID == 2 && x.Cathedra.ID == report.User.Cathedra.ID);
+            var cathedraLeadInitials = lead?.I18nUserInitials.FirstOrDefault();
             var initials = string.Empty;
             if (cathedraLeadInitials != null)
                 initials = cathedraLeadInitials.FirstName?.Substring(0, 1).ToUpper()
                     + ". " + cathedraLeadInitials.FathersName?.Substring(0, 1).ToUpper()
                     + ". " + cathedraLeadInitials.LastName;
+            var cathedraLeadStatus = lead?.ScienceDegree.Value;
             return ReplaceStringWithParameters(GetFooterTemplate(), new Dictionary<string, string>()
             {
                 [PROTOCOL_CONST] = report.Protocol,
                 [DATE_CONST] = report.Date == null ? "" : report.Date.Value.ToString("dd.MM.yyyy"),
                 [CATHEDRA_CONST] = report.User.Cathedra == null ? "" : report.User.Cathedra.Name.Replace("Кафедра ", ""),
-                [CATHEDRA_LEAD] = initials
+                [CATHEDRA_LEAD] = initials,
+                [CATHEDRA_LEAD_STATUS] = cathedraLeadStatus
             });
         }
 
@@ -578,9 +584,11 @@ namespace UserManagement.Services
                 + PROTOCOL_CONST
                 + ", дата: "
                 + DATE_CONST
-                + "</p><p class=\"footer-text\">Завідувач кафедри"
+                + "</p><p class=\"footer-text\">Завідувач кафедри "
                 + CATHEDRA_CONST
                 + "__________________"
+                + CATHEDRA_LEAD_STATUS
+                + " "
                 + CATHEDRA_LEAD
                 + "</p></div>";
         }
