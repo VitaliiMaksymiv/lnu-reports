@@ -222,9 +222,16 @@ namespace UserManagement.Controllers
                 var authors = string.Empty;
                 if (mainAuthorFromOthers.Value)
                 {
-                    var values = publication.OtherAuthors.Split();
-                    publication.MainAuthor = values[1] + " " + values[0];
-                    authors += values[0] + " " + values[1];
+                    if(!string.IsNullOrEmpty(publication.OtherAuthors))
+                    {
+                        var values = publication.OtherAuthors.Split(',');
+                        values = values[0].Split();
+                        if(values.Length == 3)
+                        {
+                            publication.MainAuthor = values[2] + " " + values[0] + " " + values[1];
+                            authors += values[0] + " " + values[1] + " " + values[2];
+                        }
+                    }
                 }
                 else
                 {
@@ -243,13 +250,18 @@ namespace UserManagement.Controllers
                         + ". " + initials.FathersName.Substring(0, 1).ToUpper()
                         + ". " + initials.LastName;
                 }
-                var otherAuthors = publication.OtherAuthors.Split();
-                var start = 0;
-                if (mainAuthorFromOthers.Value)
-                    start = 2;
-                for(int i = start; i< otherAuthors.Length;i+=2)
+                if(!string.IsNullOrEmpty(publication.OtherAuthors))
                 {
-                    authors += ", " + otherAuthors[i] + otherAuthors[i + 1];
+                    var otherAuthors = publication.OtherAuthors.Split(',');
+                    var start = 0;
+                    if (mainAuthorFromOthers.Value)
+                        start = 1;
+                    for (int i = start; i < otherAuthors.Length; i++)
+                    {
+                        var author = otherAuthors[i].Split();
+                        if(author.Length == 3)
+                            authors += ", " + author[0] + " " + author[1] + " " + author[2];
+                    }
                 }
                 publication.AuthorsOrder = authors;
                 if(year.HasValue)
@@ -385,6 +397,7 @@ namespace UserManagement.Controllers
                     publicationFromDB.SizeOfPages = Math.Round((pagesTo - pagesFrom + 1) / 16.0, 1);
                 }
                 publicationFromDB.Language = publication.Language;
+                publicationFromDB.PublicationType = publication.PublicationType;
                 publicationFromDB.DOI = publication.DOI ?? "_";
                 publicationFromDB.Place = publication.Place;
                 publicationFromDB.Magazine = publication.Magazine;
@@ -408,8 +421,13 @@ namespace UserManagement.Controllers
                 {
                     if (mainAuthorFromOthers.Value)
                     {
-                        var value = publication.OtherAuthors.Split();
-                        publicationFromDB.MainAuthor = value[0] + " " + value[1];
+                        if(!string.IsNullOrEmpty(publication.OtherAuthors))
+                        {
+                            var value = publication.OtherAuthors.Split(',');
+                            value = value[0].Split();
+                            if(value.Length == 3)
+                                publicationFromDB.MainAuthor = value[0] + " " + value[1] + " " + value[2];
+                        }
                     }
                     else
                     {
