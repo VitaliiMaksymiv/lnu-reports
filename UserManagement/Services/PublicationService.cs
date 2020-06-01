@@ -20,8 +20,8 @@ namespace UserManagement.Services
 
                 (publication.Magazine != null ? publication.Magazine + ". " : "") +
                 (publication.Edition != null ? publication.Edition + ". " : "") +
-                (publication.Place != null ? publication.Place : "") +
-                ". – " +
+                (publication.Place != null ? publication.Place + ". " : "") +
+                "– " +
                 publication.Date.Year + ".";
 
             toReturn += AddEndOfPublication(publication);
