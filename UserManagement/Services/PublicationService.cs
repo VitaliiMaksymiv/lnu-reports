@@ -38,9 +38,10 @@ namespace UserManagement.Services
             {
                 toReturn = toReturn + publication.Pages;
                 if (publication.Language == Language.UA)
-                    toReturn = toReturn + " c";
+                    toReturn = toReturn + " c.";
                 if (publication.Language == Language.EN)
-                    toReturn = toReturn + " p";
+                    toReturn = toReturn + " p.";
+                toReturn += " ";
             }
             else
             {
@@ -48,9 +49,9 @@ namespace UserManagement.Services
                     toReturn = toReturn + "C. ";
                 if (publication.Language == Language.EN)
                     toReturn = toReturn + "P. ";
-                toReturn = toReturn + publication.Pages;
+                toReturn = toReturn + (publication.Pages == null ? "" : (publication.Pages + ". "));
             }
-            toReturn = toReturn + (publication.DOI != null ? " " + publication.DOI: "");
+            toReturn = toReturn + (publication.DOI == null ? "" : "(" + publication.DOI + ")" );
             toReturn = toReturn + ".";
             return toReturn;
         }
