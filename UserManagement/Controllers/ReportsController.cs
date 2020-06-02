@@ -107,15 +107,15 @@ namespace UserManagement.Controllers
         public ActionResult GetLatex(int reportId)
         {
             String content = reportService.GenerateHTMLReport(reportId);
-            var file = Path.Combine("D://test.html");
+            var file = Path.Combine(@"C:\Websites\ScientificReport\bin\test.html");
             System.IO.File.WriteAllText(file, content);
             String result = "";
             var proc = new Process
             {
                 StartInfo = new ProcessStartInfo
                 {
-                    FileName = "C://Users//maryc_1mz6n6s//AppData//Local//Pandoc//pandoc.exe",
-                    Arguments = @"--from html D://test.html --to latex -s --wrap=preserve",
+                    FileName = @"C:\Program Files\Pandoc\pandoc.exe",
+                    Arguments = @"--from html C:\Websites\ScientificReport\bin\test.html --to latex -s --wrap=preserve",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
