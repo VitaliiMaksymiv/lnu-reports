@@ -179,7 +179,7 @@ namespace UserManagement.Controllers
                         break;
                     case 1:
                         report.ThemeInWorkTime = db.ThemeOfScientificWork.Where(x => x.ID == reportViewModel.ThemeInWorkTimeId).FirstOrDefault();
-                        if (reportViewModel.PrintedPublicationBudgetTheme != null)
+                        if (reportViewModel.PrintedPublicationThemeInWorkTime != null)
                             report.PrintedPublicationThemeInWorkTime = allPublications
                             .Where(x => reportViewModel.PrintedPublicationThemeInWorkTime.Any(y => y.Id == x.ID && y.Checked)).ToList();
                         report.AllDescriptionThemeInWorkTime = reportViewModel.AllDescriptionThemeInWorkTime;
@@ -190,7 +190,7 @@ namespace UserManagement.Controllers
                         break;
                     case 2:
                         report.HospDohovirTheme = db.ThemeOfScientificWork.Where(x => x.ID == reportViewModel.HospDohovirThemeId).FirstOrDefault();
-                        if (reportViewModel.PrintedPublicationBudgetTheme != null)
+                        if (reportViewModel.PrintedPublicationHospDohovirTheme != null)
                             report.PrintedPublicationHospDohovirTheme = allPublications
                             .Where(x => reportViewModel.PrintedPublicationHospDohovirTheme.Any(y => y.Id == x.ID && y.Checked)).ToList();
                         report.AllDescriptionHospDohovirTheme = reportViewModel.AllDescriptionHospDohovirTheme;
