@@ -15,25 +15,13 @@ namespace UserManagement.Services
         {
             string toReturn = "";
 
-            toReturn += publication.MainAuthor;
-            toReturn += publication.Name + " / ";
-            for (var i = 0; i < publication.User.Count; i++)
-            {
-                var initials = publication.User.ElementAt(i).I18nUserInitials.Where(x => x.Language == publication.Language).First();
-                toReturn = toReturn + initials.FirstName.Substring(0, 1).ToUpper()
-                    + ". " + initials.FathersName.Substring(0, 1).ToUpper()
-                    + ". " + initials.LastName;
-                if (i != publication.User.Count - 1)
-                    toReturn = toReturn + ", ";
-            }
+            toReturn += publication.MainAuthor + " ";
+            toReturn += publication.Name + " / " + publication.AuthorsOrder + " // " +
 
-            toReturn = toReturn + ", " +
-                ((publication.OtherAuthors != null || publication.OtherAuthors != "") ? publication.OtherAuthors : "") +
-                " // " +
-                (publication.Magazine != null ? publication.Magazine + ", " : "") +
-                (publication.Edition != null ? publication.Edition + ", " : "") +
-                (publication.Place != null ? publication.Place : "") +
-                ". – " +
+                (publication.Magazine != null ? publication.Magazine + ". " : "") +
+                (publication.Edition != null ? publication.Edition + ". " : "") +
+                (publication.Place != null ? publication.Place + ". " : "") +
+                "– " +
                 publication.Date.Year + ".";
 
             toReturn += AddEndOfPublication(publication);
@@ -43,16 +31,17 @@ namespace UserManagement.Services
         private String AddEndOfPublication(Publication publication)
         {
             string toReturn = "";
-            toReturn = toReturn + " – " + (publication.Tome == null ? "" : (publication.Tome + ", "));
+            toReturn = toReturn + " – " + (publication.Tome == null ? "" : (publication.Tome + ". "));
             if(publication.PublicationType == PublicationType.Монографія
                         || publication.PublicationType == PublicationType.Підручник
                         || publication.PublicationType == PublicationType.Навчальний_Посібник)
             {
                 toReturn = toReturn + publication.Pages;
                 if (publication.Language == Language.UA)
-                    toReturn = toReturn + " c";
+                    toReturn = toReturn + " c.";
                 if (publication.Language == Language.EN)
-                    toReturn = toReturn + " p";
+                    toReturn = toReturn + " p.";
+                toReturn += " ";
             }
             else
             {
@@ -60,8 +49,9 @@ namespace UserManagement.Services
                     toReturn = toReturn + "C. ";
                 if (publication.Language == Language.EN)
                     toReturn = toReturn + "P. ";
-                toReturn = toReturn + publication.Pages;
+                toReturn = toReturn + (publication.Pages == null ? "" : (publication.Pages + ". "));
             }
+            toReturn = toReturn + (publication.DOI == null ? "" : "(" + publication.DOI + ")" );
             toReturn = toReturn + ".";
             return toReturn;
         }

@@ -24,10 +24,10 @@ namespace UserManagement.Controllers
         {
             db = new ApplicationDbContext();
             ViewBag.stepIndex = stepIndex ?? 0;
-            int reportVerifiedId = reportId ?? -1;
+            var reportVerifiedId = reportId ?? -1;
 
-            var currentUser = db.Users.Where(x => x.UserName == User.Identity.Name).First();
-            var lectorsReports = db.Reports.Where(x => x.Date.HasValue && x.Date.Value.Year == DateTime.Now.Year && x.IsSigned && x.IsConfirmed).ToList();
+            var currentUser = db.Users.First(x => x.UserName == User.Identity.Name);
+            var lectorsReports = db.Reports.Where(x => x.User.Cathedra.ID == currentUser.Cathedra.ID && x.IsSigned && x.IsConfirmed && x.ThemeOfScientificWork != null).ToList();
             ViewBag.AllThemeDescriptions = lectorsReports
                .GroupBy(x => x.ThemeOfScientificWork.ID).ToDictionary(k => k.Key.ToString(), v => v.Select(y => y.ThemeOfScientificWorkDescription).ToList());
 
@@ -100,15 +100,15 @@ namespace UserManagement.Controllers
         public ActionResult GetLatex(int reportId)
         {
             String content = cathedraReportService.GenerateHTMLReport(reportId);
-            var file = Path.Combine("D://test.html");
+            var file = Path.Combine(@"C:\Websites\ScientificReport\bin\test.html");
             System.IO.File.WriteAllText(file, content);
             String result = "";
             var proc = new Process
             {
                 StartInfo = new ProcessStartInfo
                 {
-                    FileName = "C://Users//maryc_1mz6n6s//AppData//Local//Pandoc//pandoc.exe",
-                    Arguments = @"--from html D://test.html --to latex -s --wrap=preserve",
+                    FileName = @"C:\Program Files\Pandoc\pandoc.exe",
+                    Arguments = @"--from html C:\Websites\ScientificReport\bin\test.html --to latex -s --wrap=preserve",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,

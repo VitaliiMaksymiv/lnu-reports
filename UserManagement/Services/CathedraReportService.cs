@@ -82,6 +82,9 @@ namespace UserManagement.Services
         private static String DATE_CONST = "{DATE_CONST}";
         private static String GENERIC_TEXT_CONST = "{GENERIC_TEXT}";
 
+        private static String FACULTY_LEAD = "{FACULTY_LEAD}";
+        private static String FACULTY_LEAD_STATUS = "{FACULTY_LEAD_STATUS}";
+
         public CathedraReportService(ApplicationDbContext db)
         {
             this.db = db;
@@ -647,11 +650,21 @@ namespace UserManagement.Services
 
         private string GetFooter(CathedraReport report)
         {
+            var lead = db.Users.FirstOrDefault(x => x.Position.ID == 1 && x.Cathedra.Faculty.ID == report.User.Cathedra.Faculty.ID);
+            var cathedraLeadInitials = lead?.I18nUserInitials.FirstOrDefault();
+            var initials = string.Empty;
+            if (cathedraLeadInitials != null)
+                initials = cathedraLeadInitials.FirstName?.Substring(0, 1).ToUpper()
+                    + ". " + cathedraLeadInitials.FathersName?.Substring(0, 1).ToUpper()
+                    + ". " + cathedraLeadInitials.LastName;
+            var cathedraLeadStatus = lead?.ScienceDegree.Value;
             return ReplaceStringWithParameters(GetFooterTemplate(), new Dictionary<string, string>()
             {
                 [PROTOCOL_CONST] = report.Protocol != null ? report.Protocol : "",
                 [DATE_CONST] = report.Date != null ? report.Date.Value.ToString("dd.MM.yyyy") : "",
                 [FACULTY_CONST] = report.User.Cathedra.Faculty.Name.Replace("Факультет ", "").ToLower(),
+                [FACULTY_LEAD] = initials,
+                [FACULTY_LEAD_STATUS] = cathedraLeadStatus
             });
         }
 
@@ -862,7 +875,11 @@ namespace UserManagement.Services
                 + DATE_CONST
                 + "</p><p class=\"footer-text\">Декан факультету "
                 + FACULTY_CONST
-                + "__________________</p></div>";
+                + "__________________" 
+                + FACULTY_LEAD_STATUS 
+                + " "
+                + FACULTY_LEAD 
+                + "</p></div>";
         }
 
         private String ReplaceStringWithParameters(String str, Dictionary<String, String> parameters)
