@@ -50,6 +50,7 @@ namespace UserManagement.Services
                     toReturn = toReturn + "P. ";
                 toReturn = toReturn + publication.Pages;
             }
+            toReturn = toReturn + (publication.DOI != null ? " " + publication.DOI: "");
             toReturn = toReturn + ".";
             return toReturn;
         }
