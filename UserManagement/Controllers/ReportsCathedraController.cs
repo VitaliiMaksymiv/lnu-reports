@@ -27,7 +27,20 @@ namespace UserManagement.Controllers
             var reportVerifiedId = reportId ?? -1;
 
             var currentUser = db.Users.First(x => x.UserName == User.Identity.Name);
-            var lectorsReports = db.Reports.Where(x => x.User.Cathedra.ID == currentUser.Cathedra.ID && x.IsSigned && x.IsConfirmed && x.ThemeOfScientificWork != null).ToList();
+            var allReports = db.Reports.Where(x => x.User.Cathedra.ID == currentUser.Cathedra.ID && x.IsSigned && x.IsConfirmed && x.ThemeOfScientificWork != null).ToList();
+            List<Report> lectorsReports = new List<Report>();
+            if(stepIndex==0)
+            {
+                lectorsReports = allReports.Where(x => x.ThemeOfScientificWork.Financial == Financial.БЮДЖЕТ).ToList();
+            }
+            else if(stepIndex == 1)
+            {
+                lectorsReports = allReports.Where(x => x.ThemeOfScientificWork.Financial == Financial.В_МЕЖАХ_РОБОЧОГО_ЧАСУ).ToList();
+            }
+            else if(stepIndex==2)
+            {
+                lectorsReports = allReports.Where(x => x.ThemeOfScientificWork.Financial == Financial.ГОСПДОГОВІР).ToList();
+            }
             ViewBag.AllThemeDescriptions = lectorsReports
                .GroupBy(x => x.ThemeOfScientificWork.ID).ToDictionary(k => k.Key.ToString(), v => v.Select(y => y.ThemeOfScientificWorkDescription).ToList());
 
@@ -139,10 +152,12 @@ namespace UserManagement.Controllers
             {
                 var reportToCreate = ReportConverter.ConvertToEntity(reportViewModel);
                 reportToCreate.User = db.Users.Find(User.Identity.GetUserId());
+
                 reportToCreate.BudgetTheme = db.ThemeOfScientificWork.Where(x => x.ID == reportViewModel.BudgetThemeId).FirstOrDefault();
-                if(reportViewModel.PrintedPublicationBudgetTheme != null)
+                if (reportViewModel.PrintedPublicationBudgetTheme != null)
                     reportToCreate.PrintedPublicationBudgetTheme = allPublications
                         .Where(x => reportViewModel.PrintedPublicationBudgetTheme.Any(y => y.Id == x.ID && y.Checked)).ToList();
+                    
                 db.CathedraReport.Add(reportToCreate);
                 db.SaveChanges();
             }
@@ -164,7 +179,7 @@ namespace UserManagement.Controllers
                         break;
                     case 1:
                         report.ThemeInWorkTime = db.ThemeOfScientificWork.Where(x => x.ID == reportViewModel.ThemeInWorkTimeId).FirstOrDefault();
-                        if (reportViewModel.PrintedPublicationBudgetTheme != null)
+                        if (reportViewModel.PrintedPublicationThemeInWorkTime != null)
                             report.PrintedPublicationThemeInWorkTime = allPublications
                             .Where(x => reportViewModel.PrintedPublicationThemeInWorkTime.Any(y => y.Id == x.ID && y.Checked)).ToList();
                         report.AllDescriptionThemeInWorkTime = reportViewModel.AllDescriptionThemeInWorkTime;
@@ -175,7 +190,7 @@ namespace UserManagement.Controllers
                         break;
                     case 2:
                         report.HospDohovirTheme = db.ThemeOfScientificWork.Where(x => x.ID == reportViewModel.HospDohovirThemeId).FirstOrDefault();
-                        if (reportViewModel.PrintedPublicationBudgetTheme != null)
+                        if (reportViewModel.PrintedPublicationHospDohovirTheme != null)
                             report.PrintedPublicationHospDohovirTheme = allPublications
                             .Where(x => reportViewModel.PrintedPublicationHospDohovirTheme.Any(y => y.Id == x.ID && y.Checked)).ToList();
                         report.AllDescriptionHospDohovirTheme = reportViewModel.AllDescriptionHospDohovirTheme;
