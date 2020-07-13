@@ -275,7 +275,6 @@ namespace UserManagement.Controllers
                     publication.Pages = pages;
                     publication.SizeOfPages = Math.Round((pagesTo - pagesFrom + 1) / 16.0, 1);
                 }
-                publication.DOI = publication.DOI ?? "_";
                 db.Publication.Add(publication);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -398,7 +397,7 @@ namespace UserManagement.Controllers
                 }
                 publicationFromDB.Language = publication.Language;
                 publicationFromDB.PublicationType = publication.PublicationType;
-                publicationFromDB.DOI = publication.DOI ?? "_";
+                publicationFromDB.DOI = publication.DOI;
                 publicationFromDB.Place = publication.Place;
                 publicationFromDB.Magazine = publication.Magazine;
                 publicationFromDB.Link = publication.Link;

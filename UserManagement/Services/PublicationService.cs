@@ -51,8 +51,7 @@ namespace UserManagement.Services
                     toReturn = toReturn + "P. ";
                 toReturn = toReturn + (publication.Pages == null ? "" : (publication.Pages + ". "));
             }
-            toReturn = toReturn + (publication.DOI == null ? "" : "(" + publication.DOI + ")" );
-            toReturn = toReturn + ".";
+            toReturn = toReturn + (publication.DOI == null ? "" : "(" + publication.DOI + ")." );
             return toReturn;
         }
 
