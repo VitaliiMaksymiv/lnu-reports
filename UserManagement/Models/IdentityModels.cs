@@ -27,15 +27,15 @@ namespace UserManagement.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime BirthDate { get; set; }
         [DataType(DataType.Date)]
-        [Display(Name = "Дата випуску")]
+        [Display(Name = "Рік закінчення ВНЗ")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime GraduationDate { get; set; }
         [DataType(DataType.Date)]
-        [Display(Name = "Дата присвоєння")]
+        [Display(Name = "Рік присвоєння")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime AwardingDate { get; set; }
         [DataType(DataType.Date)]
-        [Display(Name = "Дата захисту")]
+        [Display(Name = "Рік захисту")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime DefenseYear { get; set; }
 
@@ -58,9 +58,9 @@ namespace UserManagement.Models
 
         [Display(Name = "Кафедра")]
         public virtual Cathedra Cathedra { get; set; }
-        [Display(Name = "Академічний статус")]
-        public virtual AcademicStatus AcademicStatus { get; set; }
         [Display(Name = "Науковий ступінь")]
+        public virtual AcademicStatus AcademicStatus { get; set; }
+        [Display(Name = "Вчене звання")]
         public virtual ScienceDegree ScienceDegree { get; set; }
         [Display(Name = "Позиція")]
         public virtual Position Position { get; set; }
@@ -79,9 +79,9 @@ namespace UserManagement.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        [Display(Name = "Академічний статус")]
-        public DbSet<AcademicStatus> AcademicStatus { get; set; }
         [Display(Name = "Науковий ступінь")]
+        public DbSet<AcademicStatus> AcademicStatus { get; set; }
+        [Display(Name = "Вчене звання")]
         public DbSet<ScienceDegree> ScienceDegree { get; set; }
         [Display(Name = "Кафедра")]
         public DbSet<Cathedra> Cathedra { get; set; }

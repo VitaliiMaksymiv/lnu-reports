@@ -69,13 +69,13 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-md-2">Академічний статус</label>
+        <label class="control-label col-md-2">Науковий ступінь</label>
         @Html.DropDownList("AcademicStatus",
                     new SelectList(ViewBag.AllAcademicStatuses),
                     new { @class = "form-control chosen-select", @Value = ViewBag.AcademicStatus == null ? "" : ViewBag.AcademicStatus })
     </div>
     <div class="form-group">
-        <label class="control-label col-md-2">Науковий ступінь</label>
+        <label class="control-label col-md-2">Вчене звання</label>
         @Html.DropDownList("ScienceDegree",
                     new SelectList(ViewBag.AllScienceDegrees),
                     new { @class = "form-control chosen-select", @Value = ViewBag.ScienceDegree == null ? "" : ViewBag.ScienceDegree })

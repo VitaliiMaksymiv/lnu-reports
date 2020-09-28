@@ -83,19 +83,19 @@ namespace UserManagement.Models
         public DateTime BirthDate { get; set; }
 
         [Required]
-        [Display(Name = "Дата випуску")]
+        [Display(Name = "Рік закінчення ВНЗ")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy}")]
         public DateTime GraduationDate { get; set; }
 
         [Required]
-        [Display(Name = "Дата присвоєння")]
+        [Display(Name = "Рік присвоєння")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy}")]
         public DateTime AwardingDate { get; set; }
 
         [Required]
-        [Display(Name = "Дата захисту")]
+        [Display(Name = "Рік захисту")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy}")]
         public DateTime DefenseYear { get; set; }
@@ -113,10 +113,10 @@ namespace UserManagement.Models
         public int? DoctorFinishYear { get; set; }
 
         [Required]
-        [Display(Name = "Академічний статус")]
+        [Display(Name = "Науковий ступінь")]
         public string AcademicStatus { get; set; }
         [Required]
-        [Display(Name = "Науковий ступінь")]
+        [Display(Name = "Вчене звання")]
         public string ScienceDegree { get; set; }
         [Required]
         [Display(Name = "Посада")]
