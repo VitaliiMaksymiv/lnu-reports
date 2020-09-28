@@ -167,12 +167,14 @@ namespace UserManagement.Controllers
             [Bind(Include = "IsMainAuthorRegistered")] bool? mainAuthorFromOthers, [Bind(Include = "authorsOrder")] string[] authorsOrder, [Bind(Include = "PagesFrom")] int pagesFrom = -1,
             [Bind(Include = "PagesTo")] int pagesTo = -1)
         {
-            var users = db.Users.Where(x => x.Roles.Count == 1 && x.Roles.Any(y => y.RoleId != db.Roles.Where(z => z.Name == "Superadmin").FirstOrDefault().Id)).ToList();
+            var users = db.Users.Where(x => x.IsActive == true).ToList();
             ViewBag.AllPublicationTypes = Enum.GetNames(typeof(PublicationType))
                 .Select(x => new SelectListItem { Selected = false, Text = x, Value = x }).ToList();
             ViewBag.AllLanguages = Enum.GetNames(typeof(Language))
                 .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
             ViewBag.AllUsers = users
+                .Where(x => UserManager.IsInRole(x.Id, "Викладач") || UserManager.IsInRole(x.Id, "Керівник кафедри")
+                || UserManager.IsInRole(x.Id, "Адміністрація ректорату") || UserManager.IsInRole(x.Id, "Адміністрація деканату"))
                 .Select(x =>
                      new SelectListItem
                      {
@@ -183,9 +185,6 @@ namespace UserManagement.Controllers
                          Value = x.Id
                      })
                     .ToList();
-            users = db.Users.Where(x => x.IsActive == true).ToList();
-            users = users.Where(x => (UserManager.IsInRole(x.Id, "Викладач") || UserManager.IsInRole(x.Id, "Керівник кафедри")
-                || UserManager.IsInRole(x.Id, "Адміністрація ректорату") || UserManager.IsInRole(x.Id, "Адміністрація деканату"))).ToList();
             var userToAdd = new List<string>();
             if (authorsOrder != null & !String.IsNullOrEmpty(authorsOrder[0]) & authorsOrder[0].Split(',').Length!=0)
             {
@@ -193,6 +192,26 @@ namespace UserManagement.Controllers
                 {
                     userToAdd.Add(users[Convert.ToInt32(i)].Id);
                 }
+            }
+            if (string.IsNullOrEmpty(publication.Name))
+            {
+                ModelState.AddModelError(nameof(publication.Name), "Введіть назву публікації");
+            }
+            if (string.IsNullOrEmpty(publication.Place))
+            {
+                ModelState.AddModelError(nameof(publication.Place), "Введіть місце видання");
+            }
+            if (string.IsNullOrEmpty(publication.Edition))
+            {
+                ModelState.AddModelError(nameof(publication.Edition), "Введіть видавництво");
+            }
+            if (!year.HasValue)
+            {
+                ModelState.AddModelError(nameof(year), "Введіть рік публікації");
+            }
+            if((userToAdd == null || userToAdd.Count == 0) && string.IsNullOrEmpty(publication.OtherAuthors))
+            {
+                ModelState.AddModelError(nameof(userToAdd), "Додайте авторів");
             }
             if (ModelState.IsValid)
             {
@@ -279,7 +298,10 @@ namespace UserManagement.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
+            else
+            {
+                ViewBag.CurrentUser = userToAdd;
+            }
             return View(publication);
         }        
 
@@ -341,9 +363,11 @@ namespace UserManagement.Controllers
                 .Select(x => new SelectListItem { Selected = false, Text = x, Value = x }).ToList();
             ViewBag.AllLanguages = Enum.GetNames(typeof(Language))
                 .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
-            var users = db.Users.Where(x => x.Roles.Count == 1 && x.Roles.Any(y => y.RoleId != db.Roles.Where(z => z.Name == "Superadmin").FirstOrDefault().Id)).ToList();
+            var users = db.Users.Where(x => x.IsActive == true && !publication.User.Contains(x)).ToList();
             ViewBag.AllUsers = users
                 .Where(y => !publication.User.Contains(y))
+                .Where(x => (UserManager.IsInRole(x.Id, "Викладач") || UserManager.IsInRole(x.Id, "Керівник кафедри")
+                || UserManager.IsInRole(x.Id, "Адміністрація ректорату") || UserManager.IsInRole(x.Id, "Адміністрація деканату")))
                 .Select(x =>
                      new SelectListItem
                      {
@@ -354,9 +378,6 @@ namespace UserManagement.Controllers
                          Value = x.Id
                      })
                     .ToList();
-            users = db.Users.Where(x => x.IsActive == true && !publication.User.Contains(x)).ToList();
-            users = users.Where(x => (UserManager.IsInRole(x.Id, "Викладач") || UserManager.IsInRole(x.Id, "Керівник кафедри")
-                || UserManager.IsInRole(x.Id, "Адміністрація ректорату") || UserManager.IsInRole(x.Id, "Адміністрація деканату"))).ToList();
             var userToAdd = new List<string>();
             if (authorsIds != null & !String.IsNullOrEmpty(authorsIds[0]) & authorsIds[0].Split(',').Length != 0)
             {
@@ -365,6 +386,27 @@ namespace UserManagement.Controllers
                     userToAdd.Add(users[Convert.ToInt32(i)].Id);
                 }
             }
+            if (string.IsNullOrEmpty(publication.Name))
+            {
+                ModelState.AddModelError(nameof(publication.Name), "Введіть назву публікації");
+            }
+            if (string.IsNullOrEmpty(publication.Place))
+            {
+                ModelState.AddModelError(nameof(publication.Place), "Введіть місце видання");
+            }
+            if (string.IsNullOrEmpty(publication.Edition))
+            {
+                ModelState.AddModelError(nameof(publication.Edition), "Введіть видавництво");
+            }
+            if(!year.HasValue)
+            {
+                ModelState.AddModelError("year", "Введіть рік публікації");
+            }
+            if ((userToAdd == null || userToAdd.Count == 0) && string.IsNullOrEmpty(publication.OtherAuthors))
+            {
+                ModelState.AddModelError(nameof(userToAdd), "Додайте авторів");
+            }
+
             if (ModelState.IsValid)
             {
                 if(userToAdd != null)
@@ -437,6 +479,11 @@ namespace UserManagement.Controllers
                 }
                 db.SaveChanges();
                 return RedirectToAction("Index");
+            }
+            else
+            {
+                var publicationFromDB = db.Publication.Find(publication.ID);
+                publication.User = publicationFromDB.User;
             }
             return View(publication);
         }
