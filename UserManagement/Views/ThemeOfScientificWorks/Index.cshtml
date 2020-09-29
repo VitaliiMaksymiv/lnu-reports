@@ -13,7 +13,10 @@
 <table class="table">
     <tr>
         <th>
-            Номер
+            Номер ДР
+        </th>
+        <th>
+            Шифр
         </th>
         <th>
             Тема наукової роботи
@@ -34,6 +37,9 @@
 <tr>
     <td>
         @Html.DisplayFor(modelItem => item.ThemeNumber)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Code)
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.Value)

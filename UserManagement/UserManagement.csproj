@@ -227,6 +227,10 @@
     <Compile Include="Migrations\202005291609229_orderfix.Designer.cs">
       <DependentUpon>202005291609229_orderfix.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202009291752343_AddedCodeColumn.cs" />
+    <Compile Include="Migrations\202009291752343_AddedCodeColumn.Designer.cs">
+      <DependentUpon>202009291752343_AddedCodeColumn.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\PublicationDB\Publication.cs" />
     <Compile Include="Models\PublicationDB\PublicationType.cs" />
@@ -387,6 +391,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202005291609229_orderfix.resx">
       <DependentUpon>202005291609229_orderfix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009291752343_AddedCodeColumn.resx">
+      <DependentUpon>202009291752343_AddedCodeColumn.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

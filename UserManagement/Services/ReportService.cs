@@ -347,7 +347,7 @@ namespace UserManagement.Services
             return ReplaceStringWithParameters(GenerateTemplateForPunktOne(), new Dictionary<string, string>()
             {
                 [THEME_SCIENTIFIC_WORK_CONST] = report.ThemeOfScientificWork.Value,
-                [THEME_NUMBER_SCIENTIFIC_WORK_CONST] = report.ThemeOfScientificWork.ThemeNumber,
+                [THEME_NUMBER_SCIENTIFIC_WORK_CONST] = report.ThemeOfScientificWork.ThemeNumber + (!string.IsNullOrEmpty(report.ThemeOfScientificWork.Code) ? (" " + report.ThemeOfScientificWork.Code) : string.Empty),
                 [PERIOD_SCIENTIFIC_WORK_CONST] = report.ThemeOfScientificWork.PeriodFrom.Year.ToString() + " - " + report.ThemeOfScientificWork.PeriodTo.Year.ToString(),
                 [DESCR_SCIENTIFIC_WORK_CONST] = report.ThemeOfScientificWorkDescription,
                 [HEAD_SCIENTIFIC_WORK_CONST] = report.ThemeOfScientificWork.ScientificHead,

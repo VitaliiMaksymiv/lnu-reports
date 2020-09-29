@@ -8,14 +8,14 @@ namespace UserManagement.Models
     public class ForgotViewModel
     {
         [Required]
-        [Display(Name = "Емейл")]
+        [Display(Name = "Електронна пошта")]
         public string Email { get; set; }
     }
 
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Емейл")]
+        [Display(Name = "Електронна пошта")]
         [EmailAddress]
         public string Email { get; set; }
 
@@ -31,9 +31,9 @@ namespace UserManagement.Models
     public class RegisterViewModel
     {
         [Required]
-        [RegularExpression("^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\\.)?[a-zA-Z]+\\.)?lnu\\.edu\\.ua", ErrorMessage = "Невірний емейл. Повинен бути: ...@lnu.edu.ua")]
-        [EmailAddress(ErrorMessage = "Невірний емейл")]
-        [Display(Name = "Емейл")]
+        [RegularExpression("^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\\.)?[a-zA-Z]+\\.)?lnu\\.edu\\.ua", ErrorMessage = "Некоректна електронна пошта. Повинен бути: ...@lnu.edu.ua")]
+        [EmailAddress(ErrorMessage = "Некоректна електронна пошта")]
+        [Display(Name = "Електронна пошта")]
         public string Email { get; set; }
 
         [Required]
@@ -66,7 +66,7 @@ namespace UserManagement.Models
         [Required]
         [RegularExpression("^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\\.)?[a-zA-Z]+\\.)?lnu\\.edu\\.ua", ErrorMessage = "Invalid email. Should be ...@lnu.edu.ua")]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
-        [Display(Name = "Емейл")]
+        [Display(Name = "Електронна пошта")]
         public string Email { get; set; }
 
         [Required]
@@ -127,7 +127,7 @@ namespace UserManagement.Models
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Емейл")]
+        [Display(Name = "Електронна пошта")]
         public string Email { get; set; }
 
         [Required]
@@ -137,7 +137,7 @@ namespace UserManagement.Models
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
+        [Display(Name = "Підтвердження паролю")]
         [Compare("Password", ErrorMessage = "Паролі не співпадають.")]
         public string ConfirmPassword { get; set; }
 
@@ -148,7 +148,7 @@ namespace UserManagement.Models
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Емейл")]
+        [Display(Name = "Електронна пошта")]
         public string Email { get; set; }
     }
 

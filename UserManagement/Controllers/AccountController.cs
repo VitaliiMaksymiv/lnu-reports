@@ -214,7 +214,7 @@ namespace UserManagement.Controllers
                 MailboxAddress to = new MailboxAddress("User", user.Email);
                 message.To.Add(to);
 
-                message.Subject = "Restore password";
+                message.Subject = "Відновлення паролю";
 
                 BodyBuilder bodyBuilder = new BodyBuilder();
 
@@ -233,7 +233,7 @@ namespace UserManagement.Controllers
 
                 // generate body
                 //bodyBuilder.HtmlBody = body;
-                bodyBuilder.HtmlBody = $"<a href='{recoveryLink}'>Click here to reset Your password</a>";
+                bodyBuilder.HtmlBody = $"<a href=\"{recoveryLink}\">Натисніть тут для відновлення паролю</a>";
 
                 message.Body = bodyBuilder.ToMessageBody();
 

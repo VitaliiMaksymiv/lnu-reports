@@ -14,6 +14,7 @@ namespace UserManagement.Models.db
         public Int32 ID { get; set; }
         public String Value { get; set; }
         public String ThemeNumber { get; set; }
+        public String Code { get; set; }
         public String ScientificHead { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]

@@ -427,7 +427,7 @@ namespace UserManagement.Services
             return ReplaceStringWithParameters(GenerateTemplateForGenericPunkt(title), new Dictionary<string, string>()
             {
                 [GENERIC_TEXT_CONST] = theme.Value + ". "
-                + theme.ThemeNumber + "; "
+                + theme.ThemeNumber + (!string.IsNullOrEmpty(theme.Code) ? (" " + theme.Code) : string.Empty) + "; "
                 + theme.ScientificHead + " "
                 + theme.PeriodFrom.Year.ToString()
                 + " - " + theme.PeriodTo.Year.ToString()

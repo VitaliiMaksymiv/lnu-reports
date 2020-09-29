@@ -21,6 +21,7 @@ namespace UserManagement.Models
         }
 
         public Int32 PublicationCounterBeforeRegistration { get; set; } = 0;
+        [Display(Name = "Активний")]
         public Boolean IsActive { get; set; } = false;
         [DataType(DataType.Date)]
         [Display(Name ="Дата народження")]
