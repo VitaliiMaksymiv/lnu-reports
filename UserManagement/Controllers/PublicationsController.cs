@@ -197,20 +197,13 @@ namespace UserManagement.Controllers
             {
                 ModelState.AddModelError(nameof(publication.Name), "Введіть назву публікації");
             }
-            if (string.IsNullOrEmpty(publication.Place))
-            {
-                ModelState.AddModelError(nameof(publication.Place), "Введіть місце видання");
-            }
-            if (string.IsNullOrEmpty(publication.Edition))
-            {
-                ModelState.AddModelError(nameof(publication.Edition), "Введіть видавництво");
-            }
             if (!year.HasValue)
             {
                 ModelState.AddModelError(nameof(year), "Введіть рік публікації");
             }
             if((userToAdd == null || userToAdd.Count == 0) && string.IsNullOrEmpty(publication.OtherAuthors))
             {
+
                 ModelState.AddModelError(nameof(userToAdd), "Додайте авторів");
             }
             if (ModelState.IsValid)
@@ -379,6 +372,7 @@ namespace UserManagement.Controllers
                      })
                     .ToList();
             var userToAdd = new List<string>();
+            var publicationFromDB = db.Publication.Find(publication.ID);
             if (authorsIds != null & !String.IsNullOrEmpty(authorsIds[0]) & authorsIds[0].Split(',').Length != 0)
             {
                 foreach (var i in authorsIds[0].Split(','))
@@ -390,19 +384,13 @@ namespace UserManagement.Controllers
             {
                 ModelState.AddModelError(nameof(publication.Name), "Введіть назву публікації");
             }
-            if (string.IsNullOrEmpty(publication.Place))
-            {
-                ModelState.AddModelError(nameof(publication.Place), "Введіть місце видання");
-            }
-            if (string.IsNullOrEmpty(publication.Edition))
-            {
-                ModelState.AddModelError(nameof(publication.Edition), "Введіть видавництво");
-            }
             if(!year.HasValue)
             {
                 ModelState.AddModelError("year", "Введіть рік публікації");
             }
-            if ((userToAdd == null || userToAdd.Count == 0) && string.IsNullOrEmpty(publication.OtherAuthors))
+            if ((userToAdd == null || userToAdd.Count == 0) 
+                && string.IsNullOrEmpty(publication.OtherAuthors)
+                && (publicationFromDB.User == null || publicationFromDB.User.Count == 0))
             {
                 ModelState.AddModelError(nameof(userToAdd), "Додайте авторів");
             }
@@ -424,7 +412,6 @@ namespace UserManagement.Controllers
                         return View(publication);
                     }
                 }
-                var publicationFromDB = db.Publication.Find(publication.ID);
                 publicationFromDB.Name = publication.Name;
                 publicationFromDB.OtherAuthors = publication.OtherAuthors;
                 publicationFromDB.PublicationType = publication.PublicationType;
@@ -482,7 +469,6 @@ namespace UserManagement.Controllers
             }
             else
             {
-                var publicationFromDB = db.Publication.Find(publication.ID);
                 publication.User = publicationFromDB.User;
             }
             return View(publication);
