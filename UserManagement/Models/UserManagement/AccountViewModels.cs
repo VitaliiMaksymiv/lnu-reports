@@ -54,10 +54,6 @@ namespace UserManagement.Models
         [Required]
         [Display(Name = "Факультет")]
         public string Faculty { get; set; }
-
-        [Required]
-        [Display(Name = "Кількість публікацій до реєстрації")]
-        public int PublicationsBeforeRegister { get; set; }
     }
 
 

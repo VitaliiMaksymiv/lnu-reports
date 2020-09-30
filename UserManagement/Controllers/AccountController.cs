@@ -143,7 +143,7 @@ namespace UserManagement.Controllers
                     GraduationDate = DateTime.Now,
                     AwardingDate = DateTime.Now,
                     DefenseYear = DateTime.Now,
-                    PublicationCounterBeforeRegistration = model.PublicationsBeforeRegister,
+                    PublicationCounterBeforeRegistration = 0,
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
