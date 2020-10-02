@@ -400,19 +400,31 @@ namespace UserManagement.Services
         }
         private string GetPunktSixTable(Report report)
         {
+            var user = report.User;
+            var allMonographs = user.MonographCounterBeforeRegistration;
+            var allBooks = user.BookCounterBeforeRegistration;
+            var allTrainingBooks = user.TrainingBookCounterBeforeRegistration;
+            var allArticles = user.PublicationCounterBeforeRegistration;
+            var allOtherWritings = user.OtherWritingCounterBeforeRegistration;
+            var allConferences = user.ConferenceCounterBeforeRegistration;
+            var allPatents = user.PatentCounterBeforeRegistration;
+
             var allPulications = db.Publication.Where(x => x.User.Any(y => y.Id == report.User.Id)).ToList();
             var dictionary = allPulications.GroupBy(x => x.PublicationType).ToDictionary(x => x.Key, x => x.Count());
             var allPublicationInReport = report.PrintedPublication.Union(report.RecomendedPublication).Union(report.AcceptedToPrintPublication);
             var dictionaryInReport = allPublicationInReport.GroupBy(x => x.PublicationType).ToDictionary(x => x.Key, x => x.Count());
             return ReplaceStringWithParameters(GenerateTemplateForPunktSixTable(), new Dictionary<string, string>()
             {
-                [MONOGRAPH_ALL_CONST] = dictionary.ContainsKey(PublicationType.Монографія) ? dictionary[PublicationType.Монографія].ToString() : "0",
+                [MONOGRAPH_ALL_CONST] = (allMonographs 
+                + (dictionary.ContainsKey(PublicationType.Монографія) ? dictionary[PublicationType.Монографія] : 0)).ToString(),
                 [MONOGRAPH_PERIOD_CONST] = dictionaryInReport.ContainsKey(PublicationType.Монографія) ? dictionaryInReport[PublicationType.Монографія].ToString() : "0",
-                [BOOK_ALL_CONST] = dictionary.ContainsKey(PublicationType.Підручник) ? dictionary[PublicationType.Підручник].ToString() : "0",
+                [BOOK_ALL_CONST] = (allBooks 
+                + (dictionary.ContainsKey(PublicationType.Підручник) ? dictionary[PublicationType.Підручник] : 0)).ToString(),
                 [BOOK_PERIOD_CONST] = dictionaryInReport.ContainsKey(PublicationType.Підручник) ? dictionaryInReport[PublicationType.Підручник].ToString() : "0",
-                [TRAINING_BOOK_ALL_CONST] = dictionary.ContainsKey(PublicationType.Навчальний_Посібник) ? dictionary[PublicationType.Навчальний_Посібник].ToString() : "0",
+                [TRAINING_BOOK_ALL_CONST] = (allTrainingBooks
+                + (dictionary.ContainsKey(PublicationType.Навчальний_Посібник) ? dictionary[PublicationType.Навчальний_Посібник] : 0)).ToString(),
                 [TRAINING_BOOK_PERIOD_CONST] = dictionaryInReport.ContainsKey(PublicationType.Навчальний_Посібник) ? dictionaryInReport[PublicationType.Навчальний_Посібник].ToString() : "0",
-                [ARTICLES_ALL_CONST] = ((dictionary.ContainsKey(PublicationType.Стаття) ? dictionary[PublicationType.Стаття] : 0)
+                [ARTICLES_ALL_CONST] = (allArticles + (dictionary.ContainsKey(PublicationType.Стаття) ? dictionary[PublicationType.Стаття] : 0)
                                         + (dictionary.ContainsKey(PublicationType.Стаття_В_Інших_Виданнях_України) ? dictionary[PublicationType.Стаття_В_Інших_Виданнях_України] : 0)
                                         + (dictionary.ContainsKey(PublicationType.Стаття_В_Інших_Закордонних_Виданнях) ? dictionary[PublicationType.Стаття_В_Інших_Закордонних_Виданнях] : 0)
                                         + (dictionary.ContainsKey(PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор) ? dictionary[PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор] : 0)
@@ -423,13 +435,15 @@ namespace UserManagement.Services
                                         + (dictionaryInReport.ContainsKey(PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор) ? dictionaryInReport[PublicationType.Стаття_В_Виданнях_які_мають_імпакт_фактор] : 0)
                                         + (dictionaryInReport.ContainsKey(PublicationType.Стаття_В_Інших_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних) ? dictionaryInReport[PublicationType.Стаття_В_Інших_Виданнях_які_включені_до_міжнародних_наукометричних_баз_даних] : 0)
                                         + (dictionaryInReport.ContainsKey(PublicationType.Стаття_В_Фахових_Виданнях_України) ? dictionaryInReport[PublicationType.Стаття_В_Фахових_Виданнях_України] : 0)).ToString(),
-                [OTHER_WRITINGS_ALL_CONST] = dictionary.ContainsKey(PublicationType.Інше_Наукове_Видання) ? dictionary[PublicationType.Інше_Наукове_Видання].ToString() : "0",
+                [OTHER_WRITINGS_ALL_CONST] = (allOtherWritings 
+                + (dictionary.ContainsKey(PublicationType.Інше_Наукове_Видання) ? dictionary[PublicationType.Інше_Наукове_Видання] : 0)).ToString(),
                 [OTHER_WRITINGS_PERIOD_CONST] = dictionaryInReport.ContainsKey(PublicationType.Інше_Наукове_Видання) ? dictionaryInReport[PublicationType.Інше_Наукове_Видання].ToString() : "0",
-                [CONFERENCES_ALL_CONST] = ((dictionary.ContainsKey(PublicationType.Тези_Доповіді_На_Вітчизняній_Конференції) ? dictionary[PublicationType.Тези_Доповіді_На_Вітчизняній_Конференції] : 0)
+                [CONFERENCES_ALL_CONST] = (allConferences + (dictionary.ContainsKey(PublicationType.Тези_Доповіді_На_Вітчизняній_Конференції) ? dictionary[PublicationType.Тези_Доповіді_На_Вітчизняній_Конференції] : 0)
                                         + (dictionary.ContainsKey(PublicationType.Тези_Доповіді_На_Міжнародній_Конференції) ? dictionary[PublicationType.Тези_Доповіді_На_Міжнародній_Конференції] : 0)).ToString(),
                 [CONFERENCES_PERIOD_CONST] = ((dictionaryInReport.ContainsKey(PublicationType.Тези_Доповіді_На_Вітчизняній_Конференції) ? dictionaryInReport[PublicationType.Тези_Доповіді_На_Вітчизняній_Конференції] : 0)
                                         + (dictionaryInReport.ContainsKey(PublicationType.Тези_Доповіді_На_Міжнародній_Конференції) ? dictionaryInReport[PublicationType.Тези_Доповіді_На_Міжнародній_Конференції] : 0)).ToString(),
-                [PATENTS_ALL_CONST] = dictionary.ContainsKey(PublicationType.Патент) ? dictionary[PublicationType.Патент].ToString() : "0",
+                [PATENTS_ALL_CONST] = (allPatents 
+                + (dictionary.ContainsKey(PublicationType.Патент) ? dictionary[PublicationType.Патент] : 0)).ToString(),
                 [PATENTS_PERIOD_CONST] = dictionaryInReport.ContainsKey(PublicationType.Патент) ? dictionaryInReport[PublicationType.Патент].ToString() : "0",
             });
         }
@@ -580,7 +594,7 @@ namespace UserManagement.Services
         {
             return "<div class=\"block input-text\"><p>Звіт заслухано і затверджено на засіданні кафедри(підрозділу)</p><p class=\"footer-text\">"
                 + CATHEDRA_CONST
-                + ", протокол: "
+                + ", протокол №: "
                 + PROTOCOL_CONST
                 + ", дата: "
                 + DATE_CONST

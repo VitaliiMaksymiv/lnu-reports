@@ -172,9 +172,10 @@ namespace UserManagement.Controllers
                 .Select(x => new SelectListItem { Selected = false, Text = x, Value = x }).ToList();
             ViewBag.AllLanguages = Enum.GetNames(typeof(Language))
                 .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
-            ViewBag.AllUsers = users
+            var filtered = users
                 .Where(x => UserManager.IsInRole(x.Id, "Викладач") || UserManager.IsInRole(x.Id, "Керівник кафедри")
-                || UserManager.IsInRole(x.Id, "Адміністрація ректорату") || UserManager.IsInRole(x.Id, "Адміністрація деканату"))
+                || UserManager.IsInRole(x.Id, "Адміністрація ректорату") || UserManager.IsInRole(x.Id, "Адміністрація деканату")).ToList();
+            ViewBag.AllUsers = filtered
                 .Select(x =>
                      new SelectListItem
                      {
@@ -190,7 +191,7 @@ namespace UserManagement.Controllers
             {
                 foreach (var i in authorsOrder[0].Split(','))
                 {
-                    userToAdd.Add(users[Convert.ToInt32(i)].Id);
+                    userToAdd.Add(filtered[Convert.ToInt32(i)].Id);
                 }
             }
             if (string.IsNullOrEmpty(publication.Name))
@@ -357,11 +358,12 @@ namespace UserManagement.Controllers
             ViewBag.AllLanguages = Enum.GetNames(typeof(Language))
                 .Select(x => new SelectListItem { Selected = false, Text = x.Replace('_', ' '), Value = x }).ToList();
             var users = db.Users.Where(x => x.IsActive == true && !publication.User.Contains(x)).ToList();
-            ViewBag.AllUsers = users
-                .Where(y => !publication.User.Contains(y))
+            var publicationFromDB = db.Publication.Find(publication.ID);
+            var filtered = users
+                .Where(y => !publicationFromDB.User.Contains(y))
                 .Where(x => (UserManager.IsInRole(x.Id, "Викладач") || UserManager.IsInRole(x.Id, "Керівник кафедри")
-                || UserManager.IsInRole(x.Id, "Адміністрація ректорату") || UserManager.IsInRole(x.Id, "Адміністрація деканату")))
-                .Select(x =>
+                || UserManager.IsInRole(x.Id, "Адміністрація ректорату") || UserManager.IsInRole(x.Id, "Адміністрація деканату"))).ToList();
+            ViewBag.AllUsers = filtered.Select(x =>
                      new SelectListItem
                      {
                          Selected = false,
@@ -372,12 +374,11 @@ namespace UserManagement.Controllers
                      })
                     .ToList();
             var userToAdd = new List<string>();
-            var publicationFromDB = db.Publication.Find(publication.ID);
             if (authorsIds != null & !String.IsNullOrEmpty(authorsIds[0]) & authorsIds[0].Split(',').Length != 0)
             {
                 foreach (var i in authorsIds[0].Split(','))
                 {
-                    userToAdd.Add(users[Convert.ToInt32(i)].Id);
+                    userToAdd.Add(filtered[Convert.ToInt32(i)].Id);
                 }
             }
             if (string.IsNullOrEmpty(publication.Name))

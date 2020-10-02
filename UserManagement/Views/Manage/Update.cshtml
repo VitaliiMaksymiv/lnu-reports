@@ -10,10 +10,46 @@
     @Html.AntiForgeryToken()
     <hr />
     @Html.EditorFor(x => x.I18nUserInitials)
+<div class="form-group">
+    @Html.LabelFor(m => m.MonographCounterBeforeRegistration, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.MonographCounterBeforeRegistration, new { @class = "form-control", @Value = ViewBag.MonographCounterBeforeRegistration, @Type = "number" })
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(m => m.BookCounterBeforeRegistration, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.BookCounterBeforeRegistration, new { @class = "form-control", @Value = ViewBag.BookCounterBeforeRegistration, @Type = "number" })
+    </div>
+</div>
     <div class="form-group">
-        @Html.LabelFor(m => m.PublicationsBeforeRegister, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(m => m.TrainingBookCounterBeforeRegistration, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.PublicationsBeforeRegister, new { @class = "form-control", @Value = ViewBag.PublicationsBeforeRegister, @Type = "number" })
+            @Html.TextBoxFor(m => m.TrainingBookCounterBeforeRegistration, new { @class = "form-control", @Value = ViewBag.TrainingBookCounterBeforeRegistration, @Type = "number" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.PublicationsBeforeRegistration, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.PublicationsBeforeRegistration, new { @class = "form-control", @Value = ViewBag.PublicationsBeforeRegistration, @Type = "number" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.OtherWritingCounterBeforeRegistration, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.OtherWritingCounterBeforeRegistration, new { @class = "form-control", @Value = ViewBag.OtherWritingCounterBeforeRegistration, @Type = "number" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ConferenceCounterBeforeRegistration, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.ConferenceCounterBeforeRegistration, new { @class = "form-control", @Value = ViewBag.ConferenceCounterBeforeRegistration, @Type = "number" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.PatentCounterBeforeRegistration, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.PatentCounterBeforeRegistration, new { @class = "form-control", @Value = ViewBag.PatentCounterBeforeRegistration, @Type = "number" })
         </div>
     </div>
     <div class="form-group">

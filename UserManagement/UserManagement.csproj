@@ -231,6 +231,10 @@
     <Compile Include="Migrations\202009291752343_AddedCodeColumn.Designer.cs">
       <DependentUpon>202009291752343_AddedCodeColumn.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202010011842449_AddedCountersColumns.cs" />
+    <Compile Include="Migrations\202010011842449_AddedCountersColumns.Designer.cs">
+      <DependentUpon>202010011842449_AddedCountersColumns.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\PublicationDB\Publication.cs" />
     <Compile Include="Models\PublicationDB\PublicationType.cs" />
@@ -394,6 +398,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202009291752343_AddedCodeColumn.resx">
       <DependentUpon>202009291752343_AddedCodeColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010011842449_AddedCountersColumns.resx">
+      <DependentUpon>202010011842449_AddedCountersColumns.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

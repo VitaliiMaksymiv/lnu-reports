@@ -180,12 +180,19 @@ namespace UserManagement.Controllers
                 user.AspirantFinishYear = AspirantFinishYear != null ? new DateTime(AspirantFinishYear.Value, 1, 1) : (DateTime?)null;
                 user.DoctorStartYear = DoctorStartYear != null ? new DateTime(DoctorStartYear.Value, 1, 1) : (DateTime?)null;
                 user.DoctorFinishYear = DoctorFinishYear != null ? new DateTime(DoctorFinishYear.Value, 1, 1) : (DateTime?)null;
-                user.PublicationCounterBeforeRegistration = model.PublicationsBeforeRegister;
+                
+                user.PublicationCounterBeforeRegistration = model.PublicationsBeforeRegistration;
+                user.MonographCounterBeforeRegistration = model.MonographCounterBeforeRegistration;
+                user.BookCounterBeforeRegistration = model.BookCounterBeforeRegistration;
+                user.TrainingBookCounterBeforeRegistration = model.TrainingBookCounterBeforeRegistration;
+                user.OtherWritingCounterBeforeRegistration = model.OtherWritingCounterBeforeRegistration;
+                user.ConferenceCounterBeforeRegistration = model.ConferenceCounterBeforeRegistration;
+                user.PatentCounterBeforeRegistration = model.PatentCounterBeforeRegistration;
+
                 user.AcademicStatus = db.AcademicStatus.First(x => x.Value == model.AcademicStatus);
                 user.ScienceDegree = db.ScienceDegree.First(x => x.Value == model.ScienceDegree);
                 user.Position = db.Position.First(x => x.Value == model.Position);
                 user.I18nUserInitials = model.I18nUserInitials;
-                user.PublicationCounterBeforeRegistration = model.PublicationsBeforeRegister;
                 db.SaveChanges();
 
                 ViewBag.BirthDate = user.BirthDate.ToString("yyyy-MM-dd");
@@ -215,7 +222,13 @@ namespace UserManagement.Controllers
             ViewBag.AspirantFinishYear = user.AspirantFinishYear?.ToString("yyyy");
             ViewBag.DoctorStartYear = user.DoctorStartYear?.ToString("yyyy");
             ViewBag.DoctorFinishYear = user.DoctorFinishYear?.ToString("yyyy");
-            ViewBag.PublicationsBeforeRegister = user.PublicationCounterBeforeRegistration;
+            ViewBag.PublicationsBeforeRegistration = user.PublicationCounterBeforeRegistration;
+            ViewBag.MonographCounterBeforeRegistration = user.MonographCounterBeforeRegistration;
+            ViewBag.BookCounterBeforeRegistration = user.BookCounterBeforeRegistration;
+            ViewBag.TrainingBookCounterBeforeRegistration = user.TrainingBookCounterBeforeRegistration;
+            ViewBag.OtherWritingCounterBeforeRegistration = user.OtherWritingCounterBeforeRegistration;
+            ViewBag.ConferenceCounterBeforeRegistration = user.ConferenceCounterBeforeRegistration;
+            ViewBag.PatentCounterBeforeRegistration = user.PatentCounterBeforeRegistration;
             if (user.AcademicStatus != null)
                 ViewBag.AcademicStatus = user.AcademicStatus.Value.ToString();
             if (user.ScienceDegree != null)

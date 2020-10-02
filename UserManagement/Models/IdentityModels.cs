@@ -21,6 +21,13 @@ namespace UserManagement.Models
         }
 
         public Int32 PublicationCounterBeforeRegistration { get; set; } = 0;
+        public Int32 MonographCounterBeforeRegistration { get; set; } = 0;
+        public Int32 BookCounterBeforeRegistration { get; set; } = 0;
+        public Int32 TrainingBookCounterBeforeRegistration { get; set; } = 0;
+        public Int32 OtherWritingCounterBeforeRegistration { get; set; } = 0;
+        public Int32 ConferenceCounterBeforeRegistration { get; set; } = 0;
+        public Int32 PatentCounterBeforeRegistration { get; set; } = 0;
+
         [Display(Name = "Активний")]
         public Boolean IsActive { get; set; } = false;
         [DataType(DataType.Date)]

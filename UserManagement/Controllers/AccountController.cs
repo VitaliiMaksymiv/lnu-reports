@@ -144,6 +144,12 @@ namespace UserManagement.Controllers
                     AwardingDate = DateTime.Now,
                     DefenseYear = DateTime.Now,
                     PublicationCounterBeforeRegistration = 0,
+                    MonographCounterBeforeRegistration = 0,
+                    BookCounterBeforeRegistration = 0,
+                    TrainingBookCounterBeforeRegistration = 0,
+                    OtherWritingCounterBeforeRegistration = 0,
+                    ConferenceCounterBeforeRegistration = 0,
+                    PatentCounterBeforeRegistration = 0
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
