@@ -39,7 +39,7 @@ namespace UserManagement.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime GraduationDate { get; set; }
         [DataType(DataType.Date)]
-        [Display(Name = "Рік присвоєння")]
+        [Display(Name = "Рік присвоєння вченого звання")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime AwardingDate { get; set; }
         [DataType(DataType.Date)]

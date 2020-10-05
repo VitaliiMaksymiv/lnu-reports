@@ -46,7 +46,9 @@ namespace UserManagement.Controllers
                 oldReport = db.Reports.Find(reportVerifiedId);
             }
             var allPublications = db.Publication.Where(x => x.User.Any(y => y.UserName == User.Identity.Name)).ToList();
-            allPublications = allPublications.Where(x => !x.AcceptedToPrintPublicationReport.Union(x.RecomendedPublicationReport).Union(x.PrintedPublicationReport).Any(y => y.IsSigned || y.IsConfirmed)).ToList();            
+            allPublications = allPublications.Where(x => 
+            !x.AcceptedToPrintPublicationReport.Union(x.RecomendedPublicationReport).Union(x.PrintedPublicationReport)
+            .Any(y => y.User.Id == currentUser.Id && ( y.IsSigned || y.IsConfirmed))).ToList();            
             if (oldReport != null && dateFromVerified == "" && dateToVerified == "")
             {
                 return ChooseOldReport(oldReport, allPublications);

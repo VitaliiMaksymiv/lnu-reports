@@ -109,7 +109,7 @@ namespace UserManagement.Models
         public DateTime GraduationDate { get; set; }
 
         [Required]
-        [Display(Name = "Рік присвоєння")]
+        [Display(Name = "Рік присвоєння вченого звання")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy}")]
         public DateTime AwardingDate { get; set; }
